@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Fluentify</string>
+    <string name="sign_in">התחבר</string>
+    <string name="email">אימייל</string>
+    <string name="password">סיסמה</string>
+    <string name="or">או</string>
+    <string name="don_t_have_an_account">רוצה ליצור משתמש?</string>
+    <string name="sign_up">צור חשבון</string>
+    <string name="confirm_password">אשר סיסמה</string>
+    <string name="name">שם</string>
+    <string name="already_have_an_account">יש לך כבר משתמש?</string>
+</resources>
