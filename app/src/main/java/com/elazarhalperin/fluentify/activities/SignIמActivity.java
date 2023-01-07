@@ -43,6 +43,8 @@ public class SignIמActivity extends AppCompatActivity {
     private void setListeners() {
         Intent toSignUp = new Intent(getApplicationContext(), SignUpActivity.class);
         btn_signIn.setOnClickListener( v-> {
+            Intent toHome = new Intent(getApplicationContext(), HomeActivity.class);
+            startActivity(toHome);
             Intent intent = new Intent();
             intent.putExtra("key", "result");
             setResult(Activity.RESULT_OK, intent);

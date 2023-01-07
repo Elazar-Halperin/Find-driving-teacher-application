@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:id="@+id/learnFragment"
+        android:icon="@drawable/home_draw"
+        android:title="@string/home" />
+
+ <item android:id="@+id/leaderboardsFragment"
+     android:icon="@drawable/leaderboards_draw"
+        android:title="@string/leaderboards" />
+
+ <item android:id="@+id/userSettingsFragment"
+     android:icon="@drawable/person_draw"
+        android:title="@string/user" />
 
 </menu>
