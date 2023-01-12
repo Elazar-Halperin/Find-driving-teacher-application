@@ -1,14 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/background_white"
     tools:context=".fragments.UserSettingsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/_20ssp"
+            android:text="Profile"
+            android:fontFamily="@font/feather_bold"
+            android:layout_gravity="center"/>
+
+        <ImageButton
+            android:layout_width="@dimen/_24sdp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end|center_vertical"
+            android:adjustViewBounds="true"
+            android:background="@null"
+            android:clickable="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/setttings_icon24px"
+            app:tint="@color/blue_color" />
+    </FrameLayout>
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:backgroundTint="@color/black"
+        android:background="?android:attr/listDivider" />
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:scrollbarSize="0dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp"
+                    android:orientation="horizontal">
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_gravity="center"
+                        android:orientation="vertical">
+                        <TextView
+                            android:id="@+id/tv_profileName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Elazar Halperin"
+                            android:textSize="@dimen/_26ssp"
+                            android:fontFamily="@font/feather_bold"
+                            android:singleLine="true"
+                            android:textColor="@color/black"/>
+                        <TextView
+                            android:id="@+id/tv_joinDate"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="Joined in November 2022"
+                            android:textSize="@dimen/_14ssp"
+                            android:fontFamily="@font/mada_light"
+                            android:singleLine="true"
+                            android:textStyle="bold"
+                            android:textColor="@color/bald_gray"/>
 
-</FrameLayout>
+                    </LinearLayout>
+                    <FrameLayout
+                        android:layout_width="wrap_content"
+                        android:layout_weight="0"
+                        android:layout_height="wrap_content">
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:cardElevation="0dp"
+                            app:cardCornerRadius="1000dp">
+                            <ImageView
+                                android:id="@+id/iv_profileImage"
+                                android:layout_width="@dimen/_60sdp"
+                                android:layout_height="@dimen/_60sdp"
+                                android:src="@mipmap/ic_launcher"
+                                android:adjustViewBounds="true"
+                                android:scaleType="centerCrop"/>
+                        </androidx.cardview.widget.CardView>
+                        <androidx.cardview.widget.CardView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            app:cardCornerRadius="1000dp"
+                            android:layout_gravity="end"
+                            android:elevation="0dp"
+                            app:cardElevation="0dp"
+                            app:cardBackgroundColor="@color/background_white">
+                            <androidx.cardview.widget.CardView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="2dp"
+                                app:cardBackgroundColor="@color/blue_color"
+                                app:cardCornerRadius="1000dp">
+                                <ImageView
+                                    android:layout_width="match_parent"
+                                    android:layout_height="match_parent"
+                                    android:src="@drawable/pencil_filled24px"
+                                    android:scaleX="0.7"
+                                    android:scaleY="0.7"
+                                    android:scaleType="centerCrop"
+                                    app:tint="@color/white"
+                                    android:adjustViewBounds="true"/>
+                            </androidx.cardview.widget.CardView>
+
+                        </androidx.cardview.widget.CardView>
+                    </FrameLayout>
+                </LinearLayout>
+            </LinearLayout>
+<!--            NOTE: this is a horizontal list, not vertical-->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_languageCoursesList"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"/>
+        </LinearLayout>
+    </ScrollView>
+
+
+</LinearLayout>

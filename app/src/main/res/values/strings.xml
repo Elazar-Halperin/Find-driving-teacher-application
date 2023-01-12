@@ -14,4 +14,6 @@
     <string name="home">home</string>
     <string name="user">user</string>
     <string name="leaderboards">leaderboards</string>
+    <string name="unit">Unit</string>
+    <string name="lesson">Lesson</string>
 </resources>
