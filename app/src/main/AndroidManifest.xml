@@ -13,6 +13,13 @@
         android:theme="@style/Theme.Fluentify"
         tools:targetApi="31">
         <activity
+            android:name=".activities.SettingsActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.app.lib_name"
+                android:value="" />
+        </activity>
+        <activity
             android:name=".activities.HomeActivity"
             android:exported="false">
             <meta-data
@@ -42,7 +49,7 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".activities.SignIמActivity"
+            android:name=".activities.SignInActivity"
             android:exported="false"
             android:parentActivityName=".activities.MainSignActivity"
             android:windowSoftInputMode="adjustResize">

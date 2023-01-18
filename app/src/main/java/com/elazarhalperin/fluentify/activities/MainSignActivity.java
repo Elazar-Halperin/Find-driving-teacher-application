@@ -36,7 +36,7 @@ public class MainSignActivity extends AppCompatActivity {
         });
 
         btn_transferTOSignIn.setOnClickListener(v -> {
-            Intent i = new Intent(getApplicationContext(), SignIמActivity.class);
+            Intent i = new Intent(getApplicationContext(), SignInActivity.class);
             startActivityForResult(i, REQUEST_SIGN);
         });
     }

@@ -22,6 +22,7 @@
             android:layout_gravity="center"/>
 
         <ImageButton
+            android:id="@+id/ib_toSettings"
             android:layout_width="@dimen/_24sdp"
             android:layout_height="wrap_content"
             android:layout_gravity="end|center_vertical"
@@ -34,7 +35,6 @@
     </FrameLayout>
 
     <View
-        android:id="@+id/divider2"
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:backgroundTint="@color/black"

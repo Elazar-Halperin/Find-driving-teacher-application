@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "47297244876",
+    "project_id": "fluentify-e49ac",
+    "storage_bucket": "fluentify-e49ac.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:47297244876:android:bd8ca979cbbe3959a2dc69",
+        "android_client_info": {
+          "package_name": "com.elazarhalperin.fluentify"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "47297244876-qnvpebn9ophb3l9hbk94jcjeipq0tfpp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD53PCIUlSXEKt4b7dAn4uJG2Jd3Xz-2wU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "47297244876-qnvpebn9ophb3l9hbk94jcjeipq0tfpp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
