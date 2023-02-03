@@ -15,50 +15,19 @@
         android:paddingHorizontal="10dp"
         android:orientation="horizontal">
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/_30sdp"
-            app:cardCornerRadius="10dp">
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="2dp"
-                app:cardCornerRadius="10dp"
-                app:cardBackgroundColor="@color/white">
-
-                <ImageButton
-                    android:id="@+id/iv_flagSign"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:adjustViewBounds="true"
-                    android:background="@null"
-                    android:scaleType="centerCrop"
-                    app:srcCompat="@drawable/german_flag" />
-            </androidx.cardview.widget.CardView>
-        </androidx.cardview.widget.CardView>
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginHorizontal="16dp"
-            android:paddingHorizontal="18dp"
             android:orientation="horizontal">
             <ImageView
+                android:id="@+id/iv_fuckyou"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:backgroundTint="@color/white"
                 android:adjustViewBounds="true"
                 android:layout_margin="4dp"
                 app:srcCompat="@drawable/person_icon24px"/>
-            <TextView
-                android:layout_marginHorizontal="8dp"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:fontFamily="@font/feather_bold"
-                android:textSize="20sp"
-                android:textColor="@color/white"
-                android:text="541"/>
         </LinearLayout>
     </LinearLayout>
 
@@ -77,44 +46,6 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scrollbarSize="0dp"/>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:padding="10dp"
-            android:visibility="gone"
-            android:background="#59000000">
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <androidx.recyclerview.widget.RecyclerView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:orientation="horizontal"/>
-                <androidx.cardview.widget.CardView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    app:cardBackgroundColor="@color/blue_color"
-                    app:cardCornerRadius="20dp">
-                    <androidx.cardview.widget.CardView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        app:cardCornerRadius="20dp"
-                        app:cardBackgroundColor="@color/blue_color"
-                        android:layout_margin="2dp">
-                        <ImageButton
-                            android:layout_width="wrap_content"
-                            android:layout_height="60dp"
-                            android:src="@drawable/add_icon40px"
-                            android:paddingHorizontal="20dp"
-                            android:background="@color/white"/>
-                    </androidx.cardview.widget.CardView>
-                </androidx.cardview.widget.CardView>
-
-            </LinearLayout>
-        </LinearLayout>
     </FrameLayout>
 
 
