@@ -1,17 +1,23 @@
 package com.elazarhalperin.fluentify.Models;
 
 public class UserModel {
-    String name;
-    String email;
-    String signUpDate;
+    protected String uid;
+    protected String name;
+    protected String email;
+    protected String signUpDate;
 
-    public UserModel(String name, String email, String signUpDate) {
+    public UserModel() {
+    }
+
+    public UserModel(String uid, String name, String email, String signUpDate) {
+        this.uid = uid;
         this.name = name;
         this.email = email;
         this.signUpDate = signUpDate;
     }
 
-    public UserModel() {
+    public String getUid() {
+        return uid;
     }
 
     public String getName() {

@@ -77,8 +77,8 @@ public class SignUpActivity extends AppCompatActivity {
         auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
             if(task.isSuccessful()) {
-                UserModel user = new UserModel(name, email, "Januar 1");
                 String uid = auth.getCurrentUser().getUid();
+                UserModel user = new UserModel(uid,name, email, "Januar 1");
                 db.collection("Users")
                         .document(uid)
                         .set(user)

@@ -1,4 +1,6 @@
 package com.elazarhalperin.fluentify.Models;
 
-public class StudentModel {
+public class StudentModel extends UserModel {
+    int finishedLessons;
+
 }
