@@ -9,17 +9,28 @@ import android.os.Bundle;
 import android.widget.Button;
 
 import com.elazarhalperin.fluentify.R;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainSignActivity extends AppCompatActivity {
 
     Button btn_transferToSignUp, btn_transferTOSignIn;
 
     int REQUEST_SIGN = 1;
+    FirebaseUser firebaseUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_sign);
+
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
+        if(firebaseUser != null) {
+            Intent i = new Intent(getApplicationContext(), HomeActivity.class);
+            startActivity(i);
+        }
+
 
         // initialize values.
         btn_transferTOSignIn = findViewById(R.id.btn_transfterToSignIn);
