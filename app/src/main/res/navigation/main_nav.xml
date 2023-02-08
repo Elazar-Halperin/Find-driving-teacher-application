@@ -9,7 +9,7 @@
         android:id="@+id/learnFragment"
         android:name="com.elazarhalperin.fluentify.fragments.HomeFragment"
         android:label="fragment_learn"
-        tools:layout="@layout/fragment_learn" />
+        tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/leaderboardsFragment"
         android:name="com.elazarhalperin.fluentify.fragments.LeaderboardsFragment"
