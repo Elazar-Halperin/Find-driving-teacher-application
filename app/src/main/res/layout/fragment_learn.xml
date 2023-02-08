@@ -1,34 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
-    tools:context=".fragments.LearnFragment">
+    tools:context=".fragments.HomeFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_40sdp"
+        android:layout_height="50dp"
         android:background="@color/orange_color"
         android:gravity="center_vertical"
-        android:paddingHorizontal="10dp"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:paddingHorizontal="10dp">
 
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="horizontal">
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/floatingActionButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_gravity="end|center"
+                android:layout_margin="4dp"
+                android:backgroundTint="@color/orange_color"
+                android:clickable="true"
+                android:src="@drawable/icon_sms_24px"
+                app:borderWidth="0dp"
+                app:elevation="0dp"
+                app:fabCustomSize="43dp"
+                app:tint="@color/white" />
+
             <ImageView
-                android:id="@+id/iv_fuckyou"
+                android:id="@+id/iv_profilePicture"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:backgroundTint="@color/white"
-                android:adjustViewBounds="true"
+                android:layout_gravity="center_vertical"
                 android:layout_margin="4dp"
-                app:srcCompat="@drawable/person_icon24px"/>
-        </LinearLayout>
+                android:adjustViewBounds="true"
+                android:backgroundTint="@color/white"
+                app:srcCompat="@drawable/person_icon24px" />
+        </FrameLayout>
+
+
     </LinearLayout>
 
 
@@ -38,16 +54,17 @@
         android:layout_height="1dp"
         android:background="?android:attr/listDivider" />
 
-    <FrameLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_units"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbarSize="0dp"/>
-    </FrameLayout>
+            android:scrollbarSize="0dp" />
+    </LinearLayout>
 
 
-    
 </LinearLayout>

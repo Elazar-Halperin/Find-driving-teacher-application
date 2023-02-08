@@ -16,7 +16,7 @@ import android.widget.ImageView;
 import com.elazarhalperin.fluentify.R;
 import com.elazarhalperin.fluentify.activities.TeacherProfileActivity;
 
-public class LearnFragment extends Fragment {
+public class HomeFragment extends Fragment {
 
 
 
@@ -31,7 +31,7 @@ public class LearnFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ImageView ibn = view.findViewById(R.id.iv_fuckyou);
+        ImageView ibn = view.findViewById(R.id.iv_profilePicture);
 
         ibn.setOnClickListener(v-> {
             Intent i = new Intent(getActivity(), TeacherProfileActivity.class);
