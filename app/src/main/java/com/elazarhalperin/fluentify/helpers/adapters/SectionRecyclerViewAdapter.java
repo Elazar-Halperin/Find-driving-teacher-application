@@ -1,6 +1,7 @@
 package com.elazarhalperin.fluentify.helpers.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,23 +9,30 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.elazarhalperin.fluentify.Models.SectionModel;
 import com.elazarhalperin.fluentify.Models.TeacherModel;
 import com.elazarhalperin.fluentify.R;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldPath;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.core.OrderBy;
+import com.google.firestore.v1.StructuredQuery;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class SectionRecyclerViewAdapter extends RecyclerView.Adapter<SectionRecyclerViewAdapter.MyHolder> {
-    List<SectionModel> sectionList;
+    List<String> sectionList;
     Context context;
     FirebaseFirestore db;
 
-    public SectionRecyclerViewAdapter(List<SectionModel> sectionList, Context context) {
+    public SectionRecyclerViewAdapter(Context context, List<String> sectionList) {
         this.sectionList = sectionList;
         this.context = context;
         db = FirebaseFirestore.getInstance();
@@ -45,18 +53,31 @@ public class SectionRecyclerViewAdapter extends RecyclerView.Adapter<SectionRecy
         final Button btn_viewAll = holder.getBtn_viewAll();
         final RecyclerView rv_teachers = holder.getRv_teachers();
 
+        tv_filtered.setText(sectionList.get(position));
+
+        rv_teachers.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+
+        List<TeacherModel> teachersList = new ArrayList<>();
+
         db.collection("teachers")
                 .whereGreaterThan("rating", 4.0)
+                .orderBy(FieldPath.of("rating"), Query.Direction.ASCENDING)
                 .limit(10)
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        List<TeacherModel> teachersList;
+                        for(DocumentSnapshot snapshot : queryDocumentSnapshots.getDocuments()) {
+                            TeacherModel teacher = snapshot.toObject(TeacherModel.class);
+                            Log.d("teachers", teacher.toString());
+                            teachersList.add(teacher);
+                        }
+                        TeacherHorizontalAdapter adapter = new TeacherHorizontalAdapter(context, teachersList);
+                        rv_teachers.setAdapter(adapter);
+
                     }
                 });
     }
-
 
     @Override
     public int getItemCount() {

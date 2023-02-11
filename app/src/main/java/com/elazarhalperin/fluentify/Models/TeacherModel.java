@@ -10,5 +10,19 @@ public class TeacherModel extends UserModel {
     String phoneNumber;
     List<String> licences;
 
-
+    @Override
+    public String toString() {
+        return "TeacherModel{" +
+                "lessonPrice=" + lessonPrice +
+                ", rating=" + rating +
+                ", location='" + location + '\'' +
+                ", info='" + info + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", licences=" + licences +
+                ", uid='" + uid + '\'' +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", signUpDate='" + signUpDate + '\'' +
+                '}';
+    }
 }

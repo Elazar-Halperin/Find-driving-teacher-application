@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/background_white"
     tools:context=".fragments.HomeFragment">
 
     <LinearLayout
@@ -207,6 +208,7 @@
             android:id="@+id/rv_units"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:overScrollMode="never"
             android:scrollbarSize="0dp" />
     </LinearLayout>
 
