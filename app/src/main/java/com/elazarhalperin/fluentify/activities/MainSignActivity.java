@@ -14,7 +14,7 @@ import com.google.firebase.auth.FirebaseUser;
 
 public class MainSignActivity extends AppCompatActivity {
 
-    Button btn_transferToSignUp, btn_transferTOSignIn;
+    Button btn_transferToSignUp, btn_transferTOSignIn, btn_toTeacherSign;
 
     int REQUEST_SIGN = 1;
     FirebaseUser firebaseUser;
@@ -35,6 +35,7 @@ public class MainSignActivity extends AppCompatActivity {
         // initialize values.
         btn_transferTOSignIn = findViewById(R.id.btn_transfterToSignIn);
         btn_transferToSignUp = findViewById(R.id.btn_transfterToSignUp);
+        btn_toTeacherSign = findViewById(R.id.btn_goToTeacherSignUP);
 
         // set listener to views.
         setListeners();
@@ -49,6 +50,11 @@ public class MainSignActivity extends AppCompatActivity {
         btn_transferTOSignIn.setOnClickListener(v -> {
             Intent i = new Intent(getApplicationContext(), SignInActivity.class);
             startActivityForResult(i, REQUEST_SIGN);
+        });
+
+        btn_toTeacherSign.setOnClickListener(v-> {
+            Intent i = new Intent(getApplicationContext(), TeacherSignActivity.class);
+            startActivity(i);
         });
     }
 

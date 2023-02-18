@@ -18,11 +18,36 @@
         android:gravity="center"
         android:orientation="vertical"
         android:paddingHorizontal="8dp"
-
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <TextView
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/do_you_want_to_be_a_teacher"
+                android:textColor="@color/bald_gray"
+                android:clickable="false"
+                android:textSize="12dp" />
+
+            <Button
+                android:id="@+id/btn_goToTeacherSignUP"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:layout_weight="0"
+                android:text="click here!"
+                android:textColor="@color/bald_gray"
+                android:textSize="12sp" />
+        </LinearLayout>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_transfterToSignIn"
@@ -81,8 +106,8 @@
 
             <ImageView
                 android:id="@+id/imageView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="183dp"
+                android:layout_height="216dp"
                 android:background="@color/orange_color"
                 app:srcCompat="@drawable/ic_launcher_foreground" />
         </androidx.cardview.widget.CardView>
