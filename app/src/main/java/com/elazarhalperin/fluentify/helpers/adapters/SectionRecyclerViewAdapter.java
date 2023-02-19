@@ -26,6 +26,7 @@ import com.google.firestore.v1.StructuredQuery;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class SectionRecyclerViewAdapter extends RecyclerView.Adapter<SectionRecyclerViewAdapter.MyHolder> {
     List<String> sectionList;
@@ -60,7 +61,7 @@ public class SectionRecyclerViewAdapter extends RecyclerView.Adapter<SectionRecy
         List<TeacherModel> teachersList = new ArrayList<>();
 
         db.collection("teachers")
-                .whereGreaterThan("rating", 4.0)
+                .whereGreaterThan("rating", 1.0f)
                 .orderBy(FieldPath.of("rating"), Query.Direction.ASCENDING)
                 .limit(10)
                 .get()
@@ -68,7 +69,8 @@ public class SectionRecyclerViewAdapter extends RecyclerView.Adapter<SectionRecy
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         for(DocumentSnapshot snapshot : queryDocumentSnapshots.getDocuments()) {
-                            TeacherModel teacher = snapshot.toObject(TeacherModel.class);
+                            Map<String, Object> mapTeacher = snapshot.getData();
+                            TeacherModel teacher = new TeacherModel(mapTeacher);
                             Log.d("teachers", teacher.toString());
                             teachersList.add(teacher);
                         }

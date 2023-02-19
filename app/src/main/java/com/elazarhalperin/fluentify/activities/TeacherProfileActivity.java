@@ -15,24 +15,31 @@ public class TeacherProfileActivity extends AppCompatActivity {
     TabLayout tabLayout;
     ViewPager2 viewPager;
     TeachersFragmentAdapter fragmentAdapter;
+    FragmentManager fragmentManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher_profile);
 
-        tabLayout = findViewById(R.id.tabLayout );
+        tabLayout = findViewById(R.id.tabLayout);
         viewPager = findViewById(R.id.viewPager);
 
 
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager = getSupportFragmentManager();
         fragmentAdapter = new TeachersFragmentAdapter(fragmentManager, getLifecycle());
+
         viewPager.setAdapter(fragmentAdapter);
+
+        setListeners();
+    }
+
+    private void setListeners() {
 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
+                // after the tab is selected we need to change the viewPager fragment.
                 viewPager.setCurrentItem(tab.getPosition());
             }
 
@@ -54,7 +61,5 @@ public class TeacherProfileActivity extends AppCompatActivity {
                 tabLayout.selectTab(tabLayout.getTabAt(position));
             }
         });
-
-
     }
 }

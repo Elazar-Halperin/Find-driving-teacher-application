@@ -25,9 +25,10 @@ public class MainSignActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main_sign);
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
-
+        // checks if the user is signed in.
         if(firebaseUser != null) {
             Intent i = new Intent(getApplicationContext(), HomeActivity.class);
+            finish();
             startActivity(i);
         }
 
@@ -54,7 +55,7 @@ public class MainSignActivity extends AppCompatActivity {
 
         btn_toTeacherSign.setOnClickListener(v-> {
             Intent i = new Intent(getApplicationContext(), TeacherSignActivity.class);
-            startActivity(i);
+            startActivityForResult(i, REQUEST_SIGN);
         });
     }
 

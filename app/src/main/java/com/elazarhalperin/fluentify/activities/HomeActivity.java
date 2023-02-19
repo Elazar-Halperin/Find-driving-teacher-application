@@ -17,7 +17,8 @@ public class HomeActivity extends AppCompatActivity {
     NavController navController;
 
 
-    @SuppressLint("MissingInflatedId")
+
+    @SuppressLint("MissingInflatedId") // for annoying unrelated errors
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,6 +26,7 @@ public class HomeActivity extends AppCompatActivity {
 
         bnv_nav = findViewById(R.id.bnv_homeNav);
 
+        // get the navHost fragment and the navigation controller to use the navbar.
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fcv_holder);
         navController = navHostFragment.getNavController();
 
@@ -33,6 +35,7 @@ public class HomeActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        // setting the navBar.
         NavigationUI.setupWithNavController(bnv_nav, navController);
     }
 }

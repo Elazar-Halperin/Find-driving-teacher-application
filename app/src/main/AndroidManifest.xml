@@ -13,7 +13,7 @@
         android:theme="@style/Theme.Fluentify"
         tools:targetApi="31">
         <activity
-            android:name=".TeacherSignActivity"
+            android:name=".activities.TeacherSignActivity"
             android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
