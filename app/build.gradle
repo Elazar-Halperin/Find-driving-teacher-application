@@ -3,6 +3,10 @@ plugins {
     id 'com.google.gms.google-services'
 }
 
+repositories {
+
+}
+
 android {
     namespace 'com.elazarhalperin.fluentify'
     compileSdk 32
@@ -50,4 +54,7 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.4'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
+
+    // country picker library
+    implementation 'com.hbb20:ccp:2.5.3'
 }

@@ -7,8 +7,7 @@ import androidx.viewpager2.widget.ViewPager2;
 import android.os.Bundle;
 
 import com.elazarhalperin.fluentify.R;
-import com.elazarhalperin.fluentify.fragments.TeacherInfoFragment;
-import com.elazarhalperin.fluentify.helpers.TeachersFragmentAdapter;
+import com.elazarhalperin.fluentify.helpers.adapters.TeachersFragmentAdapter;
 import com.google.android.material.tabs.TabLayout;
 
 public class TeacherProfileActivity extends AppCompatActivity {

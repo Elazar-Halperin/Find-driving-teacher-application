@@ -1,4 +1,4 @@
-package com.elazarhalperin.fluentify.helpers;
+package com.elazarhalperin.fluentify.helpers.adapters;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;

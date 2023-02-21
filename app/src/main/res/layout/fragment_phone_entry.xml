@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".fragments.PhoneEntryFragment">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:background="@color/blue_color"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/_80sdp"
+            android:adjustViewBounds="true"
+            app:srcCompat="@drawable/lying_dog_drawable" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/feather_bold"
+            android:gravity="center"
+            android:text="Sms verification"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_22ssp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginHorizontal="40dp"
+            android:fontFamily="@font/feather_bold"
+            android:gravity="center"
+            android:padding="8dp"
+            android:text="EThe teacher meets anger which is not alchemistic. Crescere sed mire ducunt ad regius heuretes."
+            android:textColor="#E8F2F2F2"
+            android:textSize="@dimen/_12ssp" />
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:padding="8dp">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingVertical="10dp">
+
+            <com.hbb20.CountryCodePicker
+                android:id="@+id/countryCodeHolder"
+                android:layout_width="wrap_content"
+                android:gravity="center"
+                android:layout_height="50dp"
+                android:background="@drawable/rouned_edittext"
+                android:elevation="2dp"
+                android:padding="5dp"
+                app:ccpDialog_cornerRadius="20dp"
+                app:ccp_autoDetectCountry="true"
+                app:ccp_showNameCode="false"
+                app:ccp_textSize="@dimen/_14ssp" />
+
+
+            <EditText
+                android:id="@+id/et_phoneNumber"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_margin="8dp"
+                android:background="@drawable/rouned_edittext"
+                android:elevation="4dp"
+                android:fontFamily="@font/feather_bold"
+                android:hint="phone number"
+                android:inputType="phone"
+                android:padding="10dp"
+                android:phoneNumber="true"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_14ssp" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_getCode"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="20dp"
+        android:background="@drawable/rouned_edittext"
+        android:clickable="true"
+        android:paddingHorizontal="50dp"
+        android:text="get code"
+        app:backgroundTint="@color/blue_color" />
+
+</LinearLayout>
