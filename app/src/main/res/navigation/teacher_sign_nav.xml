@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/temp_nav"
+    app:startDestination="@id/phoneEntryFragment">
+
+    <fragment
+        android:id="@+id/phoneEntryFragment"
+        android:name="com.elazarhalperin.fluentify.fragments.PhoneEntryFragment"
+        android:label="fragment_phone_entry"
+        tools:layout="@layout/fragment_phone_entry" >
+        <action
+            android:id="@+id/action_phoneEntryFragment_to_smsCodeValidateFragment2"
+            app:destination="@id/smsCodeValidateFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/smsCodeValidateFragment"
+        android:name="com.elazarhalperin.fluentify.fragments.SmsCodeValidateFragment"
+        android:label="SmsCodeValidateFragment" >
+        <action
+            android:id="@+id/action_smsCodeValidateFragment_to_extraTeacherDataFragment"
+            app:destination="@id/extraTeacherDataFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/finalSignUpTeacherFragment"
+        android:name="com.elazarhalperin.fluentify.fragments.FinalSignUpTeacherFragment"
+        android:label="fragment_final_sign_up_teacher"
+        tools:layout="@layout/fragment_final_sign_up_teacher" >
+        <action
+            android:id="@+id/action_finalSignUpTeacherFragment_to_extraTeacherDataFragment"
+            app:destination="@id/extraTeacherDataFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/extraTeacherDataFragment"
+        android:name="com.elazarhalperin.fluentify.fragments.ExtraTeacherDataFragment"
+        android:label="fragment_extra_teacher_data"
+        tools:layout="@layout/fragment_extra_teacher_data" >
+        <action
+            android:id="@+id/action_extraTeacherDataFragment_to_finalSignUpTeacherFragment"
+            app:destination="@id/finalSignUpTeacherFragment" />
+    </fragment>
+</navigation>

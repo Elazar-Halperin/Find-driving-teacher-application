@@ -1,5 +1,6 @@
 package com.elazarhalperin.fluentify.fragments;
 
+import android.app.Activity;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapShader;
@@ -19,8 +20,11 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.arch.core.executor.TaskExecutor;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.NavigationUI;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,8 +36,11 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.elazarhalperin.fluentify.R;
+import com.google.android.gms.tasks.TaskExecutors;
 import com.google.firebase.FirebaseException;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.hbb20.CountryCodePicker;
 
@@ -45,6 +52,7 @@ public class PhoneEntryFragment extends Fragment {
     CountryCodePicker ccp_code;
     Button btn_sendCode;
     EditText et_phoneNumber;
+    FirebaseAuth auth;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -61,6 +69,8 @@ public class PhoneEntryFragment extends Fragment {
         et_phoneNumber = view.findViewById(R.id.et_phoneNumber);
         btn_sendCode = view.findViewById(R.id.btn_getCode);
 
+        auth = FirebaseAuth.getInstance();
+
 //        Toast.makeText(getActivity(), ccp_code.getSelectedCountryCode(), Toast.LENGTH_SHORT).show();
 
         Typeface typeFace = ResourcesCompat.getFont(getActivity(), R.font.feather_bold);
@@ -76,32 +86,48 @@ public class PhoneEntryFragment extends Fragment {
 
 
         btn_sendCode.setOnClickListener(v-> {
-            Toast.makeText(getActivity(), "+" + ccp_code.getSelectedCountryCode() + et_phoneNumber.getText().toString().trim(), Toast.LENGTH_SHORT).show();
 
-            PhoneAuthProvider.getInstance().verifyPhoneNumber(
-                    "+" + ccp_code.getSelectedCountryCode() + et_phoneNumber.getText().toString().trim(),
-                    60,
-                    TimeUnit.SECONDS,
-                    getActivity(),
-                    new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
-                        @Override
-                        public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
-                            btn_sendCode.setEnabled(true);
-                        }
+            String phoneNumber = "+" + ccp_code.getSelectedCountryCode() + et_phoneNumber.getText().toString().trim();
+            PhoneAuthOptions options =
+                    PhoneAuthOptions.newBuilder(auth)
+                            .setPhoneNumber(phoneNumber)       // Phone number to verify
+                            .setTimeout(60L, TimeUnit.SECONDS) // Timeout and unit
+                            .setActivity(getActivity())                 // Activity (for callback binding)
+                            .setCallbacks(new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+                                @Override
+                                public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
+                                    btn_sendCode.setEnabled(true);
+                                    Toast.makeText(getActivity(), "Verification completed", Toast.LENGTH_LONG).show();
+                                }
 
-                        @Override
-                        public void onVerificationFailed(@NonNull FirebaseException e) {
-                            btn_sendCode.setEnabled(true);
-                        }
+                                @Override
+                                public void onVerificationFailed(@NonNull FirebaseException e) {
+                                    btn_sendCode.setEnabled(true);
+                                    Toast.makeText(getActivity(), "Verification failed", Toast.LENGTH_LONG).show();
 
-                        @Override
-                        public void onCodeSent(@NonNull String verificationId, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
-                            super.onCodeSent(verificationId, forceResendingToken);
-                            btn_sendCode.setEnabled(false);
+                                }
 
-                        }
-                    }
-            );
+
+
+                                @Override
+                                public void onCodeSent(@NonNull String verificationId, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+                                    super.onCodeSent(verificationId, forceResendingToken);
+                                    btn_sendCode.setEnabled(false);
+
+                                    // get all teh values to the SmsCodeValidate fragment
+
+
+                                    Bundle bundle = new Bundle();
+                                    bundle.putString("verificationId", verificationId);
+                                    bundle.putString("mobile", phoneNumber);
+
+                                    SmsCodeValidateFragment smsCodeValidateFragment = new SmsCodeValidateFragment();
+                                    smsCodeValidateFragment.setArguments(bundle);
+                                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fcv_navContainer, smsCodeValidateFragment).commit();
+
+                                }
+                            }).build();
+            PhoneAuthProvider.verifyPhoneNumber(options);
         });
 
         makeTheFlagWithRoundedCorners();

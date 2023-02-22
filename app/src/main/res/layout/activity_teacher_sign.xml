@@ -9,11 +9,11 @@
     tools:context=".activities.TeacherSignActivity">
 
     <androidx.fragment.app.FragmentContainerView
-        android:name="com.elazarhalperin.fluentify.fragments.PhoneEntryFragment"
-        android:id="@+id/elazar"
-        android:label="elazar the king"
+        android:id="@+id/fcv_navContainer"
+        android:name="androidx.navigation.fragment.NavHostFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:layout="@layout/fragment_phone_entry" />
-
+        android:layout_height="wrap_content"
+        app:defaultNavHost="true"
+        android:layout_weight="1"
+        app:navGraph="@navigation/teacher_sign_nav" />
 </LinearLayout>

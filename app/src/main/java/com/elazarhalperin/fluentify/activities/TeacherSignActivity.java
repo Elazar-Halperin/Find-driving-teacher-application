@@ -1,6 +1,7 @@
 package com.elazarhalperin.fluentify.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
 import android.app.Activity;
@@ -28,14 +29,22 @@ import java.util.Map;
 import java.util.Random;
 
 public class TeacherSignActivity extends AppCompatActivity {
-
+    NavController navController;
+    static String sms_code = "";
+    static String phone_number = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher_sign);
-        Bundle bundle = new Bundle();
 
+        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fcv_navContainer);
+        navController = navHostFragment.getNavController();
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fcv_navContainer,
+                        new PhoneEntryFragment()
+                ).commit();
 
 
     }
