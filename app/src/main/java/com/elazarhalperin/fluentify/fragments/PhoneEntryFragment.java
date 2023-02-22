@@ -25,17 +25,26 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.elazarhalperin.fluentify.R;
+import com.google.firebase.FirebaseException;
+import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthProvider;
 import com.hbb20.CountryCodePicker;
 
 import java.lang.reflect.Type;
+import java.util.concurrent.TimeUnit;
 
 
 public class PhoneEntryFragment extends Fragment {
     CountryCodePicker ccp_code;
+    Button btn_sendCode;
+    EditText et_phoneNumber;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -49,6 +58,10 @@ public class PhoneEntryFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         ccp_code = view.findViewById(R.id.countryCodeHolder);
+        et_phoneNumber = view.findViewById(R.id.et_phoneNumber);
+        btn_sendCode = view.findViewById(R.id.btn_getCode);
+
+//        Toast.makeText(getActivity(), ccp_code.getSelectedCountryCode(), Toast.LENGTH_SHORT).show();
 
         Typeface typeFace = ResourcesCompat.getFont(getActivity(), R.font.feather_bold);
 
@@ -59,6 +72,36 @@ public class PhoneEntryFragment extends Fragment {
             public void onCountrySelected() {
                 makeTheFlagWithRoundedCorners();
             }
+        });
+
+
+        btn_sendCode.setOnClickListener(v-> {
+            Toast.makeText(getActivity(), "+" + ccp_code.getSelectedCountryCode() + et_phoneNumber.getText().toString().trim(), Toast.LENGTH_SHORT).show();
+
+            PhoneAuthProvider.getInstance().verifyPhoneNumber(
+                    "+" + ccp_code.getSelectedCountryCode() + et_phoneNumber.getText().toString().trim(),
+                    60,
+                    TimeUnit.SECONDS,
+                    getActivity(),
+                    new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+                        @Override
+                        public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
+                            btn_sendCode.setEnabled(true);
+                        }
+
+                        @Override
+                        public void onVerificationFailed(@NonNull FirebaseException e) {
+                            btn_sendCode.setEnabled(true);
+                        }
+
+                        @Override
+                        public void onCodeSent(@NonNull String verificationId, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+                            super.onCodeSent(verificationId, forceResendingToken);
+                            btn_sendCode.setEnabled(false);
+
+                        }
+                    }
+            );
         });
 
         makeTheFlagWithRoundedCorners();
@@ -90,6 +133,7 @@ public class PhoneEntryFragment extends Fragment {
 
         // draw a round rect shape with the specified radius and paint
         canvas.drawRoundRect(rectF, radius, radius, paint);
+//        canvas.drawRoundRect()
 
         // set the Xfermode to SRC_IN to only draw pixels that are inside the round rect
         paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));

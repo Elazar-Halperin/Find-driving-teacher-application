@@ -8,11 +8,12 @@
     android:background="@color/background_white"
     tools:context=".activities.TeacherSignActivity">
 
-    <fragment
+    <androidx.fragment.app.FragmentContainerView
         android:name="com.elazarhalperin.fluentify.fragments.PhoneEntryFragment"
         android:id="@+id/elazar"
         android:label="elazar the king"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout="@layout/fragment_phone_entry"/>
+        tools:layout="@layout/fragment_phone_entry" />
+
 </LinearLayout>

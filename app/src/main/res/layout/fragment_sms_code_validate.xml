@@ -53,6 +53,7 @@
 
 
         <LinearLayout
+            android:id="@+id/ll_edittextHolder"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
@@ -71,7 +72,8 @@
                 android:maxLength="1"
                 android:padding="10dp"
                 android:textColor="@color/black"
-                android:textSize="@dimen/_14ssp" />
+                android:textSize="@dimen/_14ssp"
+                tools:ignore="SpeakableTextPresentCheck" />
 
             <EditText
                 android:layout_width="@dimen/_40sdp"

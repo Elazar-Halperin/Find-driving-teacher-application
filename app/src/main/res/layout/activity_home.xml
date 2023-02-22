@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         app:defaultNavHost="true"
         android:layout_weight="1"
-        app:navGraph="@navigation/temp_nav" />
+        app:navGraph="@navigation/main_nav" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bnv_homeNav"
