@@ -92,16 +92,32 @@
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/btn_getCode"
+    <FrameLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_margin="20dp"
-        android:background="@drawable/rouned_edittext"
-        android:clickable="true"
-        android:paddingHorizontal="50dp"
-        android:text="get code"
-        app:backgroundTint="@color/blue_color" />
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/btn_getCode"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="@drawable/rouned_edittext"
+            android:clickable="true"
+            android:paddingHorizontal="50dp"
+            android:text="get code"
+            app:backgroundTint="@color/blue_color" />
+
+        <ProgressBar
+            android:id="@+id/pb_buttonLoad"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:progressTint="@color/orange_color"/>
+
+
+    </FrameLayout>
 
 </LinearLayout>

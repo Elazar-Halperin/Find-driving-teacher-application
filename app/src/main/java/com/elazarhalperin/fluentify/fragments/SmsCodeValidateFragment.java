@@ -7,6 +7,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
 
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -16,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.elazarhalperin.fluentify.R;
@@ -31,7 +34,10 @@ public class SmsCodeValidateFragment extends Fragment {
 
     LinearLayout ll_etHolder;
     Button btn_confirmSms;
+    ProgressBar pb_buttonLoad;
     String verificationId, phoneNumber;
+
+    NavController navController;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,6 +52,9 @@ public class SmsCodeValidateFragment extends Fragment {
 
         ll_etHolder = view.findViewById(R.id.ll_edittextHolder);
         btn_confirmSms = view.findViewById(R.id.btn_confrimSms);
+        pb_buttonLoad = view.findViewById(R.id.pb_buttonLoad);
+
+        navController = Navigation.findNavController(view);
 
         Bundle bundle = getArguments();
         verificationId = bundle.getString("verificationId");
@@ -94,6 +103,8 @@ public class SmsCodeValidateFragment extends Fragment {
         }
 
         btn_confirmSms.setOnClickListener(v-> {
+            btn_confirmSms.setEnabled(false);
+            pb_buttonLoad.setVisibility(View.VISIBLE);
             verificateCode();
         });
 
@@ -120,13 +131,19 @@ public class SmsCodeValidateFragment extends Fragment {
                                 mAuth.getCurrentUser().delete();
 
                                 Toast.makeText(getActivity(), "well done you verified your phone number", Toast.LENGTH_SHORT).show();
-                                Intent toHome = new Intent(getActivity(), HomeActivity.class);
-                                startActivity(toHome);
-                                Intent intent = new Intent();
-                                intent.putExtra("key", "result");
-                                getActivity().setResult(Activity.RESULT_OK, intent);
+//                                Intent toHome = new Intent(getActivity(), HomeActivity.class);
+//                                startActivity(toHome);
+//                                Intent intent = new Intent();
+//                                intent.putExtra("key", "result");
+//                                getActivity().setResult(Activity.RESULT_OK, intent);
+                                navController.navigate(R.id.action_smsCodeValidateFragment_to_extraTeacherDataFragment);
+
                                 getActivity().finish();
                             }
+
+                            pb_buttonLoad.setVisibility(View.GONE);
+                            btn_confirmSms.setEnabled(true);
+
                         }
                     });
         }

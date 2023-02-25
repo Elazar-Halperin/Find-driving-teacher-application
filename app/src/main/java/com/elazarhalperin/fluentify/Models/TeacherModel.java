@@ -1,5 +1,6 @@
 package com.elazarhalperin.fluentify.Models;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,7 +12,7 @@ public class TeacherModel extends UserModel {
     String info;
     String phoneNumber;
     List<String> licences;
-    boolean isPhoneVerified;
+    List<ReviewModel> reviews;
 
     public TeacherModel() {
     }
@@ -25,7 +26,7 @@ public class TeacherModel extends UserModel {
         this.info = info;
         this.phoneNumber = phoneNumber;
         this.licences = licences;
-        isPhoneVerified = false;
+        reviews = new ArrayList<>();
     }
 
     public TeacherModel(Map<String, Object> mapTeacher) {

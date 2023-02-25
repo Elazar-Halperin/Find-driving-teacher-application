@@ -37,15 +37,5 @@ public class TeacherSignActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher_sign);
-
-        NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fcv_navContainer);
-        navController = navHostFragment.getNavController();
-
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fcv_navContainer,
-                        new PhoneEntryFragment()
-                ).commit();
-
-
     }
 }

@@ -23,6 +23,7 @@ import androidx.annotation.Nullable;
 import androidx.arch.core.executor.TaskExecutor;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
@@ -33,6 +34,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.elazarhalperin.fluentify.R;
@@ -52,6 +54,8 @@ public class PhoneEntryFragment extends Fragment {
     CountryCodePicker ccp_code;
     Button btn_sendCode;
     EditText et_phoneNumber;
+    ProgressBar pb_buttonLoad;
+    NavController navController;
     FirebaseAuth auth;
 
     @Override
@@ -68,6 +72,10 @@ public class PhoneEntryFragment extends Fragment {
         ccp_code = view.findViewById(R.id.countryCodeHolder);
         et_phoneNumber = view.findViewById(R.id.et_phoneNumber);
         btn_sendCode = view.findViewById(R.id.btn_getCode);
+        pb_buttonLoad = view.findViewById(R.id.pb_buttonLoad);
+
+        // intializing navController to pass between fragments.
+        navController = Navigation.findNavController(view);
 
         auth = FirebaseAuth.getInstance();
 
@@ -97,12 +105,14 @@ public class PhoneEntryFragment extends Fragment {
                                 @Override
                                 public void onVerificationCompleted(@NonNull PhoneAuthCredential phoneAuthCredential) {
                                     btn_sendCode.setEnabled(true);
+                                    pb_buttonLoad.setVisibility(View.GONE);
                                     Toast.makeText(getActivity(), "Verification completed", Toast.LENGTH_LONG).show();
                                 }
 
                                 @Override
                                 public void onVerificationFailed(@NonNull FirebaseException e) {
                                     btn_sendCode.setEnabled(true);
+                                    pb_buttonLoad.setVisibility(View.GONE);
                                     Toast.makeText(getActivity(), "Verification failed", Toast.LENGTH_LONG).show();
 
                                 }
@@ -113,6 +123,7 @@ public class PhoneEntryFragment extends Fragment {
                                 public void onCodeSent(@NonNull String verificationId, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
                                     super.onCodeSent(verificationId, forceResendingToken);
                                     btn_sendCode.setEnabled(false);
+                                    pb_buttonLoad.setVisibility(View.VISIBLE);
 
                                     // get all teh values to the SmsCodeValidate fragment
 
@@ -121,9 +132,11 @@ public class PhoneEntryFragment extends Fragment {
                                     bundle.putString("verificationId", verificationId);
                                     bundle.putString("mobile", phoneNumber);
 
-                                    SmsCodeValidateFragment smsCodeValidateFragment = new SmsCodeValidateFragment();
-                                    smsCodeValidateFragment.setArguments(bundle);
-                                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fcv_navContainer, smsCodeValidateFragment).commit();
+//                                    SmsCodeValidateFragment smsCodeValidateFragment = new SmsCodeValidateFragment();
+//                                    smsCodeValidateFragment.setArguments(bundle);
+
+                                    navController.navigate(R.id.action_phoneEntryFragment_to_smsCodeValidateFragment2, bundle);
+//                                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fcv_navContainer, smsCodeValidateFragment).commit();
 
                                 }
                             }).build();

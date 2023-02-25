@@ -12,7 +12,9 @@
         tools:layout="@layout/fragment_phone_entry" >
         <action
             android:id="@+id/action_phoneEntryFragment_to_smsCodeValidateFragment2"
-            app:destination="@id/smsCodeValidateFragment" />
+            app:destination="@id/smsCodeValidateFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:popEnterAnim="@anim/nav_default_pop_enter_anim" />
     </fragment>
     <fragment
         android:id="@+id/smsCodeValidateFragment"
@@ -20,7 +22,8 @@
         android:label="SmsCodeValidateFragment" >
         <action
             android:id="@+id/action_smsCodeValidateFragment_to_extraTeacherDataFragment"
-            app:destination="@id/extraTeacherDataFragment" />
+            app:destination="@id/extraTeacherDataFragment"
+            app:enterAnim="@android:anim/slide_in_left" />
     </fragment>
     <fragment
         android:id="@+id/finalSignUpTeacherFragment"
@@ -29,7 +32,8 @@
         tools:layout="@layout/fragment_final_sign_up_teacher" >
         <action
             android:id="@+id/action_finalSignUpTeacherFragment_to_extraTeacherDataFragment"
-            app:destination="@id/extraTeacherDataFragment" />
+            app:destination="@id/extraTeacherDataFragment"
+            app:enterAnim="@android:anim/slide_out_right" />
     </fragment>
     <fragment
         android:id="@+id/extraTeacherDataFragment"
@@ -38,6 +42,7 @@
         tools:layout="@layout/fragment_extra_teacher_data" >
         <action
             android:id="@+id/action_extraTeacherDataFragment_to_finalSignUpTeacherFragment"
-            app:destination="@id/finalSignUpTeacherFragment" />
+            app:destination="@id/finalSignUpTeacherFragment"
+            app:enterAnim="@android:anim/slide_in_left" />
     </fragment>
 </navigation>

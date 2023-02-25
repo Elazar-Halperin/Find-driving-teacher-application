@@ -1,14 +1,182 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background_white"
+    android:orientation="vertical"
     tools:context=".fragments.ExtraTeacherDataFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:layout_gravity="center">
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardBackgroundColor="@color/blue_color"
+            app:cardCornerRadius="1000dp">
 
-</FrameLayout>
+            <androidx.cardview.widget.CardView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:cardElevation="0dp"
+                android:layout_margin="4dp"
+                app:cardBackgroundColor="@color/blue_color"
+                app:cardCornerRadius="1000dp">
+                <ImageView
+                    android:id="@+id/iv_profileImage"
+                    android:layout_width="@dimen/_100sdp"
+                    android:layout_height="@dimen/_100sdp"
+                    android:src="@mipmap/ic_launcher"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"/>
+            </androidx.cardview.widget.CardView>
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="1000dp"
+            android:layout_gravity="end"
+            android:elevation="0dp"
+            app:cardElevation="0dp"
+            android:translationZ="2dp"
+            app:cardBackgroundColor="@color/background_white">
+            <androidx.cardview.widget.CardView
+                android:layout_width="@dimen/_30sdp"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_margin="2dp"
+                app:cardBackgroundColor="@color/blue_color"
+                app:cardCornerRadius="1000dp">
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/pencil_filled24px"
+                    android:scaleX="0.7"
+                    android:scaleY="0.7"
+                    android:scaleType="centerCrop"
+                    app:tint="@color/white"
+                    android:adjustViewBounds="true"/>
+            </androidx.cardview.widget.CardView>
+
+        </androidx.cardview.widget.CardView>
+    </FrameLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:backgroundTint="@color/black"
+        android:background="?android:attr/listDivider" />
+    <EditText
+        android:id="@+id/et_titleInEdit"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_margin="8dp"
+        android:background="@null"
+        android:ems="10"
+        android:fontFamily="@font/feather_bold"
+        android:hint="@string/name_2"
+        android:inputType="textPersonName"
+        android:padding="8dp"
+        android:textColor="@color/black"
+        android:textSize="@dimen/_20ssp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:backgroundTint="@color/black"
+        android:background="?android:attr/listDivider" />
+
+    <EditText
+        android:id="@+id/et_description"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_100sdp"
+        android:layout_margin="8dp"
+        android:background="@null"
+        android:ems="4"
+        android:gravity="top"
+        android:fontFamily="@font/feather_bold"
+        android:textSize="@dimen/_14ssp"
+        android:hint="Give some information about you:"
+        android:inputType="textPersonName|textMultiLine"
+        android:scrollbarThumbHorizontal="@null"
+        android:scrollHorizontally="false"
+        android:singleLine="false" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:backgroundTint="@color/black"
+        android:background="?android:attr/listDivider" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_40sdp"
+        android:layout_margin="8dp"
+        android:background="@null"
+        android:ems="2"
+        android:gravity="start"
+        android:fontFamily="@font/feather_bold"
+        android:textSize="@dimen/_14ssp"
+        android:hint="Where do you give your lessons?"
+        android:inputType="textPersonName|textMultiLine"
+        android:scrollbarThumbHorizontal="@null"
+        android:scrollHorizontally="false"
+        android:singleLine="false" />
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:backgroundTint="@color/black"
+        android:background="?android:attr/listDivider" />
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_30sdp"
+        android:layout_margin="8dp"
+        android:background="@null"
+        android:ems="1"
+        android:gravity="center"
+        android:fontFamily="@font/feather_bold"
+        android:textSize="@dimen/_14ssp"
+        android:hint="How much do you take per lesson?"
+        android:inputType="numberDecimal"
+        android:scrollbarThumbHorizontal="@null"
+        android:scrollHorizontally="false"
+        android:singleLine="true" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:backgroundTint="@color/black"
+        android:background="?android:attr/listDivider" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/cg_pickedLicense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="choose the book's genres"
+            android:textColor="@color/bald_gray"
+            android:layout_margin="8dp"
+            android:fontFamily="@font/feather_bold"
+            android:textSize="18sp" />
+
+        <com.google.android.material.chip.ChipGroup
+            android:id="@+id/cg_choose"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+
+</LinearLayout>
