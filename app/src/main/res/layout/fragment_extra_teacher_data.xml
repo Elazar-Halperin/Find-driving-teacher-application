@@ -11,8 +11,9 @@
     <FrameLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="12dp"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:layout_margin="12dp">
+
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -22,54 +23,62 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:cardElevation="0dp"
                 android:layout_margin="4dp"
                 app:cardBackgroundColor="@color/blue_color"
-                app:cardCornerRadius="1000dp">
+                app:cardCornerRadius="1000dp"
+                app:cardElevation="0dp">
+
                 <ImageView
                     android:id="@+id/iv_profileImage"
                     android:layout_width="@dimen/_100sdp"
                     android:layout_height="@dimen/_100sdp"
-                    android:src="@mipmap/ic_launcher"
                     android:adjustViewBounds="true"
-                    android:scaleType="centerCrop"/>
+                    android:scaleType="centerCrop"
+                    android:src="@mipmap/ic_launcher" />
             </androidx.cardview.widget.CardView>
         </androidx.cardview.widget.CardView>
+
         <androidx.cardview.widget.CardView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:cardCornerRadius="1000dp"
             android:layout_gravity="end"
-            android:elevation="0dp"
-            app:cardElevation="0dp"
             android:translationZ="2dp"
-            app:cardBackgroundColor="@color/background_white">
+            app:cardBackgroundColor="@color/background_white"
+            app:cardCornerRadius="1000dp"
+            app:cardElevation="0dp">
+
             <androidx.cardview.widget.CardView
                 android:layout_width="@dimen/_30sdp"
                 android:layout_height="@dimen/_30sdp"
                 android:layout_margin="2dp"
+                android:elevation="0dp"
                 app:cardBackgroundColor="@color/blue_color"
-                app:cardCornerRadius="1000dp">
+                app:cardCornerRadius="1000dp"
+                app:cardElevation="0dp"
+                app:cardMaxElevation="0dp">
+
                 <ImageView
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:src="@drawable/pencil_filled24px"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"
                     android:scaleX="0.7"
                     android:scaleY="0.7"
-                    android:scaleType="centerCrop"
-                    app:tint="@color/white"
-                    android:adjustViewBounds="true"/>
+                    android:src="@drawable/pencil_filled24px"
+                    app:tint="@color/white" />
             </androidx.cardview.widget.CardView>
 
         </androidx.cardview.widget.CardView>
     </FrameLayout>
+
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:backgroundTint="@color/black"
-        android:background="?android:attr/listDivider" />
+        android:background="?android:attr/listDivider"
+        android:backgroundTint="@color/black" />
+
     <EditText
-        android:id="@+id/et_titleInEdit"
+        android:id="@+id/et_teacherName"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_40sdp"
         android:layout_margin="8dp"
@@ -85,72 +94,75 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:backgroundTint="@color/black"
-        android:background="?android:attr/listDivider" />
+        android:background="?android:attr/listDivider"
+        android:backgroundTint="@color/black" />
 
     <EditText
-        android:id="@+id/et_description"
+        android:id="@+id/et_extraInfo"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_100sdp"
         android:layout_margin="8dp"
         android:background="@null"
         android:ems="4"
-        android:gravity="top"
         android:fontFamily="@font/feather_bold"
-        android:textSize="@dimen/_14ssp"
+        android:gravity="top"
         android:hint="Give some information about you:"
         android:inputType="textPersonName|textMultiLine"
         android:scrollbarThumbHorizontal="@null"
         android:scrollHorizontally="false"
-        android:singleLine="false" />
+        android:singleLine="false"
+        android:textSize="@dimen/_14ssp" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:backgroundTint="@color/black"
-        android:background="?android:attr/listDivider" />
+        android:background="?android:attr/listDivider"
+        android:backgroundTint="@color/black" />
 
     <EditText
+        android:id="@+id/et_whereYouTeach"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_40sdp"
         android:layout_margin="8dp"
         android:background="@null"
         android:ems="2"
-        android:gravity="start"
         android:fontFamily="@font/feather_bold"
-        android:textSize="@dimen/_14ssp"
+        android:gravity="start"
         android:hint="Where do you give your lessons?"
         android:inputType="textPersonName|textMultiLine"
         android:scrollbarThumbHorizontal="@null"
         android:scrollHorizontally="false"
-        android:singleLine="false" />
+        android:singleLine="false"
+        android:textSize="@dimen/_14ssp" />
 
 
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:backgroundTint="@color/black"
-        android:background="?android:attr/listDivider" />
+        android:background="?android:attr/listDivider"
+        android:backgroundTint="@color/black" />
+
     <EditText
+        android:id="@+id/et_lessonPrice"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_30sdp"
         android:layout_margin="8dp"
         android:background="@null"
         android:ems="1"
-        android:gravity="center"
         android:fontFamily="@font/feather_bold"
-        android:textSize="@dimen/_14ssp"
+        android:gravity="center|start"
         android:hint="How much do you take per lesson?"
         android:inputType="numberDecimal"
         android:scrollbarThumbHorizontal="@null"
         android:scrollHorizontally="false"
-        android:singleLine="true" />
+        android:singleLine="true"
+        android:textSize="@dimen/_14ssp" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:backgroundTint="@color/black"
-        android:background="?android:attr/listDivider" />
+        android:background="?android:attr/listDivider"
+        android:backgroundTint="@color/black" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -160,23 +172,37 @@
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/cg_pickedLicense"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:padding="8dp" />
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="choose the book's genres"
-            android:textColor="@color/bald_gray"
             android:layout_margin="8dp"
             android:fontFamily="@font/feather_bold"
+            android:gravity="center"
+            android:text="choose the licenses that you teach"
+            android:textColor="@color/bald_gray"
             android:textSize="18sp" />
 
         <com.google.android.material.chip.ChipGroup
             android:id="@+id/cg_choose"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:padding="8dp" />
 
     </LinearLayout>
+
+    <Button
+        android:id="@+id/btn_confrimSms"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_margin="20dp"
+        android:background="@drawable/rouned_edittext"
+        android:clickable="true"
+        android:paddingHorizontal="50dp"
+        android:text="Confirm"
+        app:backgroundTint="@color/blue_color" />
 
 </LinearLayout>

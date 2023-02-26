@@ -94,7 +94,8 @@ public class PhoneEntryFragment extends Fragment {
 
 
         btn_sendCode.setOnClickListener(v-> {
-
+            btn_sendCode.setEnabled(false);
+            pb_buttonLoad.setVisibility(View.VISIBLE);
             String phoneNumber = "+" + ccp_code.getSelectedCountryCode() + et_phoneNumber.getText().toString().trim();
             PhoneAuthOptions options =
                     PhoneAuthOptions.newBuilder(auth)
@@ -115,6 +116,8 @@ public class PhoneEntryFragment extends Fragment {
                                     pb_buttonLoad.setVisibility(View.GONE);
                                     Toast.makeText(getActivity(), "Verification failed", Toast.LENGTH_LONG).show();
 
+                                    e.printStackTrace();
+
                                 }
 
 
@@ -122,8 +125,7 @@ public class PhoneEntryFragment extends Fragment {
                                 @Override
                                 public void onCodeSent(@NonNull String verificationId, @NonNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
                                     super.onCodeSent(verificationId, forceResendingToken);
-                                    btn_sendCode.setEnabled(false);
-                                    pb_buttonLoad.setVisibility(View.VISIBLE);
+
 
                                     // get all teh values to the SmsCodeValidate fragment
 

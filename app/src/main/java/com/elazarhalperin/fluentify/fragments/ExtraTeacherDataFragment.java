@@ -1,5 +1,6 @@
 package com.elazarhalperin.fluentify.fragments;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -9,6 +10,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageView;
 
 import com.elazarhalperin.fluentify.R;
 import com.google.android.material.chip.Chip;
@@ -18,6 +21,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ExtraTeacherDataFragment extends Fragment {
+    ImageView iv_profileImage;
+    EditText et_name, et_extraInfo, et_teachingPlaces, et_lessonPrice;
     ChipGroup cg_choose, cg_pickedLicenses;
     List<String> pickedLicenses;
 
@@ -25,8 +30,6 @@ public class ExtraTeacherDataFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
-
 
         return inflater.inflate(R.layout.fragment_extra_teacher_data, container, false);
     }
@@ -37,6 +40,13 @@ public class ExtraTeacherDataFragment extends Fragment {
 
         cg_choose = view.findViewById(R.id.cg_choose);
         cg_pickedLicenses = view.findViewById(R.id.cg_pickedLicense);
+        iv_profileImage = view.findViewById(R.id.iv_profileImage);
+        et_name = view.findViewById(R.id.et_teacherName);
+        et_extraInfo = view.findViewById(R.id.et_extraInfo);
+        et_teachingPlaces = view.findViewById(R.id.et_whereYouTeach);
+        et_lessonPrice = view.findViewById(R.id.et_lessonPrice);
+
+        pickedLicenses = new ArrayList<>();
 
         List<String> licenses = new ArrayList<>();
         licenses.add("A");
@@ -50,10 +60,11 @@ public class ExtraTeacherDataFragment extends Fragment {
         licenses.add("D2");
         licenses.add("D3");
 
-        for (String licens : licenses)
-            generateChip(licens);
+        for (String license : licenses)
+            generateChip(license);
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     private void generateChip(String license) {
         Chip chip = new Chip(getActivity());
         chip.setText(license);

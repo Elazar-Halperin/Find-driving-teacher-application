@@ -138,7 +138,7 @@ public class SmsCodeValidateFragment extends Fragment {
 //                                getActivity().setResult(Activity.RESULT_OK, intent);
                                 navController.navigate(R.id.action_smsCodeValidateFragment_to_extraTeacherDataFragment);
 
-                                getActivity().finish();
+//                                getActivity().finish();
                             }
 
                             pb_buttonLoad.setVisibility(View.GONE);
