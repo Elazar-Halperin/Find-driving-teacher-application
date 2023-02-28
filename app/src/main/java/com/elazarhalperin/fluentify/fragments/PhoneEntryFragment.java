@@ -132,7 +132,7 @@ public class PhoneEntryFragment extends Fragment {
 
                                     Bundle bundle = new Bundle();
                                     bundle.putString("verificationId", verificationId);
-                                    bundle.putString("mobile", phoneNumber);
+                                    bundle.putString("phoneNumber", phoneNumber);
 
 //                                    SmsCodeValidateFragment smsCodeValidateFragment = new SmsCodeValidateFragment();
 //                                    smsCodeValidateFragment.setArguments(bundle);

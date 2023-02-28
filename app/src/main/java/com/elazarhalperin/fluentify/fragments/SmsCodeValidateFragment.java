@@ -58,7 +58,7 @@ public class SmsCodeValidateFragment extends Fragment {
 
         Bundle bundle = getArguments();
         verificationId = bundle.getString("verificationId");
-        phoneNumber = bundle.getString("mobile");
+        phoneNumber = bundle.getString("phoneNumber");
 
         setListeners();
 
@@ -136,7 +136,12 @@ public class SmsCodeValidateFragment extends Fragment {
 //                                Intent intent = new Intent();
 //                                intent.putExtra("key", "result");
 //                                getActivity().setResult(Activity.RESULT_OK, intent);
-                                navController.navigate(R.id.action_smsCodeValidateFragment_to_extraTeacherDataFragment);
+
+                                Bundle bundle = new Bundle();
+                                bundle.putString("phoneNumber", phoneNumber);
+
+
+                                navController.navigate(R.id.action_smsCodeValidateFragment_to_extraTeacherDataFragment, bundle);
 
 //                                getActivity().finish();
                             }

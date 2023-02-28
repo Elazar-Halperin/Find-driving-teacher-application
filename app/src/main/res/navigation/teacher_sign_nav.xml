@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/temp_nav"
-    app:startDestination="@id/extraTeacherDataFragment">
+    app:startDestination="@id/phoneEntryFragment">
 
     <fragment
         android:id="@+id/phoneEntryFragment"
@@ -43,6 +43,6 @@
         <action
             android:id="@+id/action_extraTeacherDataFragment_to_finalSignUpTeacherFragment"
             app:destination="@id/finalSignUpTeacherFragment"
-            app:enterAnim="@android:anim/slide_in_left" />
+            app:enterAnim="@android:anim/slide_out_right" />
     </fragment>
 </navigation>

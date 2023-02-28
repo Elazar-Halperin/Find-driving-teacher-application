@@ -194,7 +194,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/btn_confrimSms"
+        android:id="@+id/btn_next"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -202,7 +202,7 @@
         android:background="@drawable/rouned_edittext"
         android:clickable="true"
         android:paddingHorizontal="50dp"
-        android:text="Confirm"
+        android:text="next"
         app:backgroundTint="@color/blue_color" />
 
 </LinearLayout>
