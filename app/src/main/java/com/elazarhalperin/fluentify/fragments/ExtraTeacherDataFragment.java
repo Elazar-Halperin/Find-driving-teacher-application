@@ -79,9 +79,8 @@ public class ExtraTeacherDataFragment extends Fragment {
 
         navController = Navigation.findNavController(view);
 
-
-
         Bundle bundle = getArguments();
+
 
 
         List<String> licenses = new ArrayList<>();
@@ -104,7 +103,9 @@ public class ExtraTeacherDataFragment extends Fragment {
 
     private void setListeners() {
         iv_profileImage.setOnClickListener(v -> {
-            Intent intentImage = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+            Intent intentImage = new Intent();
+            intentImage.setType("image/*");
+            intentImage.setAction(Intent.ACTION_GET_CONTENT);
             startActivityForResult(intentImage, GO_TO_GALLERY_CODE);
         });
 
@@ -170,6 +171,9 @@ public class ExtraTeacherDataFragment extends Fragment {
         bundle.putString("info", info);
         bundle.putDouble("lessonPrice", lessonPrice);
         bundle.putString("locations", locations);
+        bundle.putString("phoneNumber", phoneNumber);
+        bundle.putStringArrayList("licenses", (ArrayList<String>) pickedLicenses);
+        bundle.putParcelable("selectedImage", selectedImage);
 
         return bundle;
     }

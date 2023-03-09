@@ -1,7 +1,13 @@
+buildscript {
+    repositories {
+        google()
+    }
+}
 plugins {
     id 'com.android.application'
     id 'com.google.gms.google-services'
 }
+
 
 repositories {
 
@@ -37,6 +43,8 @@ dependencies {
 
     implementation 'com.google.firebase:firebase-auth:21.0.8'
     implementation 'com.google.firebase:firebase-firestore:24.4.1'
+    implementation 'com.google.firebase:firebase-storage:20.0.0'
+
     def nav_version = "2.5.1"
 
     // scalable dp and sp
