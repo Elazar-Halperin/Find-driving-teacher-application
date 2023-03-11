@@ -20,7 +20,6 @@ import com.elazarhalperin.fluentify.helpers.UserSignValidity;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.storage.StorageReference;
 
 public class FinalSignUpTeacherFragment extends Fragment {
     TextInputEditText et_email, et_password, et_confirmPassword;
@@ -31,7 +30,6 @@ public class FinalSignUpTeacherFragment extends Fragment {
     FirebaseAuth auth;
     FirebaseFirestore db;
 
-    StorageReference firebaseStorage;
 
     String name, phoneNumber, info, locations;
     double lessonPrice;
