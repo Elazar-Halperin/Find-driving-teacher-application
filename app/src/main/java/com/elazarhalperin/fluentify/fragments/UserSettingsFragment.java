@@ -12,8 +12,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.elazarhalperin.fluentify.Models.StudentModel;
+import com.elazarhalperin.fluentify.Models.TeacherModel;
 import com.elazarhalperin.fluentify.R;
 import com.elazarhalperin.fluentify.activities.MainSignActivity;
 import com.elazarhalperin.fluentify.activities.SettingsActivity;
@@ -24,10 +27,13 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Map;
+
 public class UserSettingsFragment extends Fragment {
     ImageButton ib_toSettings;
     Button btn_signOut;
     TextView tv_userName, tv_joinDate;
+    ImageView iv_profileImage;
 
     String name;
     String joinDate;
@@ -35,6 +41,14 @@ public class UserSettingsFragment extends Fragment {
     FirebaseFirestore db;
     FirebaseAuth auth;
     FirebaseUser firebaseUser;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        name = "";
+        joinDate = "";
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,7 +60,10 @@ public class UserSettingsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         ib_toSettings = view.findViewById(R.id.ib_toSettings);
+
+        iv_profileImage = view.findViewById(R.id.iv_profileImage);
 
         btn_signOut = view.findViewById(R.id.btn_signOut);
 
@@ -57,11 +74,11 @@ public class UserSettingsFragment extends Fragment {
         firebaseUser = auth.getCurrentUser();
         db = FirebaseFirestore.getInstance();
 
-        name = "";
-        joinDate = "";
+        fillTheFields();
 
-        ib_toSettings.setOnClickListener( v-> {
-            Intent i  = new Intent(getActivity(), SettingsActivity.class);
+
+        ib_toSettings.setOnClickListener(v -> {
+            Intent i = new Intent(getActivity(), SettingsActivity.class);
             startActivity(i);
         });
 
@@ -73,37 +90,25 @@ public class UserSettingsFragment extends Fragment {
 
         });
 
-        fillTheFields();
     }
 
     private void fillTheFields() {
-        db.collection("teachers").document(firebaseUser.getUid())
+        db.collection("teachers")
+                .document(auth.getCurrentUser().getUid())
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        setTeacherFields(documentSnapshot);
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        db.collection("students").document(firebaseUser.getUid())
-                                .get()
-                                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                                    @Override
-                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                                        setStudentFields(documentSnapshot);
-                                    }
-                                });
+                        setTeacherFields(documentSnapshot.getData());
                     }
                 });
     }
 
-    private void setStudentFields(DocumentSnapshot documentSnapshot) {
 
-    }
+    private void setTeacherFields(Map<String, Object> user) {
+        TeacherModel teacherModel = new TeacherModel(user);
+        tv_joinDate.setText(teacherModel.getSignUpDate());
+        tv_userName.setText(teacherModel.getName());
 
-    private void setTeacherFields(DocumentSnapshot documentSnapshot) {
     }
 }

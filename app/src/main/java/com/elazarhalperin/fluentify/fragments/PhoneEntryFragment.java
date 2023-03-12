@@ -27,6 +27,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -117,7 +118,6 @@ public class PhoneEntryFragment extends Fragment {
                                     Toast.makeText(getActivity(), "Verification failed", Toast.LENGTH_LONG).show();
 
                                     e.printStackTrace();
-
                                 }
 
 

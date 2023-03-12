@@ -12,9 +12,9 @@
         tools:layout="@layout/fragment_home" />
     <fragment
         android:id="@+id/leaderboardsFragment"
-        android:name="com.elazarhalperin.fluentify.fragments.LeaderboardsFragment"
+        android:name="com.elazarhalperin.fluentify.fragments.searchFragment"
         android:label="fragment_leaderboards"
-        tools:layout="@layout/fragment_leaderboards" />
+        tools:layout="@layout/fragment_search" />
     <fragment
         android:id="@+id/userSettingsFragment"
         android:name="com.elazarhalperin.fluentify.fragments.UserSettingsFragment"

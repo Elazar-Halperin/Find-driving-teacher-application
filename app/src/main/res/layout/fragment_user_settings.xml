@@ -100,32 +100,7 @@
                                 android:adjustViewBounds="true"
                                 android:scaleType="centerCrop"/>
                         </androidx.cardview.widget.CardView>
-                        <androidx.cardview.widget.CardView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            app:cardCornerRadius="1000dp"
-                            android:layout_gravity="end"
-                            android:elevation="0dp"
-                            app:cardElevation="0dp"
-                            app:cardBackgroundColor="@color/background_white">
-                            <androidx.cardview.widget.CardView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_margin="2dp"
-                                app:cardBackgroundColor="@color/blue_color"
-                                app:cardCornerRadius="1000dp">
-                                <ImageView
-                                    android:layout_width="match_parent"
-                                    android:layout_height="match_parent"
-                                    android:src="@drawable/pencil_filled24px"
-                                    android:scaleX="0.7"
-                                    android:scaleY="0.7"
-                                    android:scaleType="centerCrop"
-                                    app:tint="@color/white"
-                                    android:adjustViewBounds="true"/>
-                            </androidx.cardview.widget.CardView>
 
-                        </androidx.cardview.widget.CardView>
                     </FrameLayout>
                 </LinearLayout>
             </LinearLayout>

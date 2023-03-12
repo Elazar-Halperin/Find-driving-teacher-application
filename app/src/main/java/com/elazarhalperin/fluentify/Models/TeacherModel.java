@@ -21,7 +21,7 @@ public class TeacherModel extends UserModel {
     public TeacherModel(String uid, String name, String email, String signUpDate, double lessonPrice,  String location, String info, String phoneNumber, List<String> licences) {
         super(uid, name, email, signUpDate);
         this.lessonPrice = lessonPrice;
-        this.rating = 0.0;
+        this.rating = 0.0d;
         this.location = location;
         this.info = info;
         this.phoneNumber = phoneNumber;
@@ -30,16 +30,17 @@ public class TeacherModel extends UserModel {
     }
 
     public TeacherModel(Map<String, Object> mapTeacher) {
-        uid = (String) mapTeacher.get("uid");
-        name = (String) mapTeacher.get("name");
-        email = (String) mapTeacher.get("email");
-        signUpDate = (String) mapTeacher.get("signUpDate");
+        super.uid = (String) mapTeacher.get("uid");
+        super.name = (String) mapTeacher.get("name");
+        super.email = (String) mapTeacher.get("email");
+        super.signUpDate = (String) mapTeacher.get("signUpDate");
         this.lessonPrice = (double) mapTeacher.get("lessonPrice");
         this.rating = (double) mapTeacher.get("rating");
         this.location = (String) mapTeacher.get("location");
         this.info = (String) mapTeacher.get("info");
         this.phoneNumber = (String) mapTeacher.get("phoneNumber");
         this.licences = (List<String>) mapTeacher.get("licences");
+        this.reviews = (List<ReviewModel>) mapTeacher.get("reviews");
     }
 
     public Map getMap()
@@ -55,6 +56,7 @@ public class TeacherModel extends UserModel {
         user.put("info",info);
         user.put("phoneNumber",phoneNumber);
         user.put("licences",licences);
+        user.put("reviews", reviews);
         return user;
     }
 

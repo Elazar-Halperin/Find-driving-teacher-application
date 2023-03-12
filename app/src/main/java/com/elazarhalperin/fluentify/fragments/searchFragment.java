@@ -12,10 +12,10 @@ import com.elazarhalperin.fluentify.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link LeaderboardsFragment#newInstance} factory method to
+ * Use the {@link searchFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class LeaderboardsFragment extends Fragment {
+public class searchFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -26,7 +26,7 @@ public class LeaderboardsFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public LeaderboardsFragment() {
+    public searchFragment() {
         // Required empty public constructor
     }
 
@@ -39,8 +39,8 @@ public class LeaderboardsFragment extends Fragment {
      * @return A new instance of fragment LeaderboardsFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static LeaderboardsFragment newInstance(String param1, String param2) {
-        LeaderboardsFragment fragment = new LeaderboardsFragment();
+    public static searchFragment newInstance(String param1, String param2) {
+        searchFragment fragment = new searchFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -61,6 +61,6 @@ public class LeaderboardsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_leaderboards, container, false);
+        return inflater.inflate(R.layout.fragment_search, container, false);
     }
 }
