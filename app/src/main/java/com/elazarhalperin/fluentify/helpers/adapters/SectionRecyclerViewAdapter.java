@@ -61,7 +61,7 @@ public class SectionRecyclerViewAdapter extends RecyclerView.Adapter<SectionRecy
         List<TeacherModel> teachersList = new ArrayList<>();
 
         db.collection("teachers")
-                .whereGreaterThan("rating", 1.0f)
+                .whereLessThan("rating", 1.0f)
                 .orderBy(FieldPath.of("rating"), Query.Direction.ASCENDING)
                 .limit(10)
                 .get()

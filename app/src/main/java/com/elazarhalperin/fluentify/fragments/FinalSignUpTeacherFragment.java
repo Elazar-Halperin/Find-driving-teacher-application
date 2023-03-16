@@ -105,31 +105,31 @@ public class FinalSignUpTeacherFragment extends Fragment {
         String password = et_password.getText().toString().trim();
         String confirmPassword = et_confirmPassword.getText().toString().trim();
 
-        if(!isValid(email, password, confirmPassword)) return;
+        if (!isValid(email, password, confirmPassword)) return;
 
         ll_showProgressBar.setVisibility(View.VISIBLE);
 
         auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
-                    if(task.isSuccessful()) {
+                    if (task.isSuccessful()) {
                         String uid = auth.getCurrentUser().getUid();
                         Locale locale = new Locale("en", "US");
                         DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.DEFAULT, locale);
                         String date = dateFormat.format(new Date());
-                        TeacherModel user = new TeacherModel(uid,name, email, date, lessonPrice, locations, info, phoneNumber, licenses);
+                        TeacherModel user = new TeacherModel(uid, name, email, date, lessonPrice, locations, info, phoneNumber, licenses);
                         Map<String, Object> teacher = user.getMap();
                         db.collection("teachers")
                                 .document(uid)
                                 .set(teacher)
                                 .addOnCompleteListener(data -> {
-                                    if(data.isSuccessful()) {
+                                    if (data.isSuccessful()) {
 
-                                        storage.child("profile_image" + uid)
+                                        storage.child("profile_image" + uid + ".jpg")
                                                 .putFile(selectedImage)
                                                 .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
                                                     @Override
                                                     public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
-                                                        if(task.isSuccessful()) {
+                                                        if (task.isSuccessful()) {
                                                             Intent toHome = new Intent(getActivity(), HomeActivity.class);
                                                             startActivity(toHome);
                                                             ll_showProgressBar.setVisibility(View.GONE);
@@ -160,18 +160,18 @@ public class FinalSignUpTeacherFragment extends Fragment {
     }
 
     private boolean isValid(String email, String password, String confirmPassword) {
-        if(!UserSignValidity.isEmailPatternValid(email)) {
+        if (!UserSignValidity.isEmailPatternValid(email)) {
             et_email.requestFocus();
             et_email.setError("Please provide valid email!");
             return false;
         }
 
-        if(!UserSignValidity.isPasswordValid(password)) {
+        if (!UserSignValidity.isPasswordValid(password)) {
             et_password.requestFocus();
             et_password.setError("Please provide at least 8 characters!");
             return false;
         }
-        if(!confirmPassword.equals(password)) {
+        if (!confirmPassword.equals(password)) {
             et_confirmPassword.requestFocus();
             et_confirmPassword.setError("Incorrect! Please type your password!");
             return false;
@@ -179,7 +179,6 @@ public class FinalSignUpTeacherFragment extends Fragment {
 
         return true;
     }
-
 
 
 }

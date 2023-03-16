@@ -1,6 +1,11 @@
 package com.elazarhalperin.fluentify.fragments;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -15,6 +20,14 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.Registry;
+import com.bumptech.glide.annotation.GlideModule;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.module.AppGlideModule;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.elazarhalperin.fluentify.Models.StudentModel;
 import com.elazarhalperin.fluentify.Models.TeacherModel;
 import com.elazarhalperin.fluentify.R;
@@ -26,7 +39,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.InputStream;
 import java.util.Map;
 
 public class UserSettingsFragment extends Fragment {
@@ -37,10 +53,13 @@ public class UserSettingsFragment extends Fragment {
 
     String name;
     String joinDate;
+    String useruid;
+    Bitmap profileImage;
 
     FirebaseFirestore db;
     FirebaseAuth auth;
     FirebaseUser firebaseUser;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -70,9 +89,12 @@ public class UserSettingsFragment extends Fragment {
         tv_joinDate = view.findViewById(R.id.tv_joinDate);
         tv_userName = view.findViewById(R.id.tv_profileName);
 
+
         auth = FirebaseAuth.getInstance();
         firebaseUser = auth.getCurrentUser();
         db = FirebaseFirestore.getInstance();
+        useruid = firebaseUser.getUid();
+
 
         fillTheFields();
 
@@ -88,6 +110,27 @@ public class UserSettingsFragment extends Fragment {
             getActivity().finish();
             startActivity(toSign);
 
+        });
+
+        if(profileImage == null) {
+            getProfileImage();
+        }
+    }
+
+    private void getProfileImage() {
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference("profile_pictures");
+        StorageReference profileImageRef = storageRef.child("profile_image" + useruid+".jpg");
+
+        final long ONE_MEGABYTE = 1024 * 1024;
+        profileImageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(bytesPrm -> {
+            profileImage = BitmapFactory.decodeByteArray(bytesPrm, 0, bytesPrm.length);
+            iv_profileImage.setImageBitmap(profileImage);
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                iv_profileImage.setImageResource(R.mipmap.ic_launcher);
+            }
         });
 
     }

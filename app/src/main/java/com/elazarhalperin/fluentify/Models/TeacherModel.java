@@ -75,4 +75,60 @@ public class TeacherModel extends UserModel {
                 ", signUpDate='" + signUpDate + '\'' +
                 '}';
     }
+
+    public double getLessonPrice() {
+        return lessonPrice;
+    }
+
+    public void setLessonPrice(double lessonPrice) {
+        this.lessonPrice = lessonPrice;
+    }
+
+    public double getRating() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public String getInfo() {
+        return info;
+    }
+
+    public void setInfo(String info) {
+        this.info = info;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public List<String> getLicences() {
+        return licences;
+    }
+
+    public void setLicences(List<String> licences) {
+        this.licences = licences;
+    }
+
+    public List<ReviewModel> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<ReviewModel> reviews) {
+        this.reviews = reviews;
+    }
 }

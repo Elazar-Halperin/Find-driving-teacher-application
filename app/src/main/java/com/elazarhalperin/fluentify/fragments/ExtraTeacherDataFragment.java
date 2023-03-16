@@ -119,7 +119,7 @@ public class ExtraTeacherDataFragment extends Fragment {
         String name = et_name.getText().toString().trim();
         String info = et_extraInfo.getText().toString().trim();
         String price = et_lessonPrice.getText().toString().trim(); // later we will turn it into double.
-        String locations = et_name.getText().toString().trim();
+        String locations = et_teachingPlaces.getText().toString().trim();
 
         // checking if any of the fields is empty.
         if (name == null || name.isEmpty()) {
