@@ -19,7 +19,7 @@ public class TeacherProfileActivity extends AppCompatActivity {
     ViewPager2 viewPager;
 
     ImageView iv_teacherProfile;
-    TextView tv_teacherName, tv_workArea;
+    TextView tv_teacherName; //, tv_workArea;
 
     TeachersFragmentAdapter fragmentAdapter;
     FragmentManager fragmentManager;
@@ -36,7 +36,7 @@ public class TeacherProfileActivity extends AppCompatActivity {
 
         iv_teacherProfile = findViewById(R.id.iv_teacherProfile);
         tv_teacherName = findViewById(R.id.tv_teacherName);
-        tv_workArea = findViewById(R.id.tv_workArea);
+//        tv_workArea = findViewById(R.id.tv_workArea);
 
         fragmentManager = getSupportFragmentManager();
         fragmentAdapter = new TeachersFragmentAdapter(fragmentManager, getLifecycle());
@@ -59,7 +59,7 @@ public class TeacherProfileActivity extends AppCompatActivity {
     private void fillAllTheFields() {
         if(teacher == null) return;
 
-        tv_workArea.setText(teacher.getLocation());
+//        tv_workArea.setText(teacher.getLocation());
         tv_teacherName.setText((teacher.getName()));
     }
 
