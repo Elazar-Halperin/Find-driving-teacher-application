@@ -1,6 +1,8 @@
 package com.elazarhalperin.fluentify.Models;
 
-public class UserModel {
+import java.io.Serializable;
+
+public class UserModel implements Serializable {
     protected String uid;
     protected String name;
     protected String email;

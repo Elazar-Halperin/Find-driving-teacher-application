@@ -1,11 +1,12 @@
 package com.elazarhalperin.fluentify.Models;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class TeacherModel extends UserModel {
+public class TeacherModel extends UserModel implements Serializable {
     double lessonPrice;
     double rating;
     String location;

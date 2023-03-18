@@ -69,7 +69,6 @@ public class FinalSignUpTeacherFragment extends Fragment {
 
         Bundle bundle = getArguments();
 
-
         name = bundle.getString("name");
         info = bundle.getString("info");
         locations = bundle.getString("locations");

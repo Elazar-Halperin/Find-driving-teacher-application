@@ -79,6 +79,7 @@ public class SectionRecyclerViewAdapter extends RecyclerView.Adapter<SectionRecy
 
                     }
                 });
+
     }
 
     @Override
