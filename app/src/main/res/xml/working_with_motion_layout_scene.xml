@@ -9,7 +9,10 @@
         motion:duration="1000">
        <KeyFrameSet>
        </KeyFrameSet>
-        <OnSwipe />
+        <OnSwipe
+            motion:dragDirection="dragUp"
+            motion:touchAnchorId="@+id/viewPager"
+            motion:touchAnchorSide="top"/>
     </Transition>
 
     <ConstraintSet android:id="@+id/start">

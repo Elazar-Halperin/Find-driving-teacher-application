@@ -34,6 +34,9 @@ public class TeacherProfileActivity extends AppCompatActivity {
         tabLayout = findViewById(R.id.tabLayout);
         viewPager = findViewById(R.id.viewPager);
 
+        // ViewPager need to sign a random id so the application wont crash, stackover flow link: https://stackoverflow.com/questions/15262261/android-content-res-resourcesnotfoundexception-unable-to-find-resource-id-0xf
+        viewPager.setId(0x1000);
+
         iv_teacherProfile = findViewById(R.id.iv_teacherProfile);
         tv_teacherName = findViewById(R.id.tv_teacherName);
 //        tv_workArea = findViewById(R.id.tv_workArea);
