@@ -6,22 +6,31 @@
         <entry key="..\:/Users/b9/AndroidStudioProjects/Find-driving-teacher-application/app/src/main/res/layout/activity_teacher_profile.xml" value="0.1703125" />
         <entry key="..\:/Users/b9/AndroidStudioProjects/Find-driving-teacher-application2/app/src/main/res/drawable-v24/icon_sms_24px.xml" value="0.329" />
         <entry key="..\:/Users/b9/AndroidStudioProjects/Find-driving-teacher-application2/app/src/main/res/layout/fragment_learn.xml" value="0.560200668896321" />
+        <entry key="..\:/Users/b9/StudioProjects/Find-driving-teacher-application/app/src/main/res/drawable-v24/icon_search_24px.xml" value="0.332" />
+        <entry key="..\:/Users/b9/StudioProjects/Find-driving-teacher-application/app/src/main/res/drawable-v24/icon_search_filled_24px.xml" value="0.332" />
+        <entry key="..\:/Users/b9/StudioProjects/Find-driving-teacher-application/app/src/main/res/drawable/home_draw.xml" value="0.332" />
+        <entry key="..\:/Users/b9/StudioProjects/Find-driving-teacher-application/app/src/main/res/drawable/search_draw.xml" value="0.332" />
         <entry key="..\:/Users/b9/StudioProjects/Find-driving-teacher-application/app/src/main/res/layout/activity_home.xml" value="0.18802083333333333" />
+        <entry key="..\:/Users/b9/StudioProjects/Find-driving-teacher-application/app/src/main/res/layout/activity_main.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/b9/StudioProjects/Find-driving-teacher-application/app/src/main/res/layout/activity_main_sign.xml" value="0.18802083333333333" />
+        <entry key="..\:/Users/b9/StudioProjects/Find-driving-teacher-application/app/src/main/res/layout/activity_settings.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/b9/StudioProjects/Find-driving-teacher-application/app/src/main/res/layout/activity_sign_up.xml" value="0.18802083333333333" />
         <entry key="..\:/Users/b9/StudioProjects/Find-driving-teacher-application/app/src/main/res/layout/activity_signing.xml" value="0.18802083333333333" />
-        <entry key="..\:/Users/b9/StudioProjects/Find-driving-teacher-application/app/src/main/res/layout/activity_teacher_profile.xml" value="0.18802083333333333" />
+        <entry key="..\:/Users/b9/StudioProjects/Find-driving-teacher-application/app/src/main/res/layout/activity_teacher_profile.xml" value="0.2798913043478261" />
         <entry key="..\:/Users/b9/StudioProjects/Find-driving-teacher-application/app/src/main/res/layout/activity_teacher_sign.xml" value="0.18802083333333333" />
         <entry key="..\:/Users/b9/StudioProjects/Find-driving-teacher-application/app/src/main/res/layout/fragment_extra_teacher_data.xml" value="0.33" />
         <entry key="..\:/Users/b9/StudioProjects/Find-driving-teacher-application/app/src/main/res/layout/fragment_final_sign_up_teacher.xml" value="0.358695652173913" />
-        <entry key="..\:/Users/b9/StudioProjects/Find-driving-teacher-application/app/src/main/res/layout/fragment_home.xml" value="0.18802083333333333" />
+        <entry key="..\:/Users/b9/StudioProjects/Find-driving-teacher-application/app/src/main/res/layout/fragment_home.xml" value="0.33" />
         <entry key="..\:/Users/b9/StudioProjects/Find-driving-teacher-application/app/src/main/res/layout/fragment_leaderboards.xml" value="0.18802083333333333" />
         <entry key="..\:/Users/b9/StudioProjects/Find-driving-teacher-application/app/src/main/res/layout/fragment_phone_entry.xml" value="0.358695652173913" />
         <entry key="..\:/Users/b9/StudioProjects/Find-driving-teacher-application/app/src/main/res/layout/fragment_search.xml" value="0.33" />
         <entry key="..\:/Users/b9/StudioProjects/Find-driving-teacher-application/app/src/main/res/layout/fragment_sms_code_validate.xml" value="0.358695652173913" />
         <entry key="..\:/Users/b9/StudioProjects/Find-driving-teacher-application/app/src/main/res/layout/fragment_teacher_info.xml" value="0.18802083333333333" />
+        <entry key="..\:/Users/b9/StudioProjects/Find-driving-teacher-application/app/src/main/res/layout/fragment_teacher_reviews.xml" value="0.36666666666666664" />
         <entry key="..\:/Users/b9/StudioProjects/Find-driving-teacher-application/app/src/main/res/layout/fragment_user_settings.xml" value="0.33" />
+        <entry key="..\:/Users/b9/StudioProjects/Find-driving-teacher-application/app/src/main/res/layout/review_layout.xml" value="0.33" />
         <entry key="..\:/Users/b9/StudioProjects/Find-driving-teacher-application/app/src/main/res/layout/section_layout.xml" value="0.18802083333333333" />
+        <entry key="..\:/Users/b9/StudioProjects/Find-driving-teacher-application/app/src/main/res/menu/main_menu.xml" value="0.36666666666666664" />
       </map>
     </option>
   </component>

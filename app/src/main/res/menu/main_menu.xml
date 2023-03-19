@@ -5,8 +5,8 @@
         android:title="@string/home" />
 
  <item android:id="@+id/leaderboardsFragment"
-     android:icon="@drawable/leaderboards_draw"
-        android:title="@string/leaderboards" />
+     android:icon="@drawable/search_draw"
+        android:title="search" />
 
  <item android:id="@+id/userSettingsFragment"
      android:icon="@drawable/person_draw"
