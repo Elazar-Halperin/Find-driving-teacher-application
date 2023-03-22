@@ -14,67 +14,86 @@
         <com.google.android.material.appbar.CollapsingToolbarLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:titleEnabled="false"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+            app:titleEnabled="false">
 
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <ImageView
                     android:id="@+id/iv_teacherProfile"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/_300sdp"
-                    android:src="@drawable/cat"
+                    android:adjustViewBounds="true"
                     android:scaleType="centerCrop"
-                    android:adjustViewBounds="true"/>
+                    android:src="@drawable/cat" />
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:orientation="vertical"
                     android:background="@drawable/backgound"
-                    android:gravity="bottom|start">
+                    android:gravity="bottom|start"
+                    android:orientation="vertical">
+
                     <TextView
                         android:id="@+id/tv_teacherName"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:layout_marginHorizontal="10dp"
+                        android:layout_marginBottom="@dimen/_50sdp"
+                        android:fontFamily="@font/feather_bold"
                         android:text="Elazar Halperin"
                         android:textColor="@color/white"
-                        android:fontFamily="@font/feather_bold"
-                        android:textSize="@dimen/_30ssp"
-                        android:layout_marginHorizontal="10dp"
-                        android:layout_marginBottom="@dimen/_50sdp"/>
+                        android:textSize="@dimen/_30ssp" />
 
                 </LinearLayout>
-                <com.google.android.material.tabs.TabLayout
-                    android:id="@+id/tabLayout"
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="bottom"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/cardView2"
-                    app:tabGravity="fill"
-                    app:tabIndicator="@drawable/tab_indicator"
-                    app:tabIndicatorAnimationMode="linear"
-                    app:tabIndicatorColor="@color/orange_color"
-                    app:tabIndicatorGravity="stretch"
+                    android:orientation="vertical"
+                    android:layout_gravity="bottom">
 
-                    app:tabMode="fixed"
-                    app:tabSelectedTextColor="@color/background_white">
 
-                    <com.google.android.material.tabs.TabItem
-                        android:layout_width="wrap_content"
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/_40sdp"
+                        android:adjustViewBounds="true"
+                        android:translationZ="20dp"
+                        tools:srcCompat="@drawable/half_circle" />
+
+                    <com.google.android.material.tabs.TabLayout
+                        android:id="@+id/tabLayout"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/orange_color"
-                        android:text="Info" />
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/cardView2"
+                        app:tabGravity="fill"
+                        app:tabIndicator="@drawable/tab_indicator"
+                        app:tabIndicatorAnimationMode="linear"
+                        app:tabIndicatorColor="@color/orange_color"
+                        app:tabIndicatorGravity="stretch"
 
-                    <com.google.android.material.tabs.TabItem
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@color/orange_color"
-                        android:text="Reviews" />
+                        app:tabMode="fixed"
+                        app:tabSelectedTextColor="@color/background_white">
 
-                </com.google.android.material.tabs.TabLayout>
+                        <com.google.android.material.tabs.TabItem
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/orange_color"
+                            android:text="Info" />
+
+                        <com.google.android.material.tabs.TabItem
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@color/orange_color"
+                            android:text="Reviews" />
+
+                    </com.google.android.material.tabs.TabLayout>
+                </LinearLayout>
+
             </FrameLayout>
 
             <androidx.appcompat.widget.Toolbar
@@ -85,22 +104,16 @@
                 app:layout_collapseMode="pin" />
 
 
-
         </com.google.android.material.appbar.CollapsingToolbarLayout>
 
     </com.google.android.material.appbar.AppBarLayout>
 
 
-
-
-        <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/viewPager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"
-            />
-
-
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

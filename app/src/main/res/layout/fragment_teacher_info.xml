@@ -18,260 +18,72 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="4dp"
             android:orientation="vertical">
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
+                android:textStyle="bold"
                 android:fontFamily="@font/feather_bold"
-                android:textSize="@dimen/_16ssp"
+                android:textSize="@dimen/_20ssp"
+                android:textColor="@color/black"
                 android:text="Info:"/>
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="12dp">
 
-                <LinearLayout
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
+
+                <TextView
+                    android:id="@+id/tv_teacherInfo"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:text="Here will the information will be displayed"
+                    android:fontFamily="@font/feather_bold"
+                    android:textSize="@dimen/_16ssp"
+                    android:textColor="#373737"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="4dp"
+                android:orientation="horizontal">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Joined in "
+                    android:fontFamily="@font/feather_bold"
+                    android:textSize="@dimen/_14ssp"
+                    android:layout_weight="0"/>
 
-                    <View
-                        android:id="@+id/divider2"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="?android:attr/listDivider" />
+                <TextView
+                    android:id="@+id/tv_joinDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Mar 13, 2023 "
+                    android:fontFamily="@font/feather_bold"
+                    android:textSize="@dimen/_14ssp"
+                    android:layout_weight="1"/>
 
-                    <TextView
-                        android:id="@+id/tv_teacherInfo"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="4dp"
-                        android:fontFamily="@font/feather_bold"
-                        android:text="Heu, albus luna!Cum mens ridetis, omnes deuses talem magnum, camerarius nomenes.Rectors cadunt, tanquam regius lixa."
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_14ssp" />
-                </LinearLayout>
+            </LinearLayout>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="?android:attr/listDivider" />
 
-            </androidx.cardview.widget.CardView>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:fontFamily="@font/feather_bold"
-                android:textSize="@dimen/_16ssp"
-                android:text="Info:"/>
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="12dp">
+                />
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-
-                    <View
-                        android:id="@+id/divider2"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="?android:attr/listDivider" />
-
-                    <TextView
-                        android:id="@+id/tv_teacherInfo"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="4dp"
-                        android:fontFamily="@font/feather_bold"
-                        android:text="Heu, albus luna!Cum mens ridetis, omnes deuses talem magnum, camerarius nomenes.Rectors cadunt, tanquam regius lixa."
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_14ssp" />
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:fontFamily="@font/feather_bold"
-                android:textSize="@dimen/_16ssp"
-                android:text="Info:"/>
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="12dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-
-                    <View
-                        android:id="@+id/divider2"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="?android:attr/listDivider" />
-
-                    <TextView
-                        android:id="@+id/tv_teacherInfo"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="4dp"
-                        android:fontFamily="@font/feather_bold"
-                        android:text="Heu, albus luna!Cum mens ridetis, omnes deuses talem magnum, camerarius nomenes.Rectors cadunt, tanquam regius lixa."
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_14ssp" />
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:fontFamily="@font/feather_bold"
-                android:textSize="@dimen/_16ssp"
-                android:text="Info:"/>
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="12dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-
-                    <View
-                        android:id="@+id/divider2"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="?android:attr/listDivider" />
-
-                    <TextView
-                        android:id="@+id/tv_teacherInfo"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="4dp"
-                        android:fontFamily="@font/feather_bold"
-                        android:text="Heu, albus luna!Cum mens ridetis, omnes deuses talem magnum, camerarius nomenes.Rectors cadunt, tanquam regius lixa."
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_14ssp" />
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:fontFamily="@font/feather_bold"
-                android:textSize="@dimen/_16ssp"
-                android:text="Info:"/>
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="12dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-
-                    <View
-                        android:id="@+id/divider2"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="?android:attr/listDivider" />
-
-                    <TextView
-                        android:id="@+id/tv_teacherInfo"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="4dp"
-                        android:fontFamily="@font/feather_bold"
-                        android:text="Heu, albus luna!Cum mens ridetis, omnes deuses talem magnum, camerarius nomenes.Rectors cadunt, tanquam regius lixa."
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_14ssp" />
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:fontFamily="@font/feather_bold"
-                android:textSize="@dimen/_16ssp"
-                android:text="Info:"/>
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="12dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-
-                    <View
-                        android:id="@+id/divider2"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="?android:attr/listDivider" />
-
-                    <TextView
-                        android:id="@+id/tv_teacherInfo"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="4dp"
-                        android:fontFamily="@font/feather_bold"
-                        android:text="Heu, albus luna!Cum mens ridetis, omnes deuses talem magnum, camerarius nomenes.Rectors cadunt, tanquam regius lixa."
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_14ssp" />
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:fontFamily="@font/feather_bold"
-                android:textSize="@dimen/_16ssp"
-                android:text="Info:"/>
-            <androidx.cardview.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="12dp">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-
-                    <View
-                        android:id="@+id/divider2"
-                        android:layout_width="match_parent"
-                        android:layout_height="1dp"
-                        android:background="?android:attr/listDivider" />
-
-                    <TextView
-                        android:id="@+id/tv_teacherInfo"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="4dp"
-                        android:fontFamily="@font/feather_bold"
-                        android:text="Heu, albus luna!Cum mens ridetis, omnes deuses talem magnum, camerarius nomenes.Rectors cadunt, tanquam regius lixa."
-                        android:textColor="@color/black"
-                        android:textSize="@dimen/_14ssp" />
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
         </LinearLayout>
 
 
