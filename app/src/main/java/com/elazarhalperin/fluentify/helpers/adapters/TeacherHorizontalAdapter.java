@@ -45,21 +45,27 @@ public class TeacherHorizontalAdapter extends RecyclerView.Adapter<TeacherHorizo
     public void onBindViewHolder(@NonNull HorizontalViewHolder holder, int position) {
         holder.getTv_teacherName().setText(teacherModelList.get(position).getName());
         holder.getTv_locations().setText(teacherModelList.get(position).getLocation());
+
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference("profile_pictures");
         StorageReference profileImageRef = storageRef.child("profile_image" + teacherModelList.get(position).getUid()+".jpg");
+
         final Bitmap[] bmp = new Bitmap[1];
         final long ONE_MEGABYTE = 1024 * 1024;
+
         profileImageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(bytesPrm -> {
             bmp[0] = BitmapFactory.decodeByteArray(bytesPrm, 0, bytesPrm.length);
             bmp[0] = Bitmap.createScaledBitmap(bmp[0], bmp[0].getWidth() /4, bmp[0].getHeight() / 4, true);
+
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             bmp[0].compress(Bitmap.CompressFormat.PNG, 100, stream);
+
             holder.getIv_teacherProfile().setImageBitmap(bmp[0]);
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
                  bmp[0] =  BitmapFactory.decodeResource(context.getResources(), R.drawable.person_draw);
+
                 holder.getIv_teacherProfile().setImageResource(R.drawable.person_draw);
             }
         });

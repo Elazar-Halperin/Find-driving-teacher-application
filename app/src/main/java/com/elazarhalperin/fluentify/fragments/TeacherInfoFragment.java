@@ -5,10 +5,12 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.elazarhalperin.fluentify.R;
+import com.elazarhalperin.fluentify.activities.TeacherProfileActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -25,6 +27,8 @@ public class TeacherInfoFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+
 
     public TeacherInfoFragment() {
         // Required empty public constructor
@@ -45,6 +49,8 @@ public class TeacherInfoFragment extends Fragment {
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
+
+
         return fragment;
     }
 
@@ -61,6 +67,13 @@ public class TeacherInfoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_teacher_info, container, false);
+        View view = inflater.inflate(R.layout.fragment_teacher_info, container, false);
+
+
+
+
+        return view;
     }
+
+
 }

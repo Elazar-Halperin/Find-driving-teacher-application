@@ -9,10 +9,10 @@
     android:padding="4dp"
     tools:context=".fragments.TeacherInfoFragment">
 
-    <ScrollView
+
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:nestedScrollingEnabled="false"
         android:scrollbarSize="0dp">
 
         <LinearLayout
@@ -275,5 +275,5 @@
         </LinearLayout>
 
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 </LinearLayout>

@@ -1,16 +1,19 @@
 package com.elazarhalperin.fluentify.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.motion.widget.MotionLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.elazarhalperin.fluentify.Models.TeacherModel;
 import com.elazarhalperin.fluentify.R;
+import com.elazarhalperin.fluentify.fragments.TeacherInfoFragment;
 import com.elazarhalperin.fluentify.helpers.adapters.TeachersFragmentAdapter;
 import com.google.android.material.tabs.TabLayout;
 
@@ -26,6 +29,8 @@ public class TeacherProfileActivity extends AppCompatActivity {
     TeacherModel teacher;
     Bitmap image;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,7 +40,7 @@ public class TeacherProfileActivity extends AppCompatActivity {
         viewPager = findViewById(R.id.viewPager);
 
         // ViewPager need to sign a random id so the application wont crash, stackover flow link: https://stackoverflow.com/questions/15262261/android-content-res-resourcesnotfoundexception-unable-to-find-resource-id-0xf
-        viewPager.setId(0x1000);
+        viewPager.setId(0x100000);
 
         iv_teacherProfile = findViewById(R.id.iv_teacherProfile);
         tv_teacherName = findViewById(R.id.tv_teacherName);
@@ -57,6 +62,8 @@ public class TeacherProfileActivity extends AppCompatActivity {
         fillAllTheFields();
 
         setListeners();
+
+
     }
 
     private void fillAllTheFields() {
@@ -93,6 +100,8 @@ public class TeacherProfileActivity extends AppCompatActivity {
                 tabLayout.selectTab(tabLayout.getTabAt(position));
             }
         });
+
+
     }
 
 
