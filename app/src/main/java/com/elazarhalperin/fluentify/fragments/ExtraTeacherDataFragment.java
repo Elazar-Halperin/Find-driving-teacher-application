@@ -14,6 +14,7 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,11 @@ import com.elazarhalperin.fluentify.R;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -80,6 +86,8 @@ public class ExtraTeacherDataFragment extends Fragment {
         navController = Navigation.findNavController(view);
 
         Bundle bundle = getArguments();
+
+
 
 
 

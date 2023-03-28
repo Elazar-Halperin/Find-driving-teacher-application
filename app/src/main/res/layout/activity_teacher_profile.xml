@@ -1,119 +1,216 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
+    app:layoutDescription="@xml/working_with_motion_layout_scene"
     tools:context=".activities.TeacherProfileActivity">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <ImageView
+        android:id="@+id/iv_teacherProfile"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="@dimen/_300sdp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/cat"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.appbar.CollapsingToolbarLayout
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView3"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="-30dp"
+        android:layout_marginBottom="-20dp"
+        android:background="@drawable/top_rounded_corners"
+        app:cardBackgroundColor="#fafbff"
+        app:cardCornerRadius="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_teacherProfile">
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@id/cardView3"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
-            app:titleEnabled="false">
+            android:layout_height="match_parent"
+            android:paddingVertical="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_teacherProfile">
 
-            <FrameLayout
+
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="4dp">
 
-                <ImageView
-                    android:id="@+id/iv_teacherProfile"
+                <TextView
+                    android:id="@+id/tv_teacherName"
                     android:layout_width="match_parent"
-                    android:layout_height="@dimen/_300sdp"
-                    android:adjustViewBounds="true"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/cat" />
-
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:fontFamily="@font/feather_bold"
+                    android:text="Elazar Halperin"
+                    android:textColor="#22124e"
+                    android:textSize="@dimen/_24ssp"
+                    android:textStyle="bold" />
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="100dp"
+                    android:background="?android:attr/listDivider"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
                 <LinearLayout
+
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/backgound"
-                    android:gravity="bottom|start"
-                    android:orientation="vertical">
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        app:srcCompat="@drawable/location_on_24px" />
 
                     <TextView
-                        android:id="@+id/tv_teacherName"
+                        android:id="@+id/tv_teacherLocations"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginHorizontal="10dp"
-                        android:layout_marginBottom="@dimen/_50sdp"
+                        android:layout_weight="1"
+                        android:ellipsize="marquee"
                         android:fontFamily="@font/feather_bold"
-                        android:text="Elazar Halperin"
-                        android:textColor="@color/white"
-                        android:textSize="@dimen/_30ssp" />
-
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:singleLine="true"
+                        android:text="Jerusalem, Heifa, Hadera, Shoko"
+                        android:textSize="@dimen/_16ssp" />
                 </LinearLayout>
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_gravity="bottom">
-
+                    android:layout_marginHorizontal="8dp"
+                    android:orientation="horizontal">
 
                     <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/_40sdp"
-                        android:adjustViewBounds="true"
-                        android:translationZ="20dp"
-                        tools:srcCompat="@drawable/half_circle" />
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        app:srcCompat="@drawable/inventory_24px" />
 
-                    <com.google.android.material.tabs.TabLayout
-                        android:id="@+id/tabLayout"
+                    <TextView
+                        android:id="@+id/tv_licenses"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/cardView2"
-                        app:tabGravity="fill"
-                        app:tabIndicator="@drawable/tab_indicator"
-                        app:tabIndicatorAnimationMode="linear"
-                        app:tabIndicatorColor="@color/orange_color"
-                        app:tabIndicatorGravity="stretch"
+                        android:layout_weight="1"
+                        android:ellipsize="marquee"
+                        android:fontFamily="@font/feather_bold"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:singleLine="true"
+                        android:text="Commercial car, auto, manual"
+                        android:textSize="@dimen/_16ssp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:orientation="horizontal">
 
-                        app:tabMode="fixed"
-                        app:tabSelectedTextColor="@color/background_white">
-
-                        <com.google.android.material.tabs.TabItem
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@color/orange_color"
-                            android:text="Info" />
-
-                        <com.google.android.material.tabs.TabItem
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:background="@color/orange_color"
-                            android:text="Reviews" />
-
-                    </com.google.android.material.tabs.TabLayout>
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        app:srcCompat="@drawable/star_icon24px" />
+                    <TextView
+                        android:id="@+id/tv_ratring"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ellipsize="marquee"
+                        android:fontFamily="@font/feather_bold"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:singleLine="true"
+                        android:text="8.4"
+                        android:textSize="@dimen/_14ssp" />
                 </LinearLayout>
 
-            </FrameLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="100dp"
+                    android:background="?android:attr/listDivider"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
 
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="48dp"
-                app:layout_collapseMode="pin" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginHorizontal="8dp"
+                    android:orientation="vertical"
+                    android:layout_marginVertical="16dp">
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/feather_bold"
+                        android:text="About the Teacher:"
+                        android:textColor="#22124e"
+                        android:textSize="@dimen/_20ssp"
+                        android:layout_marginBottom="8dp"
+                        android:textStyle="bold" />
+                    <TextView
+                        android:id="@+id/tv_teacherInfo"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ellipsize="marquee"
+                        android:fontFamily="@font/feather_bold"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent lacinia velit nec lorem luctus, a feugiat elit finibus. Mauris nulla massa, luctus id lacinia sit amet, auctor ac purus. Curabitur enim ex, tristique in purus  "
+                        android:textSize="@dimen/_16ssp" />
+                </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="100dp"
+                    android:background="?android:attr/listDivider"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
 
+                <LinearLayout
 
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:orientation="horizontal">
 
-    </com.google.android.material.appbar.AppBarLayout>
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="2dp"
+                        app:srcCompat="@drawable/paid_icon_24px" />
 
+                    <TextView
+                        android:id="@+id/tv_lessonPrice"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ellipsize="marquee"
+                        android:fontFamily="@font/feather_bold"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:singleLine="true"
+                        android:text="125 per lesson"
+                        android:textSize="@dimen/_16ssp"/>
+                </LinearLayout>
+            </LinearLayout>
 
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/viewPager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
-
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.motion.widget.MotionLayout>

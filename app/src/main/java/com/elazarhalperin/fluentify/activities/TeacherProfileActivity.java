@@ -7,6 +7,7 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,12 +18,17 @@ import com.elazarhalperin.fluentify.fragments.TeacherInfoFragment;
 import com.elazarhalperin.fluentify.helpers.adapters.TeachersFragmentAdapter;
 import com.google.android.material.tabs.TabLayout;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
+
 public class TeacherProfileActivity extends AppCompatActivity {
     TabLayout tabLayout;
     ViewPager2 viewPager;
 
     ImageView iv_teacherProfile;
-    TextView tv_teacherName; //, tv_workArea;
+    TextView tv_teacherName, tv_teachingLocations, tv_licenses, tv_rating, tv_teacherInfo, tv_lessonPrice;
 
     TeachersFragmentAdapter fragmentAdapter;
     FragmentManager fragmentManager;
@@ -36,15 +42,17 @@ public class TeacherProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher_profile);
 
-        tabLayout = findViewById(R.id.tabLayout);
-        viewPager = findViewById(R.id.viewPager);
-
-        // ViewPager need to sign a random id so the application wont crash, stackover flow link: https://stackoverflow.com/questions/15262261/android-content-res-resourcesnotfoundexception-unable-to-find-resource-id-0xf
-        viewPager.setId(0x100000);
-
         iv_teacherProfile = findViewById(R.id.iv_teacherProfile);
         tv_teacherName = findViewById(R.id.tv_teacherName);
-//        tv_workArea = findViewById(R.id.tv_workArea);
+        tv_teachingLocations = findViewById(R.id.tv_teacherLocations);
+        tv_licenses = findViewById(R.id.tv_licenses);
+        tv_rating = findViewById(R.id.tv_ratring);
+        tv_teacherInfo = findViewById(R.id.tv_teacherInfo);
+        tv_lessonPrice = findViewById(R.id.tv_lessonPrice);
+
+
+
+        tv_teachingLocations.setSelected(true);
 
         fragmentManager = getSupportFragmentManager();
         fragmentAdapter = new TeachersFragmentAdapter(fragmentManager, getLifecycle());
@@ -57,11 +65,32 @@ public class TeacherProfileActivity extends AppCompatActivity {
         }
 
 
-        viewPager.setAdapter(fragmentAdapter);
+
 
         fillAllTheFields();
 
         setListeners();
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    String resource_id = "5c78e9fa-c2e2-4771-93ff-7f400a12f7ba";
+//                    String url = "https://data.gov.il/api/3/action/datastore_search?resource_id=" + resource_id;
+//                    URLConnection connection = new URL(url).openConnection();
+//                    BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+//                    StringBuilder result = new StringBuilder();
+//                    String line;
+//                    while ((line = reader.readLine()) != null) {
+//                        result.append(line);
+//                    }
+//                    reader.close();
+//                    Log.d("cities", result.toString());
+//                } catch (Exception e) {
+//                    Log.d("cities", "error");
+//                    e.printStackTrace();
+//                }
+//            }
+//        }).start();
 
 
     }
@@ -74,33 +103,6 @@ public class TeacherProfileActivity extends AppCompatActivity {
     }
 
     private void setListeners() {
-
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                // after the tab is selected we need to change the viewPager fragment.
-                viewPager.setCurrentItem(tab.getPosition());
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
-
-        viewPager.registerOnPageChangeCallback(new ViewPager2.OnPageChangeCallback() {
-            @Override
-            public void onPageSelected(int position) {
-                super.onPageSelected(position);
-                tabLayout.selectTab(tabLayout.getTabAt(position));
-            }
-        });
-
 
     }
 

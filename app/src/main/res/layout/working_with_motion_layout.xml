@@ -1,94 +1,79 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".activities.TeacherProfileActivity"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layoutDescription="@xml/working_with_motion_layout_scene"
+    tools:context=".activities.TeacherProfileActivity">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <ImageView
+        android:id="@+id/iv_teacherProfile"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="@dimen/_300sdp"
+        android:adjustViewBounds="true"
+        android:scaleType="centerCrop"
+        android:src="@drawable/cat"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.appbar.CollapsingToolbarLayout
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView3"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="-30dp"
+        android:layout_marginBottom="-20dp"
+        android:background="@drawable/top_rounded_corners"
+        app:cardBackgroundColor="#fafbff"
+        app:cardCornerRadius="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/iv_teacherProfile">
+
+        <androidx.core.widget.NestedScrollView
+            android:id="@id/cardView3"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:titleEnabled="false"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            android:layout_height="match_parent"
+            android:paddingVertical="10dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/iv_teacherProfile">
 
-            <FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-                <ImageView
-                    android:id="@+id/iv_teacherProfile"
-                    android:layout_width="match_parent"
-                    android:layout_height="@dimen/_300sdp"
-                    android:src="@drawable/cat"
-                    android:scaleType="centerCrop"
-                    android:adjustViewBounds="true"/>
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical"
-                    android:background="@drawable/backgound"
-                    android:gravity="bottom|start">
-                    <TextView
-                        android:id="@+id/tv_teacherName"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Elazar Halperin"
-                        android:textColor="@color/white"
-                        android:fontFamily="@font/feather_bold"
-                        android:textSize="@dimen/_30ssp"
-                        android:layout_margin="8dp"/>
 
-                </LinearLayout>
-            </FrameLayout>
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="48dp"
-                app:layout_collapseMode="pin" />
-
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tabLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cardView2"
-                app:tabGravity="fill"
-                app:tabIndicator="@drawable/tab_indicator"
-                app:tabIndicatorAnimationMode="linear"
-                app:tabIndicatorColor="@color/orange_color"
-                app:tabIndicatorGravity="stretch"
-                app:tabMode="fixed"
-                app:tabSelectedTextColor="@color/background_white">
-
-                <com.google.android.material.tabs.TabItem
-                    android:layout_width="wrap_content"
+                android:padding="4dp"
+                android:orientation="vertical">
+                <TextView
+                    android:id="@+id/tv_teacherName"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/orange_color"
-                    android:text="Info" />
-
-                <com.google.android.material.tabs.TabItem
-                    android:layout_width="wrap_content"
+                    android:textSize="@dimen/_24ssp"
+                    android:text="Elazar Halperin"
+                    android:textColor="#22124e"
+                    android:fontFamily="@font/feather_bold"
+                    android:textStyle="bold"
+                    />
+                <TextView
+                    android:id="@+id/tv_teacherLocations"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/orange_color"
-                    android:text="Reviews" />
+                    android:textSize="@dimen/_16ssp"
+                    android:text="car manual, car aouto, truck manual, motorcyucle"
+                    android:textColor="@color/bald_gray"
+                    android:fontFamily="@font/feather_bold"
+                    android:singleLine="true"
+                    android:textStyle="bold"
+                    android:ellipsize="marquee"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    />
+            </LinearLayout>
 
-            </com.google.android.material.tabs.TabLayout>
-
-        </com.google.android.material.appbar.CollapsingToolbarLayout>
-
-    </com.google.android.material.appbar.AppBarLayout>
-
-    <androidx.viewpager2.widget.ViewPager2
-        android:id="@+id/viewPager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+        </androidx.core.widget.NestedScrollView>
+    </androidx.cardview.widget.CardView>
+</androidx.constraintlayout.motion.widget.MotionLayout>
