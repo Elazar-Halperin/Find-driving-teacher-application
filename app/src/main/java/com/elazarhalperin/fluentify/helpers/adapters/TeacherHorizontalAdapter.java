@@ -1,5 +1,6 @@
 package com.elazarhalperin.fluentify.helpers.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -8,10 +9,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.util.Pair;
+import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.elazarhalperin.fluentify.Models.TeacherModel;
@@ -72,9 +77,12 @@ public class TeacherHorizontalAdapter extends RecyclerView.Adapter<TeacherHorizo
 
         holder.getCv_container().setOnClickListener( v-> {
             Intent intent = new Intent(context, TeacherProfileActivity.class);
+
+            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context);
             intent.putExtra("profile_image", bmp[0]);
             intent.putExtra("teacher", teacherModelList.get(position));
-            context.startActivity(intent);
+
+            context.startActivity(intent, options.toBundle());
         });
     }
 
@@ -87,6 +95,7 @@ public class TeacherHorizontalAdapter extends RecyclerView.Adapter<TeacherHorizo
         final ImageView iv_teacherProfile;
         final TextView tv_teacherName, tv_locations;
         CardView cv_container;
+        LinearLayout ll_container;
 
         public HorizontalViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -95,6 +104,11 @@ public class TeacherHorizontalAdapter extends RecyclerView.Adapter<TeacherHorizo
             tv_locations = itemView.findViewById(R.id.tv_teacherLocations);
             tv_teacherName = itemView.findViewById(R.id.tv_teacherName);
             cv_container = itemView.findViewById(R.id.cv_container);
+            ll_container = itemView.findViewById(R.id.ll_container);
+        }
+
+        public LinearLayout getLl_container() {
+            return ll_container;
         }
 
         public ImageView getIv_teacherProfile() {

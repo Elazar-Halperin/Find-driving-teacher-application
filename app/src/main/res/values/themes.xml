@@ -12,6 +12,11 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">@color/background_white</item>
         <!-- Customize your theme here. -->
+        
+        <item name="android:windowContentTransitions">true</item>
+<!--        defining enter and exit tranistion-->
+        <item name="android:windowEnterTransition">@transition/activity_transition</item>
+        <item name="android:windowExitTransition">@transition/activity_transition</item>
     </style>
     <style name="roundedImageViewRounded">
         <item name="cornerFamily">rounded</item>

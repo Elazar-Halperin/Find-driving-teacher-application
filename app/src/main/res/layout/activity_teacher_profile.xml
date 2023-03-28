@@ -8,11 +8,29 @@
     app:layoutDescription="@xml/working_with_motion_layout_scene"
     tools:context=".activities.TeacherProfileActivity">
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_messageTeacher"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:layout_marginBottom="24dp"
+        android:clickable="true"
+        android:rotation="180"
+        android:translationY="100dp"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:backgroundTint="@color/blue_color"
+        app:borderWidth="0dp"
+        app:tint="@color/background_white"
+        app:srcCompat="@drawable/chat_icon_24px" />
+
     <ImageView
         android:id="@+id/iv_teacherProfile"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/_300sdp"
+        android:layout_height="@dimen/_350sdp"
         android:adjustViewBounds="true"
+        android:transitionName="profileImage"
         android:scaleType="centerCrop"
         android:src="@drawable/cat"
         app:layout_constraintEnd_toEndOf="parent"
@@ -55,6 +73,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
+                    android:transitionName="teacherName"
                     android:fontFamily="@font/feather_bold"
                     android:text="Elazar Halperin"
                     android:textColor="#22124e"
@@ -69,7 +88,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
                 <LinearLayout
-
+                    android:transitionName="teacherLocations"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
@@ -150,6 +169,41 @@
                     app:layout_constraintStart_toStartOf="parent" />
 
                 <LinearLayout
+
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginEnd="2dp"
+                        app:srcCompat="@drawable/paid_icon_24px" />
+
+                    <TextView
+                        android:id="@+id/tv_lessonPrice"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:ellipsize="marquee"
+                        android:fontFamily="@font/feather_bold"
+                        android:marqueeRepeatLimit="marquee_forever"
+                        android:singleLine="true"
+                        android:text="125 per lesson"
+                        android:textSize="@dimen/_16ssp"/>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="100dp"
+                    android:background="?android:attr/listDivider"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="8dp"
@@ -184,33 +238,26 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent" />
 
-                <LinearLayout
 
+
+                <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
-                    android:orientation="horizontal">
+                    android:fontFamily="@font/feather_bold"
+                    android:text="Reviews:"
+                    android:textColor="#22124e"
+                    android:textSize="@dimen/_24ssp"
+                    android:textStyle="bold" />
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/rv_reviews"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    />
 
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginEnd="2dp"
-                        app:srcCompat="@drawable/paid_icon_24px" />
-
-                    <TextView
-                        android:id="@+id/tv_lessonPrice"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:ellipsize="marquee"
-                        android:fontFamily="@font/feather_bold"
-                        android:marqueeRepeatLimit="marquee_forever"
-                        android:singleLine="true"
-                        android:text="125 per lesson"
-                        android:textSize="@dimen/_16ssp"/>
-                </LinearLayout>
             </LinearLayout>
 
         </androidx.core.widget.NestedScrollView>
     </androidx.cardview.widget.CardView>
+
 </androidx.constraintlayout.motion.widget.MotionLayout>

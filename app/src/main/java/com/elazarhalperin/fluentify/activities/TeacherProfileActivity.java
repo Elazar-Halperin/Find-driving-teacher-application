@@ -7,8 +7,10 @@ import androidx.viewpager2.widget.ViewPager2;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.transition.Fade;
 import android.util.Log;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,6 +24,7 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.List;
 
 public class TeacherProfileActivity extends AppCompatActivity {
     TabLayout tabLayout;
@@ -41,6 +44,16 @@ public class TeacherProfileActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher_profile);
+
+        Fade fade = new Fade();
+        View decor = getWindow().getDecorView();
+        fade.excludeTarget(decor.findViewById(com.hbb20.R.id.action_bar_container), true);
+        fade.excludeTarget(android.R.id.statusBarBackground, true);
+        fade.excludeTarget(android.R.id.navigationBarBackground, true);
+
+        getWindow().setEnterTransition(fade);
+        getWindow().setExitTransition(fade);
+
 
         iv_teacherProfile = findViewById(R.id.iv_teacherProfile);
         tv_teacherName = findViewById(R.id.tv_teacherName);
@@ -100,6 +113,11 @@ public class TeacherProfileActivity extends AppCompatActivity {
 
 //        tv_workArea.setText(teacher.getLocation());
         tv_teacherName.setText((teacher.getName()));
+        tv_lessonPrice.setText(teacher.getLessonPrice() + " per lesson");
+        tv_teacherInfo.setText(teacher.getInfo());
+        tv_rating.setText(teacher.getRating() + "");
+        tv_teachingLocations.setText(teacher.getLocation());
+        tv_licenses.setText(String.join(",", teacher.getLicences()));
     }
 
     private void setListeners() {
