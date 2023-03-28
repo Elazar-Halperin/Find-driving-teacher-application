@@ -23,6 +23,7 @@ public class SignInActivity extends AppCompatActivity {
     LinearLayout ll_showProgressBar;
 
     FirebaseAuth auth;
+    // just to fix things
 
     @SuppressLint("MissingInflatedId")
     @Override
