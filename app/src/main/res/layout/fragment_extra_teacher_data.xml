@@ -128,7 +128,7 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
 
         <AutoCompleteTextView
-            android:id="@+id/actv_cities"
+            android:id="@+id/et_whereYouTeach"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Pick a city"
@@ -136,6 +136,23 @@
             android:inputType="none"
             android:focusable="false" />
     </com.google.android.material.textfield.TextInputLayout>
+
+<!--    <EditText-->
+<!--        android:id="@+id/et_whereYouTeach"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="@dimen/_40sdp"-->
+<!--        android:layout_margin="8dp"-->
+<!--        android:background="@null"-->
+<!--        android:ems="2"-->
+<!--        android:fontFamily="@font/feather_bold"-->
+<!--        android:gravity="start"-->
+<!--        android:hint="Where do you give your lessons?"-->
+<!--        android:inputType="textPersonName|textMultiLine"-->
+<!--        android:scrollbarThumbHorizontal="@null"-->
+<!--        android:scrollHorizontally="false"-->
+<!--        android:singleLine="false"-->
+<!--        android:textSize="@dimen/_14ssp" />-->
+
 
 
 

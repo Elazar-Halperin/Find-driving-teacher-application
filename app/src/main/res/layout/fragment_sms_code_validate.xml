@@ -60,6 +60,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:orientation="horizontal"
+            android:layoutDirection="ltr"
             android:paddingVertical="10dp">
 
             <EditText

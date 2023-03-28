@@ -40,17 +40,11 @@ import java.util.List;
 
 public class ExtraTeacherDataFragment extends Fragment {
     private static final int GO_TO_GALLERY_CODE = 121;
-
     ImageView iv_profileImage;
-
     EditText et_name, et_extraInfo, et_lessonPrice;
-
-    AutoCompleteTextView actv_cities;
-
+    AutoCompleteTextView et_teachingPlaces;
     ChipGroup cg_choose, cg_pickedLicenses;
-
     Button btn_next;
-
     List<String> pickedLicenses;
     List<String> cities;
 
@@ -86,27 +80,28 @@ public class ExtraTeacherDataFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
         cg_choose = view.findViewById(R.id.cg_choose);
         cg_pickedLicenses = view.findViewById(R.id.cg_pickedLicense);
-
         iv_profileImage = view.findViewById(R.id.iv_profileImage);
-
         et_name = view.findViewById(R.id.et_teacherName);
         et_extraInfo = view.findViewById(R.id.et_extraInfo);
+        et_teachingPlaces = view.findViewById(R.id.et_whereYouTeach);
         et_lessonPrice = view.findViewById(R.id.et_lessonPrice);
-
         btn_next = view.findViewById(R.id.btn_next);
 
-        actv_cities = view.findViewById(R.id.actv_choices);
+        pickedLicenses = new ArrayList<>();
 
         navController = Navigation.findNavController(view);
 
-
-        pickedLicenses = new ArrayList<>();
-        cities = new ArrayList<>();
-
         Bundle bundle = getArguments();
+
+        cities = Arrays.asList(getResources().getStringArray(R.array.cities));
+
+        listCitiesAdapter = new ArrayAdapter<>(getActivity(),
+                R.layout.list_city_item_layout,new ArrayList<>(cities));
+        et_teachingPlaces.setAdapter(listCitiesAdapter);
+
+
 
         List<String> licenses = new ArrayList<>();
         licenses.add("A");
@@ -123,14 +118,7 @@ public class ExtraTeacherDataFragment extends Fragment {
         for (String license : licenses)
             generateChip(license);
 
-        cities = Arrays.asList(getResources().getStringArray(R.array.cities));
-
-        listCitiesAdapter = new ArrayAdapter<>(getActivity(),
-                R.layout.list_city_item_layout,new ArrayList<>(cities));
-        actv_cities.setAdapter(listCitiesAdapter);
-
         setListeners();
-        Log.d("loch", "we are in extra data teacher");
     }
 
     private void setListeners() {
@@ -151,7 +139,7 @@ public class ExtraTeacherDataFragment extends Fragment {
         String name = et_name.getText().toString().trim();
         String info = et_extraInfo.getText().toString().trim();
         String price = et_lessonPrice.getText().toString().trim(); // later we will turn it into double.
-        String locations = actv_cities.getText().toString().trim();
+        String locations = et_teachingPlaces.getText().toString().trim();
 
         // checking if any of the fields is empty.
         if (name == null || name.isEmpty()) {
@@ -170,8 +158,8 @@ public class ExtraTeacherDataFragment extends Fragment {
             return;
         }
         if (locations == null || locations.isEmpty()) {
-            actv_cities.requestFocus();
-            actv_cities.setError("Please fill the field!");
+            et_teachingPlaces.requestFocus();
+            et_teachingPlaces.setError("Please fill the field!");
             return;
         }
 
@@ -188,9 +176,6 @@ public class ExtraTeacherDataFragment extends Fragment {
         }
 
         Bundle bundle = getBundleFromFields(name, info, price, locations);
-
-        Toast.makeText(getActivity(), "how did i get here? extra", Toast.LENGTH_SHORT).show();
-        Log.d("loch", "extradatateacher.");
 
         navController.navigate(R.id.action_extraTeacherDataFragment_to_finalSignUpTeacherFragment, bundle);
 
@@ -253,10 +238,5 @@ public class ExtraTeacherDataFragment extends Fragment {
             selectedImage = data.getData();
             iv_profileImage.setImageURI(selectedImage);
         }
-    }
-    @Override
-    public void onResume() {
-        super.onResume();
-
     }
 }
