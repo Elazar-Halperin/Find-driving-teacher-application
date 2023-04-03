@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -9,7 +8,7 @@
     tools:context=".activities.TeacherProfileActivity">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/fab_messageTeacher"
+        android:id="@+id/fab_addReview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
@@ -23,16 +22,31 @@
         android:backgroundTint="@color/blue_color"
         app:borderWidth="0dp"
         app:tint="@color/background_white"
-        app:srcCompat="@drawable/chat_icon_24px" />
+        app:srcCompat="@drawable/add_comment_icon24px" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_close"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        android:backgroundTint="#FFFFFF"
+        app:fabCustomSize="44dp"
+        android:clickable="true"
+        android:contentDescription="@string/already_have_an_account"
+        app:borderWidth="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/iv_teacherProfile"
+        app:srcCompat="@drawable/close_icon24px"
+        app:tint="@color/black" />
 
     <ImageView
         android:id="@+id/iv_teacherProfile"
         android:layout_width="match_parent"
         android:layout_height="@dimen/_350sdp"
         android:adjustViewBounds="true"
-        android:transitionName="profileImage"
         android:scaleType="centerCrop"
         android:src="@drawable/cat"
+        android:transitionName="profileImage"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -252,6 +266,7 @@
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/rv_reviews"
                     android:layout_width="match_parent"
+                    android:layout_margin="8dp"
                     android:layout_height="wrap_content"
                     />
 

@@ -13,7 +13,7 @@ public class TeacherModel extends UserModel implements Serializable {
     String info;
     String phoneNumber;
     List<String> licences;
-    List<ReviewModel> reviews;
+    List<HashMap<String, Object>> reviews;
 
     public TeacherModel() {
     }
@@ -41,7 +41,7 @@ public class TeacherModel extends UserModel implements Serializable {
         this.info = (String) mapTeacher.get("info");
         this.phoneNumber = (String) mapTeacher.get("phoneNumber");
         this.licences = (List<String>) mapTeacher.get("licences");
-        this.reviews = (List<ReviewModel>) mapTeacher.get("reviews");
+        this.reviews = (List<HashMap<String, Object>>) mapTeacher.get("reviews");
     }
 
     public Map getMap()
@@ -125,11 +125,11 @@ public class TeacherModel extends UserModel implements Serializable {
         this.licences = licences;
     }
 
-    public List<ReviewModel> getReviews() {
+    public List<HashMap<String, Object>> getReviews() {
         return reviews;
     }
 
-    public void setReviews(List<ReviewModel> reviews) {
+    public void setReviews(List<HashMap<String, Object>> reviews) {
         this.reviews = reviews;
     }
 }
