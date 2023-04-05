@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.elazarhalperin.fluentify.Models.SectionModel;
 import com.elazarhalperin.fluentify.Models.TeacherModel;
 import com.elazarhalperin.fluentify.R;
 import com.google.android.gms.tasks.OnCompleteListener;

@@ -12,7 +12,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.elazarhalperin.fluentify.Models.ReviewModel;
 import com.elazarhalperin.fluentify.R;
 
 import java.util.HashMap;

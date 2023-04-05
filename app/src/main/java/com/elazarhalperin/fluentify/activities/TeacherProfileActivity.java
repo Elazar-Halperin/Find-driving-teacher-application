@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.Editable;
@@ -19,7 +20,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.elazarhalperin.fluentify.Models.ReviewModel;
+
 import com.elazarhalperin.fluentify.Models.TeacherModel;
 import com.elazarhalperin.fluentify.R;
 import com.elazarhalperin.fluentify.helpers.adapters.ReviewsRVAdapter;
@@ -28,10 +29,12 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.time.LocalDate;
@@ -49,7 +52,7 @@ public class TeacherProfileActivity extends AppCompatActivity {
     ReviewsRVAdapter adapter;
     List<HashMap<String, Object>> reviews;
 
-    FloatingActionButton fab_close, fab_addReview;
+    FloatingActionButton fab_close, fab_addReview, fab_sendAMessage;
 
     TeacherModel teacher;
     Bitmap image;
@@ -83,6 +86,7 @@ public class TeacherProfileActivity extends AppCompatActivity {
 
         fab_close = findViewById(R.id.fab_close);
         fab_addReview = findViewById(R.id.fab_addReview);
+        fab_sendAMessage = findViewById(R.id.fab_sendAMessage);
 
         rv_reviews = findViewById(R.id.rv_reviews);
 
@@ -151,96 +155,116 @@ public class TeacherProfileActivity extends AppCompatActivity {
             finish();
         });
 
+        fab_sendAMessage.setOnClickListener(v-> {
+            Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
+            intent.putExtra("Teacher", teacher);
+            intent.putExtra("messageTo", teacher.getUid());
+            startActivity(intent);
+        });
+
         fab_addReview.setOnClickListener(v -> {
-            BottomSheetDialog dialog = new BottomSheetDialog(TeacherProfileActivity.this, R.style.DialogStyle);
-            dialog.setContentView(R.layout.create_review_layout);
-
-            RatingBar rb_rate = dialog.findViewById(R.id.rb_rate);
-            EditText et_review = dialog.findViewById(R.id.et_review);
-            FloatingActionButton fab_sendReview = dialog.findViewById(R.id.fab_sentReview);
-            for (HashMap map : reviews) {
-                if (map.containsValue(firebaseUser.getUid())) {
-                    Toast.makeText(getApplicationContext(), "You have already made an a review...", Toast.LENGTH_SHORT).show();
-                    return;
-                } 
-            }
-            fab_sendReview.setOnClickListener(v2 -> {
-                if (et_review.getText().toString() == null || et_review.getText().toString().isEmpty()) {
-                    return;
-                }
-                double rating = (double) rb_rate.getRating();
-                String textReview = et_review.getText().toString().trim();
-                // Create a LocalDate object with the current date
-                LocalDate currentDate = LocalDate.now();
-
-                // Create a DateTimeFormatter object to format the date
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
-                // Format the date as a string using the formatter
-                String dateString = currentDate.format(formatter);
-
-
-                ReviewModel review = new ReviewModel(firebaseUser.getUid(), rating, textReview, dateString, "Anonymous");
-                // making the review model to a map so it can be added into the firebase.
-                HashMap<String, Object> hashMap = new HashMap<>();
-                hashMap.put("rating", rating);
-                hashMap.put("review", textReview);
-                hashMap.put("reviewDate", dateString);
-                hashMap.put("reviewerName", "Anonymous");
-                hashMap.put("reviewerUid", firebaseUser.getUid());
-
-                reviews.add(hashMap);
-
-                DocumentReference db = FirebaseFirestore.getInstance().collection("teachers").document(teacher.getUid());
-
-                db.update("reviews", reviews).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(getApplicationContext(), "Your review was added successfully!", Toast.LENGTH_SHORT).show();
-                            adapter.notifyDataSetChanged();
-
-                            double teacherFinalRating = (rating + teacher.getRating()) / reviews.size();
-
-                            db.update("rating", teacherFinalRating).addOnCompleteListener(new OnCompleteListener<Void>() {
-                                @Override
-                                public void onComplete(@NonNull Task<Void> task) {
-                                    dialog.dismiss();
-                                }
-                            });
-                        } else {
-                            Toast.makeText(getApplicationContext(), "failed to add your review!", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-
-            });
-
-            et_review.addTextChangedListener(new TextWatcher() {
-                @Override
-                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                }
-
-                @Override
-                public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    if (s == null || s.toString().isEmpty()) {
-                        fab_sendReview.setVisibility(View.GONE);
-                    } else {
-                        fab_sendReview.setVisibility(View.VISIBLE);
-                    }
-                }
-
-                @Override
-                public void afterTextChanged(Editable s) {
-
-                }
-            });
-
-
-            dialog.show();
+            showDialog();
 
         });
+    }
+
+    void showDialog() {
+        BottomSheetDialog dialog = new BottomSheetDialog(TeacherProfileActivity.this, R.style.DialogStyle);
+        dialog.setContentView(R.layout.create_review_layout);
+        // get all the neccessery views
+        RatingBar rb_rate = dialog.findViewById(R.id.rb_rate);
+        EditText et_review = dialog.findViewById(R.id.et_review);
+        FloatingActionButton fab_sendReview = dialog.findViewById(R.id.fab_sentReview);
+
+
+        if(isReviewExist()) return;
+
+        fab_sendReview.setOnClickListener(v2 -> {
+            if (et_review.getText().toString() == null || et_review.getText().toString().isEmpty()) {
+                return;
+            }
+            // getting all the views to necessary fields.
+            double rating = (double) rb_rate.getRating();
+            String textReview = et_review.getText().toString().trim();
+
+            // Create a LocalDate object with the current date
+            LocalDate currentDate = LocalDate.now();
+            // Create a DateTimeFormatter object to format the date
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            // Format the date as a string using the formatter
+            String dateString = currentDate.format(formatter);
+
+
+//                ReviewModel review = new ReviewModel(firebaseUser.getUid(), rating, textReview, dateString, "Anonymous");
+            // making the review model to a map so it can be added into the firebase.
+            HashMap<String, Object> hashMap = new HashMap<>();
+            hashMap.put("rating", rating);
+            hashMap.put("review", textReview);
+            hashMap.put("reviewDate", dateString);
+            hashMap.put("reviewerName", "Anonymous");
+            hashMap.put("reviewerUid", firebaseUser.getUid());
+            // adding the review into the reviews list
+            reviews.add(hashMap);
+
+            DocumentReference db = FirebaseFirestore.getInstance().collection("teachers").document(teacher.getUid());
+
+            db.update("reviews", reviews).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if (task.isSuccessful()) {
+                        Toast.makeText(getApplicationContext(), "Your review was added successfully!", Toast.LENGTH_SHORT).show();
+                        adapter.notifyDataSetChanged();
+
+                        double teacherFinalRating = (rating + teacher.getRating()) / reviews.size();
+
+                        db.update("rating", teacherFinalRating).addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                dialog.dismiss();
+                            }
+                        });
+                    } else {
+                        Toast.makeText(getApplicationContext(), "failed to add your review!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+
+        });
+
+        // Adding a listener when the text is changed, so the send review button can be revealed after there are text.
+        et_review.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s == null || s.toString().isEmpty()) {
+                    fab_sendReview.setVisibility(View.GONE);
+                } else {
+                    fab_sendReview.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+
+        dialog.show();
+    }
+
+    private boolean isReviewExist() {
+        for (HashMap map : reviews) {
+            if (map.containsValue(firebaseUser.getUid())) {
+                Toast.makeText(getApplicationContext(), "You have already made an a review...", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        }
+        return false;
     }
 
 

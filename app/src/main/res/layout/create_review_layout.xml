@@ -21,21 +21,6 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fab_sentReview"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0"
-            android:backgroundTint="@color/background_white"
-            android:clickable="true"
-            android:rotation="180"
-            app:borderWidth="0dp"
-            android:layout_gravity="bottom"
-            app:elevation="0dp"
-            android:layout_margin="4dp"
-            android:visibility="gone"
-            app:srcCompat="@drawable/send_icon_24px"
-            app:tint="@color/blue_color" />
 
         <EditText
             android:id="@+id/et_review"
@@ -51,6 +36,21 @@
             android:minHeight="48dp"
             android:textColor="@color/black"
             android:textSize="@dimen/_16ssp" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_sentReview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0"
+            android:backgroundTint="@color/background_white"
+            android:clickable="true"
+            app:borderWidth="0dp"
+            android:layout_gravity="bottom"
+            app:elevation="0dp"
+            android:layout_margin="4dp"
+            android:visibility="gone"
+            app:srcCompat="@drawable/send_icon_24px"
+            app:tint="@color/blue_color" />
     </LinearLayout>
 
 </LinearLayout>

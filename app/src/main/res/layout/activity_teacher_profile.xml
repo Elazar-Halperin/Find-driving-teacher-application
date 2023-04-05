@@ -48,6 +48,7 @@
         android:src="@drawable/cat"
         android:transitionName="profileImage"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.063"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -274,5 +275,19 @@
 
         </androidx.core.widget.NestedScrollView>
     </androidx.cardview.widget.CardView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fab_sendAMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="36dp"
+        android:backgroundTint="#a7e9af "
+        android:clickable="true"
+        android:scaleX="1.1"
+        android:scaleY="1.1"
+        app:borderWidth="0dp"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_teacherProfile"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/chat_icon_24px" />
 
 </androidx.constraintlayout.motion.widget.MotionLayout>

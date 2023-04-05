@@ -1,0 +1,43 @@
+package com.elazarhalperin.fluentify.Models;
+
+import java.util.List;
+import java.util.Map;
+
+public class ChatModel {
+    String teacherUid;
+    String studentUid;
+    List<Map<String, Object>> messages;
+
+    public ChatModel() {
+    }
+
+    public ChatModel(String teacherUid, String studentUid, List<Map<String, Object>> messages) {
+        this.teacherUid = teacherUid;
+        this.studentUid = studentUid;
+        this.messages = messages;
+    }
+
+    public String getTeacherUid() {
+        return teacherUid;
+    }
+
+    public void setTeacherUid(String teacherUid) {
+        this.teacherUid = teacherUid;
+    }
+
+    public String getStudentUid() {
+        return studentUid;
+    }
+
+    public void setStudentUid(String studentUid) {
+        this.studentUid = studentUid;
+    }
+
+    public List<Map<String, Object>> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(List<Map<String, Object>> messages) {
+        this.messages = messages;
+    }
+}
