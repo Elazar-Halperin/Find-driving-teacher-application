@@ -63,7 +63,6 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
@@ -89,8 +88,8 @@ public class ChatActivity extends AppCompatActivity {
         Log.d("melech", shtok);
         Log.d("sohn", shtok2);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("chatRooms").whereEqualTo("studentUid", shtok2)
-                .whereEqualTo("teacherUid", shtok)
+        db.collection("chatRooms").whereEqualTo("studentUid", userType.equals("student") ? shtok2 : shtok)
+                .whereEqualTo("teacherUid", userType.equals("teacher") ? shtok2 : shtok)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -113,43 +112,6 @@ public class ChatActivity extends AppCompatActivity {
                             } else {
                                 Log.d("fuck you", "we didnt find");
                             }
-
-                        } else {
-
-                            // Chat room doesn't exist, create new chat room and message
-//                                ChatModel newChatRoom = new ChatModel(firebaseUser.getUid(), messageTo);
-//                                db.collection("chatRooms").add(newChatRoom)
-//                                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-//                                            @Override
-//                                            public void onSuccess(DocumentReference documentReference) {
-//                                                String chatRoomId = documentReference.getId();
-//                                                Map<String, Object> firstMessage = new HashMap<>();
-//                                                firstMessage.put("senderUid", firebaseUser)
-//                                                        new Message(currentUser.getUid(), "Hello, teacher!");
-//                                                chatRoomsRef.document(chatRoomId).collection("messages")
-//                                                        .add(firstMessage)
-//                                                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-//                                                            @Override
-//                                                            public void onSuccess(DocumentReference documentReference) {
-//                                                                // Show chat UI with the first message
-//                                                            }
-//                                                        })
-//                                                        .addOnFailureListener(new OnFailureListener() {
-//                                                            @Override
-//                                                            public void onFailure(@NonNull Exception e) {
-//                                                                Log.e(TAG, "Error adding message", e);
-//                                                                // Handle error
-//                                                            }
-//                                                        });
-//                                            }
-//                                        })
-//                                        .addOnFailureListener(new OnFailureListener() {
-//                                            @Override
-//                                            public void onFailure(@NonNull Exception e) {
-//                                                Log.e(TAG, "Error adding chat room", e);
-//                                                // Handle error
-//                                            }
-//                                        });
                         }
                     }
                 });

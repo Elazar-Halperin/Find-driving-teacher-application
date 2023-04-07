@@ -45,10 +45,10 @@ public class ChatListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_list);
         String whichUid = HomeActivity.userType.equals("teacher") ? "teacherUid" : "studentUid";
-
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        chatsQuery = db.collection("chatRooms").whereEqualTo("studentUid", firebaseUser.getUid());
+        chatsQuery = db.collection("chatRooms")
+                .whereEqualTo(whichUid, firebaseUser.getUid());
 
         chats = new ArrayList<>();
 
@@ -72,13 +72,11 @@ public class ChatListActivity extends AppCompatActivity {
 
                     return;
                 }
-                Toast.makeText(getApplicationContext(), value.size() + " error", Toast.LENGTH_SHORT).show();
                 for (DocumentChange change : value.getDocumentChanges()) {
                     if (change.getType() == DocumentChange.Type.ADDED) {
                         ChatModel chatModel = change.getDocument().toObject(ChatModel.class);
                         chatModel.setId(change.getDocument().getId());
                         chats.add(chatModel);
-                        Toast.makeText(getApplicationContext(), value.size() + " ", Toast.LENGTH_SHORT).show();
                         adapter.notifyDataSetChanged();
                     }
                 }
@@ -87,8 +85,8 @@ public class ChatListActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    protected void onPause() {
+        super.onPause();
         // Remove the snapshot listener to avoid memory leaks
         if (chatRoomsListener != null) {
             chatRoomsListener.remove();

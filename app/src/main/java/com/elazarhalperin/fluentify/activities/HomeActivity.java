@@ -53,7 +53,7 @@ public class HomeActivity extends AppCompatActivity {
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if(task.isSuccessful()) {
+                        if(task.getResult().getData() != null) {
                             userType = "teacher";
                         } else {
                             db.collection("students")
