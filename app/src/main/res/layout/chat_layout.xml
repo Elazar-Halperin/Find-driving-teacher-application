@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="20dp"
+    android:layout_margin="8dp"
+    app:cardBackgroundColor="@color/dark_white"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal">
+    <LinearLayout
+        android:id="@+id/ll_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true">
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_margin="8dp"
+            app:cardCornerRadius="1000dp">
+            <ImageView
+                android:id="@+id/iv_chatProfile"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/cat"/>
+        </androidx.cardview.widget.CardView>
+        <TextView
+            android:id="@+id/tv_chatName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="Elazar Halperin"
+            android:layout_gravity="center"
+            android:fontFamily="@font/feather_bold"
+            android:textSize="@dimen/_18ssp"
+            android:layout_margin="8dp"/>
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

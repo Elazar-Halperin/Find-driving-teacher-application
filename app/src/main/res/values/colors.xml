@@ -16,5 +16,6 @@
     <color name="bright_orange">#f1c40f</color>
     <color name="red_color">#d95556</color>
     <color name="blue_color">#5c7dd5</color>
+    <color name="dark_white">#fafafa</color>
 
 </resources>

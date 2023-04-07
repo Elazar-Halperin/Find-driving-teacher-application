@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.elazarhalperin.fluentify.Models.StudentModel;
 import com.elazarhalperin.fluentify.Models.UserModel;
 import com.elazarhalperin.fluentify.R;
 import com.elazarhalperin.fluentify.helpers.UserSignValidity;
@@ -78,10 +79,10 @@ public class SignUpActivity extends AppCompatActivity {
                 .addOnCompleteListener(task -> {
             if(task.isSuccessful()) {
                 String uid = auth.getCurrentUser().getUid();
-                UserModel user = new UserModel(uid,name, email, "Januar 1");
-                db.collection("Users")
+                StudentModel studentModel = new StudentModel(uid,name, email, "Januar 1", 0);
+                db.collection("students")
                         .document(uid)
-                        .set(user)
+                        .set(studentModel)
                         .addOnCompleteListener(data -> {
                             if(data.isSuccessful()) {
 

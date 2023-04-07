@@ -10,12 +10,15 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.elazarhalperin.fluentify.Models.ChatModel;
 import com.elazarhalperin.fluentify.R;
 import com.elazarhalperin.fluentify.helpers.adapters.MessagesAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -27,6 +30,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
@@ -44,11 +48,13 @@ public class ChatActivity extends AppCompatActivity {
     RecyclerView rv_messages;
     MessagesAdapter adapter;
     List<Map<String, Object>> messages;
-
+    String shtok;
+    String shtok2;
     String userType;
 
     String chatRoomId;
     String messageTo;
+    private ListenerRegistration chatRoomListener;
 
     FirebaseUser firebaseUser;
 
@@ -56,6 +62,9 @@ public class ChatActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
+
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+
 
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -74,12 +83,14 @@ public class ChatActivity extends AppCompatActivity {
 
         userType = HomeActivity.userType;
         messageTo = getIntent().getStringExtra("messageTo");
-        Log.d("shtok", messageTo    );
-        Log.d("shtok", firebaseUser.getUid()    );
+        shtok = HomeActivity.userType.equals("student") ? firebaseUser.getUid() : messageTo;
+        shtok2 = HomeActivity.userType.equals("teacher") ? firebaseUser.getUid() : messageTo;
 
+        Log.d("melech", shtok);
+        Log.d("sohn", shtok2);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("chatRooms").whereEqualTo("studentUid", firebaseUser.getUid())
-                .whereEqualTo("teacherUid", messageTo)
+        db.collection("chatRooms").whereEqualTo("studentUid", shtok2)
+                .whereEqualTo("teacherUid", shtok)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -90,21 +101,22 @@ public class ChatActivity extends AppCompatActivity {
                                 // Chat room already exists, load messages and show chat UI
                                 DocumentSnapshot chatRoomSnapshot = querySnapshot.getDocuments().get(0);
                                 ChatModel chatRoom = chatRoomSnapshot.toObject(ChatModel.class);
-                                String chatRoomId = chatRoomSnapshot.getId();
+                                chatRoomId = chatRoomSnapshot.getId();
                                 messages = chatRoom.getMessages();
                                 // Show chat UI with messages
                                 adapter = new MessagesAdapter(getApplicationContext(), messages, firebaseUser.getUid());
 
                                 rv_messages.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                                 rv_messages.setAdapter(adapter);
+                                rv_messages.scrollToPosition(messages.size() - 1); // Scroll to the last message
+
                             } else {
                                 Log.d("fuck you", "we didnt find");
                             }
 
-                            }
-                            else {
+                        } else {
 
-                                // Chat room doesn't exist, create new chat room and message
+                            // Chat room doesn't exist, create new chat room and message
 //                                ChatModel newChatRoom = new ChatModel(firebaseUser.getUid(), messageTo);
 //                                db.collection("chatRooms").add(newChatRoom)
 //                                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -138,11 +150,11 @@ public class ChatActivity extends AppCompatActivity {
 //                                                // Handle error
 //                                            }
 //                                        });
-                            }
                         }
-                    });
-
-                    setListeners();
+                    }
+                });
+        addChatRoomSnapshotListener();
+        setListeners();
     }
 
     private void setListeners() {
@@ -192,7 +204,34 @@ public class ChatActivity extends AppCompatActivity {
         // checking if the message is new then he would go to function new chat
         if (chatRoomId == null || chatRoomId.isEmpty()) {
             makeANewChatAndSend(message);
+        } else {
+            sendMessageIntoServer(message);
         }
+
+    }
+
+    private void sendMessageIntoServer(Map<String, Object> message) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        messages.add(message);
+        adapter.notifyDataSetChanged();
+        rv_messages.scrollToPosition(messages.size() - 1); // Scroll to the last message
+
+        db.collection("chatRooms").document(chatRoomId)
+                .update("messages", messages)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void unused) {
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        messages.remove(messages.size() - 1);
+                        adapter.notifyDataSetChanged();
+                        Toast.makeText(getApplicationContext(), "Error while trying sending your message! Pls try again.", Toast.LENGTH_SHORT).show();
+                    }
+                });
 
     }
 
@@ -201,15 +240,56 @@ public class ChatActivity extends AppCompatActivity {
         messages.add(message);
         adapter.notifyDataSetChanged();
 
-        ChatModel chat = new ChatModel(messageTo, firebaseUser.getUid(), messages);
+        ChatModel chat = new ChatModel(shtok, shtok2, messages);
 
         db.collection("chatRooms").add(chat)
                 .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentReference> task) {
-                        chatRoomId = task.getResult().getId();
+                        if (task.isSuccessful()) {
+                            chatRoomId = task.getResult().getId();
+                            addChatRoomSnapshotListener();
+                        }
                     }
                 });
 
+    }
+
+    private void addChatRoomSnapshotListener() {
+        if (chatRoomId == null) return;
+
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference chatRoomRef = db.collection("chatRooms").document(chatRoomId);
+
+        chatRoomListener = chatRoomRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
+            @Override
+            public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
+                if(error != null) {
+                    return;
+                }
+
+                if (value != null && value.exists()) {
+                    // Chat room document exists, update UI with messages
+                    ChatModel chatRoom = value.toObject(ChatModel.class);
+                    if (chatRoom != null) {
+                        List<Map<String, Object>> updated = chatRoom.getMessages();
+                        for(int i = messages.size(); i < updated.size(); i++) {
+                            messages.add(updated.get(i));
+                        }
+                        adapter.notifyDataSetChanged();
+                        rv_messages.scrollToPosition(messages.size() - 1); // Scroll to the last message
+                    }
+                }
+            }
+        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        // Remove the snapshot listener to avoid memory leaks
+        if (chatRoomListener != null) {
+            chatRoomListener.remove();
+        }
     }
 }

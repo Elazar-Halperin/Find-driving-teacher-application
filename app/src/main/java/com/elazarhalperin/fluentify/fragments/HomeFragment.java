@@ -15,15 +15,17 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.elazarhalperin.fluentify.R;
+import com.elazarhalperin.fluentify.activities.ChatListActivity;
 import com.elazarhalperin.fluentify.activities.TeacherProfileActivity;
 import com.elazarhalperin.fluentify.helpers.adapters.SectionRecyclerViewAdapter;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class HomeFragment extends Fragment {
     RecyclerView rv_sections;
-
+    FloatingActionButton fab_goToChats;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -38,6 +40,8 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ImageView ibn = view.findViewById(R.id.iv_profilePicture);
         rv_sections = view.findViewById(R.id.rv_units);
+        fab_goToChats = view.findViewById(R.id.fab_goToChats);
+
         List<String> strings = new ArrayList<>();
         strings.add("elazar the king");
         strings.add("kaki");
@@ -50,6 +54,11 @@ public class HomeFragment extends Fragment {
 
         ibn.setOnClickListener(v-> {
             Intent i = new Intent(getActivity(), TeacherProfileActivity.class);
+            startActivity(i);
+        });
+
+        fab_goToChats.setOnClickListener(v-> {
+            Intent i = new Intent(getActivity(), ChatListActivity.class);
             startActivity(i);
         });
     }
