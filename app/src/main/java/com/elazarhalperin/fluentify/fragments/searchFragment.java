@@ -2,13 +2,34 @@ package com.elazarhalperin.fluentify.fragments;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.RatingBar;
+import android.widget.Toast;
 
 import com.elazarhalperin.fluentify.R;
+import com.elazarhalperin.fluentify.activities.TeacherProfileActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.chip.Chip;
+import com.google.android.material.chip.ChipGroup;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -16,51 +37,62 @@ import com.elazarhalperin.fluentify.R;
  * create an instance of this fragment.
  */
 public class searchFragment extends Fragment {
-
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
-
-    public searchFragment() {
-        // Required empty public constructor
-    }
-
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment LeaderboardsFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static searchFragment newInstance(String param1, String param2) {
-        searchFragment fragment = new searchFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-    }
+    FloatingActionButton fab_filter, fab_clearFilter;
+    RecyclerView rv_teachers;
+    ChipGroup cg_holder;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_search, container, false);
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View v, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(v, savedInstanceState);
+        fab_clearFilter = v.findViewById(R.id.fab_clearFilter);
+        fab_filter = v.findViewById(R.id.fab_filter);
+        rv_teachers = v.findViewById(R.id.rv_teachers);
+
+
+        setListeners();
+
+    }
+
+    private void setListeners() {
+        fab_filter.setOnClickListener(v-> {
+            showDialog();
+        });
+        fab_clearFilter.setOnClickListener(v-> {
+
+        });
+
+
+    }
+
+    void showDialog() {
+        BottomSheetDialog dialog = new BottomSheetDialog(getActivity(), R.style.DialogStyle);
+        dialog.setContentView(R.layout.filter_layout);
+        // get all the neccessery views
+        cg_holder = dialog.findViewById(R.id.cg_holder);
+
+        for(int i = 0; i < cg_holder.getChildCount(); i++) {
+            Chip chip = (Chip) cg_holder.getChildAt(i);
+            chip.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // check whether the chips is filtered by user
+                    // or not and give the suitable Toast message
+                    if (chip.isChecked()) {
+                        chip.setBackgroundColor(getActivity().getColor(R.color.orange_color));
+                    } else {
+                        chip.setBackgroundColor(getActivity().getColor(R.color.shimmer_color));
+                    }
+                }
+            });
+        }
+
+        dialog.show();
     }
 }

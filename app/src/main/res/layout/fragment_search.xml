@@ -5,22 +5,39 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/background_white"
     tools:context=".fragments.searchFragment">
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cv_container"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="8dp"
-        android:background="@drawable/bg_rounded_sv"
-        app:cardCornerRadius="20dp">
+        android:layout_height="wrap_content">
 
-        <SearchView
-            android:id="@+id/sv_teacherSearch"
-            android:layout_width="match_parent"
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_filter"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@color/gray"
-            android:outlineSpotShadowColor="@color/gray"
-            android:queryHint="Search notes" />
-    </androidx.cardview.widget.CardView>
+            android:src="@drawable/filter_list24px"
+            android:layout_margin="8dp"
+            app:borderWidth="0dp"
+            android:contentDescription="filter"
+            app:elevation="0dp"
+            android:backgroundTint="@color/white"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fab_clearFilter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/search_off24px"
+            android:layout_margin="8dp"
+            app:borderWidth="0dp"
+            android:contentDescription="Reset filter"
+            android:layout_gravity="end"
+            app:elevation="0dp"
+            android:backgroundTint="@color/white"/>
+    </FrameLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/rv_teachers"/>
+
 </LinearLayout>

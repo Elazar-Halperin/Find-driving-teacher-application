@@ -104,18 +104,18 @@ public class ChatActivity extends AppCompatActivity {
                                 messages = chatRoom.getMessages();
                                 // Show chat UI with messages
                                 adapter = new MessagesAdapter(getApplicationContext(), messages, firebaseUser.getUid());
-
                                 rv_messages.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                                 rv_messages.setAdapter(adapter);
                                 rv_messages.scrollToPosition(messages.size() - 1); // Scroll to the last message
 
+                                addChatRoomSnapshotListener();
                             } else {
                                 Log.d("fuck you", "we didnt find");
                             }
                         }
                     }
                 });
-        addChatRoomSnapshotListener();
+
         setListeners();
     }
 

@@ -11,6 +11,8 @@ import android.widget.Button;
 import com.elazarhalperin.fluentify.R;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
 
 public class MainSignActivity extends AppCompatActivity {
 
