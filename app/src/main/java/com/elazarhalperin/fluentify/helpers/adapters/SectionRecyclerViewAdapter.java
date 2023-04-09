@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.elazarhalperin.fluentify.Models.CategoryModel;
 import com.elazarhalperin.fluentify.Models.TeacherModel;
 import com.elazarhalperin.fluentify.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -30,11 +31,11 @@ import java.util.List;
 import java.util.Map;
 
 public class SectionRecyclerViewAdapter extends RecyclerView.Adapter<SectionRecyclerViewAdapter.MyHolder> {
-    List<String> sectionList;
+    List<CategoryModel> sectionList;
     Context context;
     FirebaseFirestore db;
 
-    public SectionRecyclerViewAdapter(Context context, List<String> sectionList) {
+    public SectionRecyclerViewAdapter(Context context, List<CategoryModel> sectionList) {
         this.sectionList = sectionList;
         this.context = context;
         db = FirebaseFirestore.getInstance();
@@ -55,31 +56,14 @@ public class SectionRecyclerViewAdapter extends RecyclerView.Adapter<SectionRecy
         final Button btn_viewAll = holder.getBtn_viewAll();
         final RecyclerView rv_teachers = holder.getRv_teachers();
 
-        tv_filtered.setText(sectionList.get(position));
+        tv_filtered.setText(sectionList.get(position).getName());
 
         rv_teachers.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
 
-        List<TeacherModel> teachersList = new ArrayList<>();
+        List<TeacherModel> teachersList = sectionList.get(position).getTeachers();
 
-        db.collection("teachers")
-                .whereLessThan("rating", 1.0f)
-                .orderBy(FieldPath.of("rating"), Query.Direction.ASCENDING)
-                .limit(10)
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        for(DocumentSnapshot snapshot : queryDocumentSnapshots.getDocuments()) {
-                            Map<String, Object> mapTeacher = snapshot.getData();
-                            TeacherModel teacher = new TeacherModel(mapTeacher);
-                            Log.d("teachers", teacher.toString());
-                            teachersList.add(teacher);
-                        }
-                        TeacherHorizontalAdapter adapter = new TeacherHorizontalAdapter(context, teachersList);
-                        rv_teachers.setAdapter(adapter);
-
-                    }
-                });
+        TeacherHorizontalAdapter adapter = new TeacherHorizontalAdapter(context, teachersList);
+        rv_teachers.setAdapter(adapter);
 
     }
 

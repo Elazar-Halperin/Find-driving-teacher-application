@@ -43,7 +43,7 @@ import java.util.Map;
 
 public class ChatActivity extends AppCompatActivity {
     EditText et_message;
-    FloatingActionButton fab_sendTheMessage;
+    FloatingActionButton fab_sendTheMessage, fab_goBack;
 
     RecyclerView rv_messages;
     MessagesAdapter adapter;
@@ -64,7 +64,6 @@ public class ChatActivity extends AppCompatActivity {
         setContentView(R.layout.activity_chat);
 
 
-
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         chatRoomId = getIntent().getStringExtra("chatRoomId");
@@ -72,6 +71,7 @@ public class ChatActivity extends AppCompatActivity {
         et_message = findViewById(R.id.et_message);
         fab_sendTheMessage = findViewById(R.id.fab_sendTheMessage);
         rv_messages = findViewById(R.id.rv_messages);
+        fab_goBack = findViewById(R.id.fab_goBack);
 
         messages = new ArrayList<>();
 
@@ -88,8 +88,8 @@ public class ChatActivity extends AppCompatActivity {
         Log.d("melech", shtok);
         Log.d("sohn", shtok2);
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("chatRooms").whereEqualTo("studentUid", userType.equals("student") ? shtok2 : shtok)
-                .whereEqualTo("teacherUid", userType.equals("teacher") ? shtok2 : shtok)
+        db.collection("chatRooms").whereEqualTo("studentUid", shtok)
+                .whereEqualTo("teacherUid", shtok2)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
@@ -144,6 +144,10 @@ public class ChatActivity extends AppCompatActivity {
         fab_sendTheMessage.setOnClickListener(v -> {
             sendMessage();
         });
+
+        fab_goBack.setOnClickListener(v -> {
+            finish();
+        });
     }
 
     private void sendMessage() {
@@ -175,6 +179,8 @@ public class ChatActivity extends AppCompatActivity {
     private void sendMessageIntoServer(Map<String, Object> message) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         messages.add(message);
+
+
         adapter.notifyDataSetChanged();
         rv_messages.scrollToPosition(messages.size() - 1); // Scroll to the last message
 
@@ -202,7 +208,7 @@ public class ChatActivity extends AppCompatActivity {
         messages.add(message);
         adapter.notifyDataSetChanged();
 
-        ChatModel chat = new ChatModel(shtok, shtok2, messages);
+        ChatModel chat = new ChatModel(shtok2, shtok, messages);
 
         db.collection("chatRooms").add(chat)
                 .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
@@ -226,7 +232,7 @@ public class ChatActivity extends AppCompatActivity {
         chatRoomListener = chatRoomRef.addSnapshotListener(new EventListener<DocumentSnapshot>() {
             @Override
             public void onEvent(@Nullable DocumentSnapshot value, @Nullable FirebaseFirestoreException error) {
-                if(error != null) {
+                if (error != null) {
                     return;
                 }
 
@@ -235,7 +241,7 @@ public class ChatActivity extends AppCompatActivity {
                     ChatModel chatRoom = value.toObject(ChatModel.class);
                     if (chatRoom != null) {
                         List<Map<String, Object>> updated = chatRoom.getMessages();
-                        for(int i = messages.size(); i < updated.size(); i++) {
+                        for (int i = messages.size(); i < updated.size(); i++) {
                             messages.add(updated.get(i));
                         }
                         adapter.notifyDataSetChanged();

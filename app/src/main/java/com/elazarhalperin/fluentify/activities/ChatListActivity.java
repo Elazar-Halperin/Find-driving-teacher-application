@@ -13,6 +13,7 @@ import com.elazarhalperin.fluentify.MainActivity;
 import com.elazarhalperin.fluentify.Models.ChatModel;
 import com.elazarhalperin.fluentify.R;
 import com.elazarhalperin.fluentify.helpers.adapters.ChatsAdapter;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -32,6 +33,8 @@ import java.util.List;
 import java.util.Map;
 
 public class ChatListActivity extends AppCompatActivity {
+    FloatingActionButton fab_goBack;
+
     Query chatsQuery;
     FirebaseUser firebaseUser;
     private ListenerRegistration chatRoomsListener;
@@ -57,7 +60,11 @@ public class ChatListActivity extends AppCompatActivity {
         adapter = new ChatsAdapter(getApplicationContext(), chats, firebaseUser.getUid());
         rv_chats.setAdapter(adapter);
 
+        fab_goBack = findViewById(R.id.fab_goBack);
 
+        fab_goBack.setOnClickListener(v-> {
+            finish();
+        });
         addChatRoomSnapshotListener();
     }
 

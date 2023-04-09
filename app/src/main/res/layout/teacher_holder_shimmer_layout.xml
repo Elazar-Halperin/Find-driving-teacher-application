@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    app:cardCornerRadius="12dp"
+    android:layout_margin="4dp"
+    android:id="@+id/cv_container"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <FrameLayout
+            android:layout_width="170dp"
+            android:layout_height="200dp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:layout_constraintDimensionRatio="H,9:10">
+                <ImageView
+                    android:id="@+id/iv_teacherProfile"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:transitionName="profileImage"
+                    android:background="@color/shimmer_color"
+                    android:adjustViewBounds="true"
+                    android:scaleType="centerCrop"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </FrameLayout>
+        <TextView
+            android:id="@+id/tv_teacherName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:gravity="center"
+            android:background="@color/shimmer_color"
+            android:maxLines="1"
+            android:fontFamily="@font/feather_bold"
+            android:textColor="@color/black"
+            android:transitionName="teacherName"
+            android:textSize="@dimen/_14ssp"
+            android:ellipsize="end"/>
+        <LinearLayout
+            android:id="@+id/ll_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:transitionName="teacherLocations">
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="6"
+                android:layout_margin="4dp"
+                android:background="@color/shimmer_color"
+                app:srcCompat="@color/shimmer_color" />
+
+            <TextView
+                android:id="@+id/tv_teacherLocations"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="4dp"
+                android:fontFamily="@font/feather_bold"
+                android:gravity="center"
+                android:minHeight="30dp"
+                android:background="@color/shimmer_color"
+                android:textColor="@color/black"
+                android:textSize="@dimen/_10ssp"
+                android:lines="2"
+                android:layout_weight="1"
+                android:maxLines="2"
+                android:ellipsize="end"/>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

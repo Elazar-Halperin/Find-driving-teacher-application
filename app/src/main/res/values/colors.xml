@@ -18,4 +18,5 @@
     <color name="blue_color">#5c7dd5</color>
     <color name="dark_white">#fafafa</color>
 
+    <color name="shimmer_color">#dddddd</color>
 </resources>
