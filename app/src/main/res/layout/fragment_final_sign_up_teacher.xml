@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background_white"
+    android:background="@color/background_main"
     tools:context=".fragments.FinalSignUpTeacherFragment"
     android:orientation="horizontal">
 
@@ -35,7 +35,7 @@
             android:layout_margin="20dp"
             android:fontFamily="@font/feather_bold"
             android:text="@string/sign_up"
-            android:textColor="@color/black"
+            android:textColor="@color/black_text_color"
             android:textSize="@dimen/_30ssp" />
 
         <com.google.android.material.textfield.TextInputLayout
@@ -47,18 +47,18 @@
             app:boxCornerRadiusTopEnd="10dp"
             app:boxCornerRadiusTopStart="10dp"
             app:boxStrokeWidth="0dp"
+            android:textColorHint="@color/gray_text_color"
             app:boxStrokeWidthFocused="0dp"
-            app:hintTextColor="@color/orange_color">
+            app:hintTextColor="@color/gray_text_color">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_emailSignUp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/gray"
                 android:fontFamily="@font/feather_bold"
                 android:hint="@string/email"
                 android:singleLine="true"
-                android:textColor="@color/black"
+                android:textColor="@color/black_text_color"
                 android:textColorHint="@color/fade_white"
                 android:textCursorDrawable="@drawable/cursor" />
         </com.google.android.material.textfield.TextInputLayout>
@@ -73,18 +73,17 @@
             app:boxCornerRadiusTopStart="10dp"
             app:boxStrokeWidth="0dp"
             app:boxStrokeWidthFocused="0dp"
-            app:hintTextColor="@color/orange_color">
+            android:textColorHint="@color/gray_text_color"
+            app:hintTextColor="@color/gray_text_color">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_passwordSignUp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/gray"
                 android:fontFamily="@font/feather_bold"
                 android:hint="@string/password"
                 android:singleLine="true"
-                android:textColor="@color/black"
-                android:textColorHint="@color/fade_white"
+                android:textColor="@color/black_text_color"
                 android:textCursorDrawable="@drawable/cursor" />
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -98,13 +97,13 @@
             app:boxCornerRadiusTopStart="10dp"
             app:boxStrokeWidth="0dp"
             app:boxStrokeWidthFocused="0dp"
-            app:hintTextColor="@color/orange_color">
+            android:textColorHint="@color/gray_text_color"
+            app:hintTextColor="@color/gray_text_color">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/et_passwordConfirm"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/gray"
                 android:fontFamily="@font/feather_bold"
                 android:hint="@string/confirm_password"
                 android:singleLine="true"
@@ -119,7 +118,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
-            android:backgroundTint="@color/orange_color"
+            android:backgroundTint="@color/background_purple"
             android:fontFamily="@font/feather_bold"
             android:paddingVertical="16dp"
             android:text="@string/sign_up"

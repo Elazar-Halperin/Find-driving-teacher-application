@@ -51,7 +51,7 @@ public class searchFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View v, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(v, savedInstanceState);
-        fab_clearFilter = v.findViewById(R.id.fab_clearFilter);
+        fab_clearFilter = v.findViewById(R.id.fab_search);
         fab_filter = v.findViewById(R.id.fab_filter);
         rv_teachers = v.findViewById(R.id.rv_teachers);
 

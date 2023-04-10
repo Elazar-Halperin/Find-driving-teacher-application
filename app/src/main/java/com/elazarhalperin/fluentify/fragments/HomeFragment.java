@@ -74,7 +74,6 @@ public class HomeFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ImageView ibn = view.findViewById(R.id.iv_profilePicture);
         rv_sections = view.findViewById(R.id.rv_units);
         fab_goToChats = view.findViewById(R.id.fab_goToChats);
         shimmer = view.findViewById(R.id.shimmer_sectionHolder);
@@ -100,12 +99,6 @@ public class HomeFragment extends Fragment {
         rv_sections.setLayoutManager(layoutManager);
         rv_sections.setAdapter(adapter);
 
-
-        ibn.setOnClickListener(v -> {
-            Intent i = new Intent(getActivity(), TeacherProfileActivity.class);
-            startActivity(i);
-        });
-
         fab_goToChats.setOnClickListener(v -> {
             Intent i = new Intent(getActivity(), ChatListActivity.class);
             startActivity(i);
@@ -116,6 +109,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void getAllTeachersByCategories() {
+        // getting al the queries by categories and prefernces ( this is just a demo for me)
         Query price = teacherRef.whereLessThanOrEqualTo("lessonPrice", 140.00).limit(10);
         Query rating = teacherRef.whereGreaterThanOrEqualTo("rating", 1.0).limit(10);
         Query jerusalemTeachers = teacherRef.whereGreaterThanOrEqualTo("location", "jerusalem").limit(10);

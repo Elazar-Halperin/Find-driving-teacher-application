@@ -38,7 +38,7 @@
                 android:textSize="@dimen/_30ssp"
                 android:fontFamily="@font/feather_bold"
                 android:layout_margin="20dp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black_text_color"/>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -49,14 +49,14 @@
                 app:boxCornerRadiusTopStart="10dp"
                 app:boxStrokeWidth="0dp"
                 app:boxStrokeWidthFocused="0dp"
-                app:hintTextColor="@color/orange_color"
+                android:textColorHint="@color/gray_text_color"
+                app:hintTextColor="@color/gray_text_color"
                 android:layout_margin="8dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_emailSignIn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/gray"
                     android:fontFamily="@font/feather_bold"
                     android:hint="@string/email"
                     android:singleLine="true"
@@ -73,16 +73,15 @@
                 app:boxCornerRadiusTopEnd="10dp"
                 app:boxCornerRadiusTopStart="10dp"
                 app:boxStrokeWidth="0dp"
+                android:textColorHint="@color/gray_text_color"
+                app:hintTextColor="@color/gray_text_color"
                 app:boxStrokeWidthFocused="0dp"
-                android:textColorHint="@color/fade_white"
-                app:hintTextColor="@color/orange_color"
                 android:layout_margin="8dp">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/et_passwordSignIn"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/gray"
                     android:fontFamily="@font/feather_bold"
                     android:singleLine="true"
                     android:textColorHint="@color/fade_white"
@@ -95,7 +94,7 @@
                 android:id="@+id/btn_signIn"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/orange_color"
+                android:backgroundTint="@color/background_purple"
                 android:layout_margin="8dp"
                 android:text="@string/sign_in"
                 android:fontFamily="@font/feather_bold"
@@ -114,8 +113,6 @@
                     android:layout_height="2dp"
                     android:layout_weight="1"
                     android:layout_margin="2dp"
-                    android:backgroundTint="@color/bald_gray"
-
                     android:background="?android:attr/listDivider" />
                 <TextView
                     android:layout_width="wrap_content"
@@ -123,12 +120,11 @@
                     android:text="@string/or"
                     android:textSize="16sp"
                     android:fontFamily="@font/feather_bold"
-                    android:textColor="@color/gray"/>
+                    android:textColor="@color/gray_text_color"/>
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="2dp"
                     android:layout_weight="1"
-                    android:backgroundTint="@color/bald_gray"
                     android:layout_margin="2dp"
                     android:background="?android:attr/listDivider" />
 
@@ -145,7 +141,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/feather_bold"
-                    android:textColor="#7D7D7D"
+                    android:textColor="@color/gray_text_color"
                     android:text="@string/don_t_have_an_account"
                     android:textStyle="bold" />
 
@@ -156,7 +152,7 @@
                     style="@style/Widget.AppCompat.Button.Borderless"
                     android:padding="0dp"
                     android:text="@string/sign_up"
-                    android:textColor="@color/orange_color"
+                    android:textColor="@color/background_purple"
                     android:fontFamily="@font/feather_bold"/>
 
             </LinearLayout>

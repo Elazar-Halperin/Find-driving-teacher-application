@@ -7,19 +7,14 @@
     tools:context=".activities.ChatActivity"
     android:backgroundTint="#fafafa"
     android:orientation="vertical">
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:backgroundTint="#fafafa">
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="-20dp"
-        app:cardBackgroundColor="@color/background_white"
+        app:cardBackgroundColor="@color/background_dark"
         app:cardCornerRadius="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,7 +31,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:backgroundTint="@color/background_white"
+                android:backgroundTint="@color/background_dark"
                 android:clickable="true"
                 app:borderWidth="0dp"
                 app:elevation="0dp"
@@ -80,7 +75,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="-10dp"
         android:paddingVertical="8dp"
-        android:background="@color/white"
+        android:background="@color/background_main"
         app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -105,7 +100,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
-            android:background="#fafafa"
+            android:background="@color/background_dark"
             android:gravity="center"
             android:orientation="horizontal"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -142,7 +137,7 @@
                 app:borderWidth="0dp"
                 app:elevation="0dp"
                 app:srcCompat="@drawable/send_icon_24px"
-                app:tint="@color/blue_color" />
+                app:tint="@color/background_purple" />
         </LinearLayout>
 
     </androidx.cardview.widget.CardView>

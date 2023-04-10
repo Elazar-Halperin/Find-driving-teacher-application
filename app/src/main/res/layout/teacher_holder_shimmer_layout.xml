@@ -5,6 +5,7 @@
     app:cardCornerRadius="12dp"
     android:layout_margin="4dp"
     android:id="@+id/cv_container"
+    android:background="@color/background_main"
     android:layout_height="wrap_content">
 
     <LinearLayout

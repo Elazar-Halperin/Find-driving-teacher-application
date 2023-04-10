@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/background_white"
+    android:background="@color/background_main"
     android:gravity="center"
     tools:context=".activities.MainSignActivity">
 
@@ -33,7 +33,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/do_you_want_to_be_a_teacher"
-                android:textColor="@color/bald_gray"
+                android:textColor="@color/gray_text_color"
                 android:clickable="false"
                 android:textSize="12dp" />
 
@@ -45,7 +45,7 @@
                 android:layout_margin="10dp"
                 android:layout_weight="0"
                 android:text="click here!"
-                android:textColor="@color/bald_gray"
+                android:textColor="@color/gray_text_color"
                 android:textSize="12sp" />
         </LinearLayout>
 
@@ -53,7 +53,7 @@
             android:id="@+id/btn_transfterToSignIn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/orange_color"
+            android:backgroundTint="@color/background_purple"
             android:fontFamily="@font/feather_bold"
             android:paddingVertical="16dp"
             android:textSize="@dimen/_14ssp"
@@ -65,7 +65,7 @@
             android:id="@+id/btn_transfterToSignUp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/bright_orange"
+            android:backgroundTint="@color/purple_500"
             android:fontFamily="@font/feather_bold"
             android:paddingVertical="16dp"
             android:textSize="@dimen/_14ssp"
@@ -76,42 +76,5 @@
 
     </LinearLayout>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:fontFamily="@font/feather_bold"
-        android:text="@string/app_name"
-        android:textSize="@dimen/_32ssp"
-        android:singleLine="true"
-        android:textColor="@color/bright_orange"
-        app:layout_constraintEnd_toEndOf="@+id/cardView"
-        app:layout_constraintStart_toStartOf="@+id/cardView"
-        app:layout_constraintTop_toBottomOf="@+id/cardView" />
-
-    <androidx.cardview.widget.CardView
-        android:id="@+id/cardView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        app:cardCornerRadius="1000dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cardCornerRadius="1000dp">
-
-            <ImageView
-                android:id="@+id/imageView"
-                android:layout_width="183dp"
-                android:layout_height="216dp"
-                android:background="@color/orange_color"
-                app:srcCompat="@drawable/ic_launcher_foreground" />
-        </androidx.cardview.widget.CardView>
-
-    </androidx.cardview.widget.CardView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

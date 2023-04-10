@@ -29,7 +29,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="8dp"
-        android:backgroundTint="#FFFFFF"
+        android:backgroundTint="@color/background_main"
         app:fabCustomSize="44dp"
         android:clickable="true"
         android:contentDescription="@string/already_have_an_account"
@@ -59,7 +59,7 @@
         android:layout_marginTop="-30dp"
         android:layout_marginBottom="-20dp"
         android:background="@drawable/top_rounded_corners"
-        app:cardBackgroundColor="#fafbff"
+        app:cardBackgroundColor="@color/background_main"
         app:cardCornerRadius="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -88,12 +88,13 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
-                    android:transitionName="teacherName"
                     android:fontFamily="@font/feather_bold"
                     android:text="Elazar Halperin"
-                    android:textColor="#22124e"
+                    android:textColor="@color/black_text_color"
                     android:textSize="@dimen/_24ssp"
-                    android:textStyle="bold" />
+                    android:textStyle="bold"
+                    android:transitionName="teacherName" />
+
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="1dp"
@@ -229,7 +230,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/feather_bold"
                         android:text="About the Teacher:"
-                        android:textColor="#22124e"
+                        android:textColor="@color/black_text_color"
                         android:textSize="@dimen/_20ssp"
                         android:layout_marginBottom="8dp"
                         android:textStyle="bold" />
@@ -261,7 +262,7 @@
                     android:layout_margin="8dp"
                     android:fontFamily="@font/feather_bold"
                     android:text="Reviews:"
-                    android:textColor="#22124e"
+                    android:textColor="@color/black_text_color"
                     android:textSize="@dimen/_24ssp"
                     android:textStyle="bold" />
                 <androidx.recyclerview.widget.RecyclerView
@@ -281,7 +282,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="36dp"
-        android:backgroundTint="#a7e9af "
+        android:backgroundTint="@color/background_purple"
+        app:tint="@color/white"
         android:clickable="true"
         android:scaleX="1.1"
         android:scaleY="1.1"

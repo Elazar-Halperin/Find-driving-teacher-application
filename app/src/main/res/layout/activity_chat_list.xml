@@ -13,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="-20dp"
-        app:cardBackgroundColor="@color/background_white"
+        app:cardBackgroundColor="@color/background_dark"
         app:cardCornerRadius="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -30,7 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
-                android:backgroundTint="@color/background_white"
+                android:backgroundTint="@color/background_dark"
                 android:clickable="true"
                 app:borderWidth="0dp"
                 app:elevation="0dp"
@@ -49,7 +49,7 @@
                 android:focusedByDefault="true"
                 android:ellipsize="marquee"
                 android:marqueeRepeatLimit="marquee_forever"
-                android:textColor="@color/black"
+                android:textColor="@color/black_text_color"
                 android:textSize="@dimen/_18ssp" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>
@@ -58,15 +58,15 @@
         android:id="@+id/rv_chats"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:paddingTop="10dp"
         android:layout_marginTop="-10dp"
-        android:background="@color/white"
+        android:background="@color/background_main"
+        android:paddingTop="10dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView2" />
-
-
+        app:layout_constraintTop_toBottomOf="@+id/cardView2"
+        app:layout_constraintVertical_bias="0.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

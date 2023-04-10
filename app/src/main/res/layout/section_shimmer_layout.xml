@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/background_white">
+    android:background="@color/background_main">
 
     <TextView
         android:id="@+id/tv_filtered"

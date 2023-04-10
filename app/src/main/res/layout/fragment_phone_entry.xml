@@ -5,13 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/background_main"
     tools:context=".fragments.PhoneEntryFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:background="@color/blue_color"
+        android:background="@color/background_purple"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -81,11 +82,12 @@
                 android:background="@drawable/rouned_edittext"
                 android:elevation="4dp"
                 android:fontFamily="@font/feather_bold"
+                android:textColorHint="@color/gray_text_color"
                 android:hint="phone number"
                 android:inputType="phone"
                 android:padding="10dp"
                 android:phoneNumber="true"
-                android:textColor="@color/black"
+                android:textColor="@color/black_text_color"
                 android:textSize="@dimen/_14ssp" />
         </LinearLayout>
 
@@ -107,7 +109,7 @@
             android:clickable="true"
             android:paddingHorizontal="50dp"
             android:text="get code"
-            app:backgroundTint="@color/blue_color" />
+            app:backgroundTint="@color/background_purple" />
 
         <ProgressBar
             android:id="@+id/pb_buttonLoad"
@@ -115,7 +117,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:visibility="gone"
-            android:progressTint="@color/orange_color"/>
+            android:progressTint="@color/background_purple"/>
 
 
     </FrameLayout>

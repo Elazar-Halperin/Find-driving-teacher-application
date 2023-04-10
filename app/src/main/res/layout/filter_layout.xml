@@ -8,25 +8,34 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="10dp"
-        android:layout_marginHorizontal="@dimen/_60sdp"
+        android:layout_marginHorizontal="@dimen/_120sdp"
         android:layout_marginVertical="@dimen/_20sdp"
         android:background="@drawable/rouned_edittext"
-        android:backgroundTint="@color/shimmer_color" />
-
-    <TextView
-        android:layout_width="match_parent"
+        android:backgroundTint="@color/gray_text_color" />
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="pick License:"
-        android:layout_margin="8dp"
-        android:textSize="@dimen/_16ssp"
-        android:fontFamily="@font/feather_bold"/>
+        android:orientation="vertical">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginHorizontal="8dp"
-        android:background="@drawable/rouned_edittext"
-        android:backgroundTint="@color/shimmer_color" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Which License:"
+            android:layout_marginEnd="60dp"
+            android:layout_marginVertical="8dp"
+            android:layout_marginStart="8dp"
+            android:textSize="@dimen/_16ssp"
+            android:textColor="@color/black_text_color"
+            android:fontFamily="@font/feather_bold"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginHorizontal="8dp"
+            android:background="@drawable/rouned_edittext"
+            android:backgroundTint="@color/shimmer_color" />
+    </LinearLayout>
+
 
     <com.google.android.material.chip.ChipGroup
         android:id="@+id/cg_holder"
@@ -36,44 +45,104 @@
         android:layout_margin="8dp">
 
         <com.google.android.material.chip.Chip
-            android:id="@+id/chipCpp"
             style="@style/Widget.MaterialComponents.Chip.Filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="פרטי ידני" />
-
-        <com.google.android.material.chip.Chip
-            android:id="@+id/chipJava"
-            style="@style/Widget.MaterialComponents.Chip.Filter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="פרטי אוטומט" />
+            android:text="Manual car" />
 
         <com.google.android.material.chip.Chip
             style="@style/Widget.MaterialComponents.Chip.Filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="ציבורי" />
+            android:text="Auto car" />
 
         <com.google.android.material.chip.Chip
             style="@style/Widget.MaterialComponents.Chip.Filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="טרקטור" />
+            android:text="public vechile" />
 
         <com.google.android.material.chip.Chip
             style="@style/Widget.MaterialComponents.Chip.Filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="משא קל" />
+            android:text="tracktor" />
 
         <com.google.android.material.chip.Chip
             style="@style/Widget.MaterialComponents.Chip.Filter"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="משא כבד" />
+            android:text="low weight" />
+
+        <com.google.android.material.chip.Chip
+            style="@style/Widget.MaterialComponents.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="heavy weight" />
 
     </com.google.android.material.chip.ChipGroup>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginHorizontal="8dp"
+        android:background="@drawable/rouned_edittext"
+        android:backgroundTint="@color/shimmer_color" />
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Pick preference:"
+        android:layout_marginEnd="60dp"
+        android:textColor="@color/black_text_color"
+        android:layout_marginVertical="8dp"
+        android:layout_marginStart="8dp"
+        android:textSize="@dimen/_16ssp"
+        android:fontFamily="@font/feather_bold"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginHorizontal="8dp"
+        android:background="@drawable/rouned_edittext"
+        android:backgroundTint="@color/gray_text_color" />
+</LinearLayout>
+
+    <com.google.android.material.chip.ChipGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_margin="8dp">
+
+        <com.google.android.material.chip.Chip
+            style="@style/Widget.MaterialComponents.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="price" />
+
+        <com.google.android.material.chip.Chip
+            style="@style/Widget.MaterialComponents.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="rating" />
+
+        <com.google.android.material.chip.Chip
+            style="@style/Widget.MaterialComponents.Chip.Filter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Newest" />
+
+    </com.google.android.material.chip.ChipGroup>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginHorizontal="8dp"
+        android:background="@drawable/rouned_edittext"
+        android:backgroundTint="@color/gray_text_color" />
 
 
 </LinearLayout>

@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@color/background_main"
     tools:context=".fragments.PhoneEntryFragment">
 
 
@@ -12,7 +13,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:background="@color/blue_color"
+        android:background="@color/background_purple"
         android:gravity="center"
         android:orientation="vertical">
 
@@ -73,6 +74,7 @@
                 android:maxLength="1"
                 android:padding="10dp"
                 android:textColor="@color/black"
+                android:backgroundTint="@color/background_dark"
                 android:textSize="@dimen/_14ssp"
                 tools:ignore="SpeakableTextPresentCheck" />
 
@@ -81,6 +83,7 @@
                 android:layout_height="@dimen/_50sdp"
                 android:layout_margin="2dp"
                 android:background="@drawable/squered_edittext"
+                android:backgroundTint="@color/background_dark"
                 android:elevation="4dp"
                 android:fontFamily="@font/feather_bold"
                 android:gravity="center"
@@ -95,6 +98,7 @@
                 android:layout_height="@dimen/_50sdp"
                 android:layout_margin="2dp"
                 android:background="@drawable/squered_edittext"
+                android:backgroundTint="@color/background_dark"
                 android:elevation="4dp"
                 android:fontFamily="@font/feather_bold"
                 android:gravity="center"
@@ -109,6 +113,7 @@
                 android:layout_height="@dimen/_50sdp"
                 android:layout_margin="2dp"
                 android:background="@drawable/squered_edittext"
+                android:backgroundTint="@color/background_dark"
                 android:elevation="4dp"
                 android:fontFamily="@font/feather_bold"
                 android:gravity="center"
@@ -123,6 +128,7 @@
                 android:layout_height="@dimen/_50sdp"
                 android:layout_margin="2dp"
                 android:background="@drawable/squered_edittext"
+                android:backgroundTint="@color/background_dark"
                 android:elevation="4dp"
                 android:fontFamily="@font/feather_bold"
                 android:gravity="center"
@@ -137,6 +143,7 @@
                 android:layout_height="@dimen/_50sdp"
                 android:layout_margin="2dp"
                 android:background="@drawable/squered_edittext"
+                android:backgroundTint="@color/background_dark"
                 android:elevation="4dp"
                 android:fontFamily="@font/feather_bold"
                 android:gravity="center"
@@ -166,7 +173,7 @@
             android:clickable="true"
             android:paddingHorizontal="50dp"
             android:text="Confirm"
-            app:backgroundTint="@color/blue_color" />
+            app:backgroundTint="@color/background_purple" />
         <ProgressBar
             android:id="@+id/pb_buttonLoad"
             android:layout_width="match_parent"
