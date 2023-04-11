@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/filter_layout_background"
@@ -12,6 +13,7 @@
         android:layout_marginVertical="@dimen/_20sdp"
         android:background="@drawable/rouned_edittext"
         android:backgroundTint="@color/gray_text_color" />
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -20,120 +22,125 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Which License:"
-            android:layout_marginEnd="60dp"
             android:layout_marginVertical="8dp"
             android:layout_marginStart="8dp"
-            android:textSize="@dimen/_16ssp"
+            android:layout_marginEnd="60dp"
+            android:fontFamily="@font/feather_bold"
+            android:text="Which License:"
             android:textColor="@color/black_text_color"
-            android:fontFamily="@font/feather_bold"/>
+            android:textSize="@dimen/_16ssp" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="2dp"
             android:layout_marginHorizontal="8dp"
-            android:background="@drawable/rouned_edittext"
-            android:backgroundTint="@color/shimmer_color" />
+            android:background="?android:attr/listDivider" />
     </LinearLayout>
 
 
     <com.google.android.material.chip.ChipGroup
-        android:id="@+id/cg_holder"
+        android:id="@+id/cg_license"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:layout_margin="8dp">
+        android:layout_margin="8dp"
+        app:singleSelection="true">
 
         <com.google.android.material.chip.Chip
-            style="@style/Widget.MaterialComponents.Chip.Filter"
+            style="@style/CustomChipStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Manual car" />
+            android:text="Manual car"
+            app:chipStrokeWidth="1dp" />
 
         <com.google.android.material.chip.Chip
-            style="@style/Widget.MaterialComponents.Chip.Filter"
+            style="@style/CustomChipStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Auto car" />
+            android:text="Auto car"
+            app:chipStrokeWidth="1dp" />
 
         <com.google.android.material.chip.Chip
-            style="@style/Widget.MaterialComponents.Chip.Filter"
+            style="@style/CustomChipStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="public vechile" />
+            android:text="public vechile"
+            app:chipStrokeWidth="1dp" />
 
         <com.google.android.material.chip.Chip
-            style="@style/Widget.MaterialComponents.Chip.Filter"
+            style="@style/CustomChipStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="tracktor" />
+            android:text="tracktor"
+            app:chipStrokeWidth="1dp" />
 
         <com.google.android.material.chip.Chip
-            style="@style/Widget.MaterialComponents.Chip.Filter"
+            style="@style/CustomChipStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="low weight" />
+            android:text="low weight"
+            app:chipStrokeWidth="1dp" />
 
         <com.google.android.material.chip.Chip
-            style="@style/Widget.MaterialComponents.Chip.Filter"
+            style="@style/CustomChipStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="heavy weight" />
+            android:text="heavy weight"
+            app:chipStrokeWidth="1dp" />
 
     </com.google.android.material.chip.ChipGroup>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="2dp"
-        android:layout_marginHorizontal="8dp"
-        android:background="@drawable/rouned_edittext"
-        android:backgroundTint="@color/shimmer_color" />
-<LinearLayout
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
-    <TextView
+        android:layout_marginHorizontal="8dp" />
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Pick preference:"
-        android:layout_marginEnd="60dp"
-        android:textColor="@color/black_text_color"
-        android:layout_marginVertical="8dp"
-        android:layout_marginStart="8dp"
-        android:textSize="@dimen/_16ssp"
-        android:fontFamily="@font/feather_bold"/>
+        android:orientation="vertical">
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:layout_marginHorizontal="8dp"
-        android:background="@drawable/rouned_edittext"
-        android:backgroundTint="@color/gray_text_color" />
-</LinearLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="60dp"
+            android:fontFamily="@font/feather_bold"
+            android:text="Pick preference:"
+            android:textColor="@color/black_text_color"
+            android:textSize="@dimen/_16ssp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginHorizontal="8dp"
+            android:background="?android:attr/listDivider" />
+    </LinearLayout>
 
     <com.google.android.material.chip.ChipGroup
+        android:id="@+id/cg_preference"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:layout_margin="8dp">
+        android:layout_margin="8dp"
+        app:singleSelection="true">
 
         <com.google.android.material.chip.Chip
-            style="@style/Widget.MaterialComponents.Chip.Filter"
+            style="@style/CustomChipStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="price" />
+
+            android:text="lessonPrice"
+            app:chipStrokeWidth="1dp" />
 
         <com.google.android.material.chip.Chip
-            style="@style/Widget.MaterialComponents.Chip.Filter"
+            style="@style/CustomChipStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="rating" />
+            android:text="rating"
+            app:chipStrokeWidth="1dp" />
 
-        <com.google.android.material.chip.Chip
-            style="@style/Widget.MaterialComponents.Chip.Filter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Newest" />
 
     </com.google.android.material.chip.ChipGroup>
 
@@ -141,8 +148,13 @@
         android:layout_width="match_parent"
         android:layout_height="2dp"
         android:layout_marginHorizontal="8dp"
-        android:background="@drawable/rouned_edittext"
-        android:backgroundTint="@color/gray_text_color" />
+        android:background="?android:attr/listDivider" />
+
+    <View
+        android:id="@+id/divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider" />
 
 
 </LinearLayout>

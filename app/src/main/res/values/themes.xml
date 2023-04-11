@@ -40,4 +40,9 @@
         <item name="android:windowFrame">@null</item>
         <item name="android:windowIsFloating">false</item>
     </style>
+
+    <style name="CustomChipStyle" parent="Widget.MaterialComponents.Chip.Choice">
+        <item name="chipBackgroundColor">@color/chip_background_colo</item>
+        <item name="chipStrokeColor">@color/stroke_color</item>
+    </style>
 </resources>

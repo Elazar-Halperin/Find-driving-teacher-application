@@ -20,6 +20,8 @@
 
     <color name="shimmer_color">#dddddd</color>
 
+    <color name="medium_gray">#d1d1d1</color>
+
 
     // most improtanat
     <color name="black_text_color">#000000</color>
