@@ -22,4 +22,85 @@
     <string name="name_2">Name:</string>
     <string name="search">search</string>
     <string name="home_page">Home Page</string>
+
+    <string-array name="cities">
+        <item>ירושלים והסביבה</item>
+        <item>תל אביב-יפו</item>
+        <item>חיפה</item>
+        <item>ראשון לציון</item>
+        <item>פתח תקווה</item>
+        <item>אשדוד</item>
+        <item>נתניה</item>
+        <item>באר שבע</item>
+        <item>בני ברק</item>
+        <item>חולון</item>
+        <item>רמת גן</item>
+        <item>רחובות</item>
+        <item>אשקלון</item>
+        <item>בית שמש</item>
+        <item>בת ים</item>
+        <item>כפר סבא</item>
+        <item>הרצליה</item>
+        <item>חדרה</item>
+        <item>מודיעין- מכבים- רעות</item>
+        <item>לוד</item>
+        <item>מודיעין עילית</item>
+        <item>נצרת</item>
+        <item>רמלה</item>
+        <item>רעננה</item>
+        <item>רהט</item>
+        <item>ראש העין</item>
+        <item>הוד השרון</item>
+        <item>ביתר עילית</item>
+        <item>גבעתיים</item>
+        <item>קריית אתא</item>
+        <item>נהריה</item>
+        <item>קריית גת</item>
+        <item>אום אל-פחם</item>
+        <item>עפולה</item>
+        <item>אילת</item>
+        <item>נס ציונה</item>
+        <item>עכו</item>
+        <item>אלעד</item>
+        <item>יבנה</item>
+        <item>רמת השרון</item>
+        <item>כרמיאל</item>
+        <item>טבריה</item>
+        <item>קריית מוצקין</item>
+        <item>טייבה</item>
+        <item>שפרעם</item>
+        <item>נוף הגליל</item>
+        <item>קריית ביאליק</item>
+        <item>קריית אונו</item>
+        <item>קריית ים</item>
+        <item>נתיבות</item>
+        <item>מעלה אדומים</item>
+        <item>אור יהודה</item>
+        <item>צפת</item>
+        <item>דימונה</item>
+        <item>טמרה</item>
+        <item>אופקים</item>
+        <item>סחנין</item>
+        <item>באקה אל-גרבייה</item>
+        <item>יהוד-מונוסון</item>
+        <item>שדרות</item>
+        <item>באר יעקב</item>
+        <item>גבעת שמואל</item>
+        <item>ערד</item>
+        <item>טירה</item>
+        <item>עראבה</item>
+        <item>כפר יונה</item>
+        <item>מגדל העמק</item>
+        <item>קריית מלאכי</item>
+        <item>כפר קאסם</item>
+        <item>טירת כרמל</item>
+        <item>יקנעם עילית</item>
+        <item>נשר</item>
+        <item>קלנסווה</item>
+        <item>קריית שמונה</item>
+        <item>מעלות- תרשיחא</item>
+        <item>אריאל</item>
+        <item>אור עקיבא</item>
+        <item>בית שאן</item>
+    </string-array>
 </resources>

@@ -11,10 +11,16 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.ListAdapter;
 import android.widget.Toast;
 
+import com.elazarhalperin.fluentify.Models.TeacherModel;
 import com.elazarhalperin.fluentify.R;
+import com.elazarhalperin.fluentify.helpers.adapters.TeacherHorizontalAdapter;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
@@ -22,8 +28,12 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 
 public class searchFragment extends Fragment {
@@ -33,6 +43,17 @@ public class searchFragment extends Fragment {
     AutoCompleteTextView actv_cities;
     BottomSheetDialog dialog;
     FirebaseFirestore db;
+    ArrayAdapter<String> listCitiesAdapter;
+    List<String> cities;
+
+    List<TeacherModel> teachers;
+    TeacherHorizontalAdapter adapter;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -51,6 +72,7 @@ public class searchFragment extends Fragment {
 
         db = FirebaseFirestore.getInstance();
 
+
         setListeners();
 
     }
@@ -65,7 +87,7 @@ public class searchFragment extends Fragment {
                 return;
             }
             Query query = db.collection("teachers");
-            query = query.whereArrayContains("location", actv_cities.getText().toString());
+            query = query.whereEqualTo("location", actv_cities.getText().toString());
             // Iterating through the chips to see which one is triggered.
             String license = getChoosenChipString(cg_license);
 
@@ -80,8 +102,26 @@ public class searchFragment extends Fragment {
                 query = query.orderBy(preference, Query.Direction.ASCENDING);
             }
 
-            Toast.makeText(getActivity(), query.toString(), Toast.LENGTH_SHORT).show();
+            teachers = new ArrayList<>();
+            adapter = new TeacherHorizontalAdapter(getActivity(), teachers);
+            rv_teachers.setAdapter(adapter);
 
+            query.get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if(task.isSuccessful()) {
+                                for(QueryDocumentSnapshot snapshot : task.getResult()) {
+                                    TeacherModel teacher = new TeacherModel(snapshot.getData());
+                                    Toast.makeText(getActivity(), teacher.toString(), Toast.LENGTH_SHORT).show();
+
+                                    teachers.add(teacher);
+                                }
+
+                                adapter.notifyDataSetChanged();
+                            }
+                        }
+                    });
 
         });
 
@@ -89,12 +129,13 @@ public class searchFragment extends Fragment {
     }
 
     private String getChoosenChipString(ChipGroup chipGroup) {
+        if(chipGroup == null) return "";
 
         for (int i = 0; i < chipGroup.getChildCount(); i++) {
             Chip chip = (Chip) chipGroup.getChildAt(i);
 
             if (chip.isChecked()) {
-                return chip.getText().toString();
+                return chip.getText().toString().trim();
             }
         }
 
@@ -125,5 +166,15 @@ public class searchFragment extends Fragment {
         }
 
         dialog.show();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        cities = Arrays.asList(getResources().getStringArray(R.array.cities));
+
+        listCitiesAdapter = new ArrayAdapter<>(getActivity(),
+                R.layout.list_city_item_layout,new ArrayList<>(cities));
+        actv_cities.setAdapter(listCitiesAdapter);
     }
 }

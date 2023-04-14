@@ -47,10 +47,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Pick a city"
-                    android:text="Jerusalem"
                     android:fontFamily="@font/feather_bold"
-                    android:inputType="none"
-                    android:focusable="false" />
+                    android:inputType="none"/>
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -67,11 +65,14 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_teachers"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginTop="-20dp"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        android:overScrollMode="never"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

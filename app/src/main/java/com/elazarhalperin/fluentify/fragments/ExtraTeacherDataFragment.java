@@ -77,7 +77,6 @@ public class ExtraTeacherDataFragment extends Fragment {
         iv_profileImage = view.findViewById(R.id.iv_profileImage);
         et_name = view.findViewById(R.id.et_teacherName);
         et_extraInfo = view.findViewById(R.id.et_extraInfo);
-        et_teachingPlaces = view.findViewById(R.id.et_whereYouTeach);
         et_lessonPrice = view.findViewById(R.id.et_lessonPrice);
         btn_next = view.findViewById(R.id.btn_next);
 
