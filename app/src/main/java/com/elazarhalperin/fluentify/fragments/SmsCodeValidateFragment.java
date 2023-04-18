@@ -1,7 +1,11 @@
 package com.elazarhalperin.fluentify.fragments;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.icu.util.Calendar;
+import android.icu.util.HebrewCalendar;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -10,6 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
+import android.provider.Telephony;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
@@ -23,6 +28,7 @@ import android.widget.Toast;
 
 import com.elazarhalperin.fluentify.R;
 import com.elazarhalperin.fluentify.activities.HomeActivity;
+import com.elazarhalperin.fluentify.broadcast_receivers.SmsReceiverBroadcastReceiver;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -30,7 +36,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 
-public class SmsCodeValidateFragment extends Fragment {
+public class SmsCodeValidateFragment extends Fragment implements SmsReceiverBroadcastReceiver.SmsVerificationCallback {
 
     LinearLayout ll_etHolder;
     Button btn_confirmSms;
@@ -38,6 +44,21 @@ public class SmsCodeValidateFragment extends Fragment {
     String verificationId, phoneNumber;
 
     NavController navController;
+
+    SmsReceiverBroadcastReceiver broadcastReceiver;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        // Initialize and register your BroadcastReceiver
+        broadcastReceiver = new SmsReceiverBroadcastReceiver();
+
+        broadcastReceiver.setCallback(this);
+
+        IntentFilter filter = new IntentFilter(Telephony.Sms.Intents.SMS_RECEIVED_ACTION);
+        getContext().registerReceiver(broadcastReceiver, filter, Manifest.permission.RECEIVE_SMS, null);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -166,5 +187,59 @@ public class SmsCodeValidateFragment extends Fragment {
         }
 
         return smsCode.toString();
+    }
+
+    @Override
+    public void onVerificationCodeReceived(String verificationCode) {
+        for(int i = 0; i < ll_etHolder.getChildCount(); i++) {
+            EditText editText = (EditText) ll_etHolder.getChildAt(i);
+            editText.setText(String.valueOf(verificationCode.charAt(i)));
+        }
+        if(verificationId != null) {
+            btn_confirmSms.setEnabled(false);
+            PhoneAuthCredential phoneAuthCredential = PhoneAuthProvider.getCredential(verificationId, verificationCode);
+
+            // this code does not actually signIn the user!
+            // it only verifies the verification code!!!!
+            FirebaseAuth.getInstance().signInWithCredential(phoneAuthCredential)
+                    .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if(task.isSuccessful()) {
+                                FirebaseAuth mAuth = FirebaseAuth.getInstance();
+                                // I just wan't to check if the user is typed the right code.
+                                // without it will create another user, which I don't want.
+                                mAuth.getCurrentUser().delete();
+
+                                Toast.makeText(getActivity(), "well done you verified your phone number", Toast.LENGTH_SHORT).show();
+//                                Intent toHome = new Intent(getActivity(), HomeActivity.class);
+//                                startActivity(toHome);
+//                                Intent intent = new Intent();
+//                                intent.putExtra("key", "result");
+//                                getActivity().setResult(Activity.RESULT_OK, intent);
+
+                                Bundle bundle = new Bundle();
+                                bundle.putString("phoneNumber", phoneNumber);
+
+
+                                navController.navigate(R.id.action_smsCodeValidateFragment_to_extraTeacherDataFragment, bundle);
+
+//                                getActivity().finish();
+                            }
+
+                            pb_buttonLoad.setVisibility(View.GONE);
+                            btn_confirmSms.setEnabled(true);
+
+                        }
+                    });
+        }    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+
+        // Unregister your BroadcastReceiver
+        getContext().unregisterReceiver(broadcastReceiver);
+        broadcastReceiver = null;
     }
 }

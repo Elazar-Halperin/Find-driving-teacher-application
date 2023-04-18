@@ -2,10 +2,15 @@ package com.elazarhalperin.fluentify.activities;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 
 import com.elazarhalperin.fluentify.R;
@@ -42,6 +47,21 @@ public class MainSignActivity extends AppCompatActivity {
 
         // set listener to views.
         setListeners();
+        checkForSmsReceivePermissions();
+    }
+
+    void checkForSmsReceivePermissions(){
+        // Check if App already has permissions for receiving SMS
+        if(ContextCompat.checkSelfPermission(getBaseContext(), "android.permission.RECEIVE_SMS") == PackageManager.PERMISSION_GRANTED) {
+            // App has permissions to listen incoming SMS messages
+            Log.d("adnan", "checkForSmsReceivePermissions: Allowed");
+        } else {
+            // App don't have permissions to listen incoming SMS messages
+            Log.d("adnan", "checkForSmsReceivePermissions: Denied");
+
+            // Request permissions from user
+            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.RECEIVE_SMS}, 43391);
+        }
     }
 
     private void setListeners() {
