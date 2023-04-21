@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -14,11 +15,15 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.ListAdapter;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.elazarhalperin.fluentify.Models.TeacherModel;
 import com.elazarhalperin.fluentify.R;
+import com.elazarhalperin.fluentify.helpers.adapters.SectionRecyclerViewAdapter;
 import com.elazarhalperin.fluentify.helpers.adapters.TeacherHorizontalAdapter;
+import com.elazarhalperin.fluentify.helpers.adapters.TeacherSearchResullAdapter;
+import com.facebook.shimmer.ShimmerFrameLayout;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -39,15 +44,20 @@ import java.util.List;
 public class searchFragment extends Fragment {
     FloatingActionButton fab_filter, fab_search;
     RecyclerView rv_teachers;
+    TextView tv_text;
+
     ChipGroup cg_license, cg_preference;
     AutoCompleteTextView actv_cities;
     BottomSheetDialog dialog;
     FirebaseFirestore db;
+
     ArrayAdapter<String> listCitiesAdapter;
     List<String> cities;
 
     List<TeacherModel> teachers;
-    TeacherHorizontalAdapter adapter;
+    TeacherSearchResullAdapter adapter;
+
+    ShimmerFrameLayout shimmerFrameLayout;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,8 +79,19 @@ public class searchFragment extends Fragment {
         fab_filter = v.findViewById(R.id.fab_filter);
         rv_teachers = v.findViewById(R.id.rv_teachers);
         actv_cities = v.findViewById(R.id.actv_choices);
+        tv_text = v.findViewById(R.id.tv_text);
+
+        shimmerFrameLayout = v.findViewById(R.id.shimmer_teacherHolder);
 
         db = FirebaseFirestore.getInstance();
+
+        teachers = new ArrayList<>();
+
+        adapter = new TeacherSearchResullAdapter(getActivity(), teachers);
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
+        rv_teachers.setLayoutManager(layoutManager);
+        rv_teachers.setAdapter(adapter);
+
 
 
         setListeners();
@@ -86,6 +107,9 @@ public class searchFragment extends Fragment {
                 Snackbar.make(getView(), "Please pick a city.", Snackbar.LENGTH_SHORT).show();
                 return;
             }
+
+            tv_text.setVisibility(View.GONE);
+
             Query query = db.collection("teachers");
             query = query.whereEqualTo("location", actv_cities.getText().toString());
             // Iterating through the chips to see which one is triggered.
@@ -93,32 +117,42 @@ public class searchFragment extends Fragment {
 
             if(!license.isEmpty()) {
                 query = query.whereArrayContains("licences", Arrays.asList(license));
-
             }
 
             String preference = getChoosenChipString(cg_preference);
 
             if(!preference.isEmpty()) {
-                query = query.orderBy(preference, Query.Direction.ASCENDING);
+                Toast.makeText(getActivity(), preference, Toast.LENGTH_SHORT).show();
+                query.orderBy(preference, Query.Direction.ASCENDING);
             }
 
-            teachers = new ArrayList<>();
-            adapter = new TeacherHorizontalAdapter(getActivity(), teachers);
-            rv_teachers.setAdapter(adapter);
+            rv_teachers.setVisibility(View.GONE);
+            shimmerFrameLayout.setVisibility(View.VISIBLE);
+            shimmerFrameLayout.startShimmer();
 
             query.get()
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
                             if(task.isSuccessful()) {
+                                teachers.clear();
                                 for(QueryDocumentSnapshot snapshot : task.getResult()) {
                                     TeacherModel teacher = new TeacherModel(snapshot.getData());
-                                    Toast.makeText(getActivity(), teacher.toString(), Toast.LENGTH_SHORT).show();
 
                                     teachers.add(teacher);
                                 }
 
                                 adapter.notifyDataSetChanged();
+
+                                rv_teachers.setVisibility(View.VISIBLE);
+                                shimmerFrameLayout.setVisibility(View.GONE);
+                                shimmerFrameLayout.stopShimmer();
+
+                                if(teachers.isEmpty())
+                                    tv_text.setVisibility(View.VISIBLE);
+
+                            } else {
+                                tv_text.setVisibility(View.VISIBLE);
                             }
                         }
                     });

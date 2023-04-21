@@ -2,14 +2,17 @@ package com.elazarhalperin.fluentify.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
 import android.annotation.SuppressLint;
+import android.icu.util.VersionInfo;
 import android.os.Bundle;
 
 import com.elazarhalperin.fluentify.R;
+import com.elazarhalperin.fluentify.helpers.DarkModeManager;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -28,9 +31,9 @@ public class HomeActivity extends AppCompatActivity {
 
     static String userType;
 
+    DarkModeManager darkModeManager;
 
 
-    @SuppressLint("MissingInflatedId") // for annoying unrelated errors
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +45,13 @@ public class HomeActivity extends AppCompatActivity {
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fcv_holder);
         navController = navHostFragment.getNavController();
 
+        darkModeManager = new DarkModeManager(getApplicationContext());
+        if(darkModeManager.isDarkMode()) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+
         getUserType();
 
     }
@@ -50,9 +60,10 @@ public class HomeActivity extends AppCompatActivity {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseAuth auth = FirebaseAuth.getInstance();
 
+
         db.collection("teachers")
                 .document(auth.getCurrentUser().getUid())
-                .get(Source.CACHE)
+                .get()
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {

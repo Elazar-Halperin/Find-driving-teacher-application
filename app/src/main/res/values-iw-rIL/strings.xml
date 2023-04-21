@@ -10,4 +10,19 @@
     <string name="confirm_password">אשר סיסמה</string>
     <string name="name">שם</string>
     <string name="already_have_an_account">יש לך כבר משתמש?</string>
+    <string name="search">חפש</string>
+    <string name="home_page">דף הבית</string>
+    <string name="settings">הגדרות</string>
+    <string name="home">בית</string>
+    <string name="dark_mode">מצב חשוך</string>
+    <string name="logout">התנתקות</string>
+    <string name="language">שפה</string>
+    <string name="regional">אזורי</string>
+    <string name="change_password">שנה סיסמה</string>
+    <string name="edit_profile">ערוך פרופיל</string>
+    <string name="profile">פרופיל</string>
+    <string name="name_2">שם:</string>
+    <string name="do_you_want_to_be_a_teacher">הירשם בתור מורה</string>
+    <string name="your_profile">הפרופיל שלך</string>
+    <string name="user">משתמש</string>
 </resources>

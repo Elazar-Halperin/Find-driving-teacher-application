@@ -1,73 +1,67 @@
 package com.elazarhalperin.fluentify.fragments;
 
+import android.animation.AnimatorSet;
+import android.animation.LayoutTransition;
+import android.animation.ObjectAnimator;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.graphics.drawable.AnimationDrawable;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.RotateDrawable;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 
+import android.transition.AutoTransition;
+import android.transition.TransitionManager;
+import android.util.LayoutDirection;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.ImageView;
+import android.widget.CompoundButton;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.Registry;
-import com.bumptech.glide.annotation.GlideModule;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.module.AppGlideModule;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
-import com.elazarhalperin.fluentify.Models.StudentModel;
-import com.elazarhalperin.fluentify.Models.TeacherModel;
 import com.elazarhalperin.fluentify.R;
 import com.elazarhalperin.fluentify.activities.MainSignActivity;
-import com.elazarhalperin.fluentify.activities.SettingsActivity;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.elazarhalperin.fluentify.helpers.DarkModeManager;
+import com.elazarhalperin.fluentify.helpers.LanguageManager;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
 
-import java.io.InputStream;
-import java.util.Map;
+import java.util.Locale;
 
 public class UserSettingsFragment extends Fragment {
-    ImageButton ib_toSettings;
-    Button btn_signOut;
-    TextView tv_userName, tv_joinDate;
-    ImageView iv_profileImage;
+    TextView tv_editProfile, tv_changePassword, tv_language, tv_logOut;
+    Switch switch_darkMode;
 
-    String name;
-    String joinDate;
-    String useruid;
-    Bitmap profileImage;
+    RadioGroup rg_holder;
 
-    FirebaseFirestore db;
+    RadioButton rb_english, rb_hebrew;
+
+    LinearLayout linearLayout;
+
     FirebaseAuth auth;
-    FirebaseUser firebaseUser;
+
+    DarkModeManager darkModeManager;
 
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        name = "";
-        joinDate = "";
-
-    }
+    boolean isPressed;
+    boolean isVisible;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -80,78 +74,182 @@ public class UserSettingsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        ib_toSettings = view.findViewById(R.id.ib_toSettings);
+        switch_darkMode = view.findViewById(R.id.darkModeSwitch);
 
-        iv_profileImage = view.findViewById(R.id.iv_profileImage);
+        tv_editProfile = view.findViewById(R.id.tv_editProfile);
+        tv_changePassword = view.findViewById(R.id.tv_changePassword);
+        tv_language = view.findViewById(R.id.tv_language);
+        tv_logOut = view.findViewById(R.id.tv_logOut);
 
-        btn_signOut = view.findViewById(R.id.btn_signOut);
+        rg_holder = view.findViewById(R.id.rg_holder);
+        rb_english = view.findViewById(R.id.rb_english);
+        rb_hebrew = view.findViewById(R.id.rb_hebrew);
 
-        tv_joinDate = view.findViewById(R.id.tv_joinDate);
-        tv_userName = view.findViewById(R.id.tv_profileName);
-
+        linearLayout = view.findViewById(R.id.layout);
 
         auth = FirebaseAuth.getInstance();
-        firebaseUser = auth.getCurrentUser();
-        db = FirebaseFirestore.getInstance();
-        useruid = firebaseUser.getUid();
+
+        darkModeManager = new DarkModeManager(getActivity());
+
+        isPressed = false;
+        isVisible = false;
 
 
-        fillTheFields();
 
+        // smothing the transition when expanding the layout
+        linearLayout.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
 
-        ib_toSettings.setOnClickListener(v -> {
-            Intent i = new Intent(getActivity(), SettingsActivity.class);
-            startActivity(i);
-        });
+        setCurrentMode();
 
-        btn_signOut.setOnClickListener(v -> {
-            auth.signOut();
-            Intent toSign = new Intent(getActivity(), MainSignActivity.class);
-            getActivity().finish();
-            startActivity(toSign);
+        setListeners();
+    }
 
-        });
+    private void setCurrentMode() {
+        boolean isDarkMode = darkModeManager.isDarkMode();
 
-        if(profileImage == null) {
-            getProfileImage();
+        switch_darkMode.setChecked(isDarkMode);
+
+        if (isDarkMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
     }
 
-    private void getProfileImage() {
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference storageRef = storage.getReference("profile_pictures");
-        StorageReference profileImageRef = storageRef.child("profile_image" + useruid+".jpg");
+    private void setListeners() {
+        tv_editProfile.setOnClickListener(v -> {
+            editProfile();
+        });
 
-        final long ONE_MEGABYTE = 1024 * 1024;
-        profileImageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(bytesPrm -> {
-            profileImage = BitmapFactory.decodeByteArray(bytesPrm, 0, bytesPrm.length);
-            iv_profileImage.setImageBitmap(profileImage);
-        }).addOnFailureListener(new OnFailureListener() {
+        tv_changePassword.setOnClickListener(v -> {
+            changePassword();
+        });
+
+        tv_language.setOnClickListener(v -> {
+            changeLanguage();
+        });
+
+
+        tv_logOut.setOnClickListener(v -> {
+            logOut();
+        });
+
+        switch_darkMode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onFailure(@NonNull Exception exception) {
-                iv_profileImage.setImageResource(R.mipmap.ic_launcher);
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                setDarkMode(isChecked);
             }
         });
 
-    }
+        for(int i = 0; i< rg_holder.getChildCount(); i++) {
+            RadioButton rb = (RadioButton) rg_holder.getChildAt(i);
 
-    private void fillTheFields() {
-        db.collection("teachers")
-                .document(auth.getCurrentUser().getUid())
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-                    @Override
-                    public void onSuccess(DocumentSnapshot documentSnapshot) {
-                        setTeacherFields(documentSnapshot.getData());
+            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        switch (rb.getId()) {
+                            case R.id.rb_english:
+                                switchAppLanguage("en");
+                            case R.id.rb_hebrew:
+                                switchAppLanguage("he");
+                        }
                     }
-                });
+                }
+            });
+        }
+
+    }
+
+    private void switchAppLanguage(String language) {
+        Locale locale = new Locale(language);
+        Locale.setDefault(locale);
+
+        Resources resources = getActivity().getResources();
+        Configuration config = resources.getConfiguration();
+        config.setLocale(locale);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            config.setLayoutDirection(locale);
+        }
+        resources.updateConfiguration(config, resources.getDisplayMetrics());
+        // set layout direction
+        if (language.equals("he")) {
+            getActivity().getResources().getConfiguration().setLocale(locale);
+            ViewCompat.setLayoutDirection(getActivity().getWindow().getDecorView(), ViewCompat.LAYOUT_DIRECTION_RTL);
+        } else {
+            getActivity().getResources().getConfiguration().setLocale(locale);
+            ViewCompat.setLayoutDirection(getActivity().getWindow().getDecorView(), ViewCompat.LAYOUT_DIRECTION_LTR);
+        }
+        // after updated recreate all the views...
+        recreate();
+    }
+
+    private void recreate() {
+        getActivity().finish();
+        startActivity(getActivity().getIntent());
+    }
+
+    private void setDarkMode(boolean isDarkMode) {
+        darkModeManager.setDarkMode(isDarkMode);
+        switch_darkMode.setChecked(isDarkMode);
+        if (isDarkMode) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        } else {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+    }
+
+    private void changeLanguage() {
+        animateDrawable();
+        expandRadioGroupAnimation();
+
+        isPressed = !isPressed;
+    }
+
+    private void expandRadioGroupAnimation() {
+        int visibility = !isPressed ? View.VISIBLE : View.GONE;
+
+        TransitionManager.beginDelayedTransition(linearLayout, new AutoTransition());
+        rg_holder.setVisibility(visibility);
+    }
+
+    private void animateDrawable() {
+        int MAX_LEVEL = 10000;
+
+        Drawable[] myTextViewCompoundDrawables = tv_language.getCompoundDrawables();
+        Drawable drawable = myTextViewCompoundDrawables[2]; // assuming the desired drawable is the last one
+
+        if (drawable == null) {
+            Toast.makeText(getActivity(), "its null", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        ObjectAnimator anim = ObjectAnimator.ofInt(drawable, "level", 0, MAX_LEVEL);
+
+        if (!isPressed) {
+            anim.start();
+        } else {
+            anim.reverse();
+        }
+    }
+
+    private void editProfile() {
+    }
+
+    private void changePassword() {
+    }
+
+    /**
+     * First it will LogOut the user from the firebase, second it will close current activity.
+     * lastly it will transfer the user into the MainSignActivity,
+     * where the user can sign or create a user.
+     */
+    private void logOut() {
+        auth.signOut();
+        getActivity().finish();
+        Intent i = new Intent(getActivity(), MainSignActivity.class);
+        startActivity(i);
     }
 
 
-    private void setTeacherFields(Map<String, Object> user) {
-        TeacherModel teacherModel = new TeacherModel(user);
-        tv_joinDate.setText(teacherModel.getSignUpDate());
-        tv_userName.setText(teacherModel.getName());
-
-    }
 }

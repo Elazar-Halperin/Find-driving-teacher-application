@@ -86,6 +86,7 @@ public class MainSignActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == REQUEST_SIGN && resultCode == Activity.RESULT_OK) {
             finish();
+
         }
 
     }
