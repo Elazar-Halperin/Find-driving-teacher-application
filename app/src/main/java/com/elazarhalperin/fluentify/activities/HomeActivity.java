@@ -8,8 +8,12 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
 import android.annotation.SuppressLint;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.icu.util.VersionInfo;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 
 import com.elazarhalperin.fluentify.R;
 import com.elazarhalperin.fluentify.helpers.DarkModeManager;
@@ -24,6 +28,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.Source;
 
+import java.util.Locale;
+
 public class HomeActivity extends AppCompatActivity {
 
     BottomNavigationView bnv_nav;
@@ -33,11 +39,25 @@ public class HomeActivity extends AppCompatActivity {
 
     DarkModeManager darkModeManager;
 
+    SharedPreferences prefs;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
+
+        prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+        String lang = prefs.getString("lang", getResources().getConfiguration().locale.getLanguage());
+
+        Locale locale = new Locale(lang);
+
+        Resources resources = getResources();
+        Configuration configuration = resources.getConfiguration();
+        configuration.setLocale(locale);
+        resources.updateConfiguration(configuration, resources.getDisplayMetrics());
+
 
         bnv_nav = findViewById(R.id.bnv_homeNav);
 

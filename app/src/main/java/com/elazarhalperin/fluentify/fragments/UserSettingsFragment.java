@@ -1,32 +1,29 @@
 package com.elazarhalperin.fluentify.fragments;
 
-import android.animation.AnimatorSet;
 import android.animation.LayoutTransition;
 import android.animation.ObjectAnimator;
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.graphics.drawable.AnimationDrawable;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.RotateDrawable;
 import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.os.ConfigurationCompat;
+import androidx.core.os.LocaleListCompat;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 
+import android.os.LocaleList;
+import android.preference.PreferenceManager;
 import android.transition.AutoTransition;
 import android.transition.TransitionManager;
-import android.util.LayoutDirection;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
@@ -36,11 +33,13 @@ import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+import androidx.core.os.ConfigurationCompat;
+
 
 import com.elazarhalperin.fluentify.R;
 import com.elazarhalperin.fluentify.activities.MainSignActivity;
 import com.elazarhalperin.fluentify.helpers.DarkModeManager;
-import com.elazarhalperin.fluentify.helpers.LanguageManager;
+import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Locale;
@@ -58,6 +57,8 @@ public class UserSettingsFragment extends Fragment {
     FirebaseAuth auth;
 
     DarkModeManager darkModeManager;
+
+    private SharedPreferences prefs;
 
 
     boolean isPressed;
@@ -94,7 +95,15 @@ public class UserSettingsFragment extends Fragment {
         isPressed = false;
         isVisible = false;
 
+        prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
+        String lang = prefs.getString("lang", getActivity().getResources().getConfiguration().locale.getLanguage());
+
+        if(lang.equals("en")) {
+            rb_english.setChecked(true);
+        } else {
+            rb_hebrew.setChecked(true);
+        }
 
         // smothing the transition when expanding the layout
         linearLayout.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
@@ -141,46 +150,32 @@ public class UserSettingsFragment extends Fragment {
             }
         });
 
-        for(int i = 0; i< rg_holder.getChildCount(); i++) {
-            RadioButton rb = (RadioButton) rg_holder.getChildAt(i);
-
-            rb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if (isChecked) {
-                        switch (rb.getId()) {
-                            case R.id.rb_english:
-                                switchAppLanguage("en");
-                            case R.id.rb_hebrew:
-                                switchAppLanguage("he");
-                        }
-                    }
+        rb_english.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked) {
+                    switchAppLanguage("en");
+                    Log.d("loch", "english");
                 }
-            });
-        }
+            }
+        });
+        rb_hebrew.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked) {
+                    switchAppLanguage("he");
+                    Log.d("loch", "hebrew");
+                }
+            }
+        });
 
     }
 
     private void switchAppLanguage(String language) {
-        Locale locale = new Locale(language);
-        Locale.setDefault(locale);
+        // Save the user's language preference to SharedPreferences
+        prefs.edit().putString("lang", language).apply();
 
-        Resources resources = getActivity().getResources();
-        Configuration config = resources.getConfiguration();
-        config.setLocale(locale);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-            config.setLayoutDirection(locale);
-        }
-        resources.updateConfiguration(config, resources.getDisplayMetrics());
-        // set layout direction
-        if (language.equals("he")) {
-            getActivity().getResources().getConfiguration().setLocale(locale);
-            ViewCompat.setLayoutDirection(getActivity().getWindow().getDecorView(), ViewCompat.LAYOUT_DIRECTION_RTL);
-        } else {
-            getActivity().getResources().getConfiguration().setLocale(locale);
-            ViewCompat.setLayoutDirection(getActivity().getWindow().getDecorView(), ViewCompat.LAYOUT_DIRECTION_LTR);
-        }
-        // after updated recreate all the views...
+        // Restart the activity to apply the new language
         recreate();
     }
 
