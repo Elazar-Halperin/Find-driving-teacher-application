@@ -64,12 +64,6 @@
 
     </LinearLayout>
 
-    <View
-        android:id="@+id/divider2"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_margin="2dp"
-        android:background="?android:attr/listDivider" />
     <TextView
         style="@style/viewParent.headerText.settingsMiniTitle"
         android:text="@string/dark_mode"/>
@@ -173,8 +167,8 @@
     <TextView
         android:id="@+id/tv_appVersion"
         style="@style/viewParent.headerText.settingsMiniTitle"
-        android:text="App ver 2.0.1"
-        android:gravity="center"/>
+        android:gravity="center"
+        android:text="App ver 2.0.1" />
 
 
 </LinearLayout>

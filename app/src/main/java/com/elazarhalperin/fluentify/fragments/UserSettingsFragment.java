@@ -4,6 +4,8 @@ import android.animation.LayoutTransition;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
@@ -33,10 +35,12 @@ import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.core.os.ConfigurationCompat;
 
 
 import com.elazarhalperin.fluentify.R;
+import com.elazarhalperin.fluentify.activities.ChangePasswordActivity;
 import com.elazarhalperin.fluentify.activities.MainSignActivity;
 import com.elazarhalperin.fluentify.helpers.DarkModeManager;
 import com.google.firebase.auth.EmailAuthProvider;
@@ -45,7 +49,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.Locale;
 
 public class UserSettingsFragment extends Fragment {
-    TextView tv_editProfile, tv_changePassword, tv_language, tv_logOut;
+    TextView tv_editProfile, tv_changePassword, tv_language, tv_logOut, tv_appVersion;
     Switch switch_darkMode;
 
     RadioGroup rg_holder;
@@ -81,6 +85,7 @@ public class UserSettingsFragment extends Fragment {
         tv_changePassword = view.findViewById(R.id.tv_changePassword);
         tv_language = view.findViewById(R.id.tv_language);
         tv_logOut = view.findViewById(R.id.tv_logOut);
+        tv_appVersion = view.findViewById(R.id.tv_appVersion);
 
         rg_holder = view.findViewById(R.id.rg_holder);
         rb_english = view.findViewById(R.id.rb_english);
@@ -99,7 +104,7 @@ public class UserSettingsFragment extends Fragment {
 
         String lang = prefs.getString("lang", getActivity().getResources().getConfiguration().locale.getLanguage());
 
-        if(lang.equals("en")) {
+        if (lang.equals("en")) {
             rb_english.setChecked(true);
         } else {
             rb_hebrew.setChecked(true);
@@ -108,9 +113,27 @@ public class UserSettingsFragment extends Fragment {
         // smothing the transition when expanding the layout
         linearLayout.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
 
+        signAppVersion();
         setCurrentMode();
 
         setListeners();
+    }
+
+    private void signAppVersion() {
+        // Get the app's package information
+        PackageManager packageManager = getActivity().getPackageManager();
+        PackageInfo packageInfo = null;
+        try {
+            packageInfo = packageManager.getPackageInfo(getActivity().getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        // Get the app's version name
+        String appVersion = packageInfo.versionName;
+        // Set the app's version to a TextView
+        tv_appVersion.setText("App Version " + appVersion);
     }
 
     private void setCurrentMode() {
@@ -153,7 +176,7 @@ public class UserSettingsFragment extends Fragment {
         rb_english.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked) {
+                if (isChecked) {
                     switchAppLanguage("en");
                     Log.d("loch", "english");
                 }
@@ -162,7 +185,7 @@ public class UserSettingsFragment extends Fragment {
         rb_hebrew.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked) {
+                if (isChecked) {
                     switchAppLanguage("he");
                     Log.d("loch", "hebrew");
                 }
@@ -232,6 +255,8 @@ public class UserSettingsFragment extends Fragment {
     }
 
     private void changePassword() {
+        Intent i = new Intent(getActivity(), ChangePasswordActivity.class);
+        startActivity(i);
     }
 
     /**

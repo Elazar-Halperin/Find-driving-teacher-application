@@ -29,6 +29,7 @@
     <string name="regional">Regional</string>
     <string name="language">Language</string>
     <string name="logout">Logout</string>
+    <string name="new_password">New Password</string>
 
     <string-array name="cities">
         <item>ירושלים והסביבה</item>

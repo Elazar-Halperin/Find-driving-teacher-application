@@ -4,7 +4,7 @@ import android.util.Patterns;
 
 import java.util.regex.Pattern;
 
-public class UserSignValidity {
+public abstract class UserSignValidity {
     public static boolean isPasswordValid(String password) {
         if(password == null || password.isEmpty())
             return false;
