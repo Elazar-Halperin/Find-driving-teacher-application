@@ -43,6 +43,7 @@ import com.elazarhalperin.fluentify.R;
 import com.elazarhalperin.fluentify.activities.ChangePasswordActivity;
 import com.elazarhalperin.fluentify.activities.MainSignActivity;
 import com.elazarhalperin.fluentify.helpers.DarkModeManager;
+import com.elazarhalperin.fluentify.helpers.UserTypeHelper;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -63,6 +64,8 @@ public class UserSettingsFragment extends Fragment {
     DarkModeManager darkModeManager;
 
     private SharedPreferences prefs;
+
+    UserTypeHelper userTypeHelper;
 
 
     boolean isPressed;
@@ -96,11 +99,13 @@ public class UserSettingsFragment extends Fragment {
         auth = FirebaseAuth.getInstance();
 
         darkModeManager = new DarkModeManager(getActivity());
+        userTypeHelper = new UserTypeHelper(getActivity());
 
         isPressed = false;
         isVisible = false;
 
         prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+
 
         String lang = prefs.getString("lang", getActivity().getResources().getConfiguration().locale.getLanguage());
 
@@ -266,6 +271,8 @@ public class UserSettingsFragment extends Fragment {
      */
     private void logOut() {
         auth.signOut();
+        userTypeHelper.removeUserType();
+
         getActivity().finish();
         Intent i = new Intent(getActivity(), MainSignActivity.class);
         startActivity(i);

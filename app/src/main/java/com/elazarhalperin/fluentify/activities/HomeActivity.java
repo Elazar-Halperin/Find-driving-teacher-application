@@ -14,9 +14,12 @@ import android.content.res.Resources;
 import android.icu.util.VersionInfo;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.elazarhalperin.fluentify.R;
 import com.elazarhalperin.fluentify.helpers.DarkModeManager;
+import com.elazarhalperin.fluentify.helpers.UserTypeHelper;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -35,7 +38,8 @@ public class HomeActivity extends AppCompatActivity {
     BottomNavigationView bnv_nav;
     NavController navController;
 
-    static String userType;
+
+    UserTypeHelper userTypeHelper;
 
     DarkModeManager darkModeManager;
 
@@ -58,6 +62,8 @@ public class HomeActivity extends AppCompatActivity {
         configuration.setLocale(locale);
         resources.updateConfiguration(configuration, resources.getDisplayMetrics());
 
+        userTypeHelper = new UserTypeHelper(getApplicationContext());
+
 
         bnv_nav = findViewById(R.id.bnv_homeNav);
 
@@ -77,6 +83,10 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     private void getUserType() {
+        if(!userTypeHelper.getUserType().isEmpty()) return;
+
+        Log.d("lcoh", userTypeHelper.getUserType());
+
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseAuth auth = FirebaseAuth.getInstance();
 
@@ -88,14 +98,14 @@ public class HomeActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if(task.getResult().getData() != null) {
-                            userType = "teacher";
+                            userTypeHelper.setUserType("teacher");
                         } else {
                             db.collection("students")
                                     .document(auth.getCurrentUser().getUid())
                                     .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                         @Override
                                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                            userType = "student";
+                                            userTypeHelper.setUserType("student");
                                         }
                                     });
                         }

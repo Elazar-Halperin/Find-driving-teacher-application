@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.elazarhalperin.fluentify.MainActivity;
 import com.elazarhalperin.fluentify.Models.ChatModel;
 import com.elazarhalperin.fluentify.R;
+import com.elazarhalperin.fluentify.helpers.UserTypeHelper;
 import com.elazarhalperin.fluentify.helpers.adapters.ChatsAdapter;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -43,11 +44,19 @@ public class ChatListActivity extends AppCompatActivity {
     ChatsAdapter adapter;
     List<ChatModel> chats;
 
+    UserTypeHelper userTypeHelper;
+    String userType;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        userTypeHelper = new UserTypeHelper(getApplicationContext());
+        userType = userTypeHelper.getUserType();
+
+
         setContentView(R.layout.activity_chat_list);
-        String whichUid = HomeActivity.userType.equals("teacher") ? "teacherUid" : "studentUid";
+        String whichUid = userType.equals("teacher") ? "teacherUid" : "studentUid";
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         chatsQuery = db.collection("chatRooms")

@@ -14,6 +14,7 @@ import com.elazarhalperin.fluentify.Models.StudentModel;
 import com.elazarhalperin.fluentify.Models.UserModel;
 import com.elazarhalperin.fluentify.R;
 import com.elazarhalperin.fluentify.helpers.UserSignValidity;
+import com.elazarhalperin.fluentify.helpers.UserTypeHelper;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -29,6 +30,8 @@ public class SignUpActivity extends AppCompatActivity {
 
     FirebaseAuth auth;
     FirebaseFirestore db;
+
+    UserTypeHelper userTypeHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +51,8 @@ public class SignUpActivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+
+        userTypeHelper = new UserTypeHelper(getApplicationContext());
 
         setListeners();
 
@@ -85,11 +90,11 @@ public class SignUpActivity extends AppCompatActivity {
                         .set(studentModel)
                         .addOnCompleteListener(data -> {
                             if(data.isSuccessful()) {
-
                                 Intent toHome = new Intent(getApplicationContext(), HomeActivity.class);
                                 startActivity(toHome);
                                 Intent intent = new Intent();
                                 intent.putExtra("key", "result");
+                                userTypeHelper.setUserType(UserTypeHelper.STUDENT_TYPE);
                                 setResult(Activity.RESULT_OK, intent);
                                 finish();
                             } else {

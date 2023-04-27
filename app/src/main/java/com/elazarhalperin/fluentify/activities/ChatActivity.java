@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.elazarhalperin.fluentify.Models.ChatModel;
 import com.elazarhalperin.fluentify.R;
+import com.elazarhalperin.fluentify.helpers.UserTypeHelper;
 import com.elazarhalperin.fluentify.helpers.adapters.MessagesAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -57,6 +58,7 @@ public class ChatActivity extends AppCompatActivity {
     private ListenerRegistration chatRoomListener;
 
     FirebaseUser firebaseUser;
+    UserTypeHelper userTypeHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,10 +82,12 @@ public class ChatActivity extends AppCompatActivity {
         rv_messages.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         rv_messages.setAdapter(adapter);
 
-        userType = HomeActivity.userType;
+        userTypeHelper = new UserTypeHelper(getApplicationContext());
+
+        userType = userTypeHelper.getUserType();
         messageTo = getIntent().getStringExtra("messageTo");
-        shtok = HomeActivity.userType.equals("student") ? firebaseUser.getUid() : messageTo;
-        shtok2 = HomeActivity.userType.equals("teacher") ? firebaseUser.getUid() : messageTo;
+        shtok = userType.equals("student") ? firebaseUser.getUid() : messageTo;
+        shtok2 = userType.equals("teacher") ? firebaseUser.getUid() : messageTo;
 
         Log.d("melech", shtok);
         Log.d("sohn", shtok2);

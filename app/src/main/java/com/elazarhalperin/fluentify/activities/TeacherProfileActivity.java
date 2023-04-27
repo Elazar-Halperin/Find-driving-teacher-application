@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.elazarhalperin.fluentify.Models.TeacherModel;
 import com.elazarhalperin.fluentify.R;
+import com.elazarhalperin.fluentify.helpers.UserTypeHelper;
 import com.elazarhalperin.fluentify.helpers.adapters.ReviewsRVAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -59,6 +60,8 @@ public class TeacherProfileActivity extends AppCompatActivity {
 
     FirebaseUser firebaseUser;
 
+    UserTypeHelper userTypeHelper;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +76,8 @@ public class TeacherProfileActivity extends AppCompatActivity {
 
         getWindow().setEnterTransition(fade);
         getWindow().setExitTransition(fade);
+
+        userTypeHelper = new UserTypeHelper(getApplicationContext());
 
 
         iv_teacherProfile = findViewById(R.id.iv_teacherProfile);
@@ -113,29 +118,6 @@ public class TeacherProfileActivity extends AppCompatActivity {
         fillAllTheFields();
 
         setListeners();
-//        new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                    String resource_id = "5c78e9fa-c2e2-4771-93ff-7f400a12f7ba";
-//                    String url = "https://data.gov.il/api/3/action/datastore_search?resource_id=" + resource_id;
-//                    URLConnection connection = new URL(url).openConnection();
-//                    BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-//                    StringBuilder result = new StringBuilder();
-//                    String line;
-//                    while ((line = reader.readLine()) != null) {
-//                        result.append(line);
-//                    }
-//                    reader.close();
-//                    Log.d("cities", result.toString());
-//                } catch (Exception e) {
-//                    Log.d("cities", "error");
-//                    e.printStackTrace();
-//                }
-//            }
-//        }).start();
-
-
     }
 
     private void fillAllTheFields() {
@@ -156,6 +138,11 @@ public class TeacherProfileActivity extends AppCompatActivity {
         });
 
         fab_sendAMessage.setOnClickListener(v-> {
+            if(isTeacher()) {
+                Toast.makeText(getApplicationContext(), "You can't send a message to a teacher!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+
             Intent intent = new Intent(getApplicationContext(), ChatActivity.class);
             intent.putExtra("Teacher", teacher);
             intent.putExtra("messageTo", teacher.getUid());
@@ -163,9 +150,17 @@ public class TeacherProfileActivity extends AppCompatActivity {
         });
 
         fab_addReview.setOnClickListener(v -> {
+            if(isTeacher()) {
+                Toast.makeText(getApplicationContext(), "You can't send a message to a teacher!", Toast.LENGTH_SHORT).show();
+                return;
+            }
             showDialog();
-
         });
+    }
+
+    private boolean isTeacher() {
+        if(userTypeHelper.getUserType().equals(UserTypeHelper.TEACHER_TYPE)) return true;
+        return false;
     }
 
     void showDialog() {

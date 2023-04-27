@@ -20,6 +20,7 @@ import com.elazarhalperin.fluentify.Models.UserModel;
 import com.elazarhalperin.fluentify.R;
 import com.elazarhalperin.fluentify.activities.HomeActivity;
 import com.elazarhalperin.fluentify.helpers.UserSignValidity;
+import com.elazarhalperin.fluentify.helpers.UserTypeHelper;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
@@ -51,6 +52,8 @@ public class FinalSignUpTeacherFragment extends Fragment {
     List<String> licenses;
     double lessonPrice;
     Uri selectedImage;
+
+    UserTypeHelper userTypeHelper;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -88,6 +91,8 @@ public class FinalSignUpTeacherFragment extends Fragment {
         storage = FirebaseStorage.getInstance().getReference("profile_pictures");
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+
+        userTypeHelper = new UserTypeHelper(getActivity());
 
         setListeners();
     }
@@ -129,6 +134,8 @@ public class FinalSignUpTeacherFragment extends Fragment {
                                                     @Override
                                                     public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
                                                         if (task.isSuccessful()) {
+                                                            userTypeHelper.setUserType(UserTypeHelper.TEACHER_TYPE);
+
                                                             Intent toHome = new Intent(getActivity(), HomeActivity.class);
                                                             startActivity(toHome);
                                                             ll_showProgressBar.setVisibility(View.GONE);
@@ -151,8 +158,6 @@ public class FinalSignUpTeacherFragment extends Fragment {
                         ll_showProgressBar.setVisibility(View.GONE);
                         Toast.makeText(getActivity(), "Error accured while sigin up, Pls try again", Toast.LENGTH_SHORT).show();
                     }
-
-                    ll_showProgressBar.setVisibility(View.GONE);
                 });
 
 
