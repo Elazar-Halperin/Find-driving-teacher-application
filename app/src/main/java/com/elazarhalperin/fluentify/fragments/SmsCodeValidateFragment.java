@@ -57,7 +57,7 @@ public class SmsCodeValidateFragment extends Fragment implements SmsReceiverBroa
         broadcastReceiver.setCallback(this);
 
         IntentFilter filter = new IntentFilter(Telephony.Sms.Intents.SMS_RECEIVED_ACTION);
-        getContext().registerReceiver(broadcastReceiver, filter, Manifest.permission.RECEIVE_SMS, null);
+//        getContext().registerReceiver(broadcastReceiver, filter, Manifest.permission.RECEIVE_SMS, null);
     }
 
     @Override
@@ -82,6 +82,7 @@ public class SmsCodeValidateFragment extends Fragment implements SmsReceiverBroa
         phoneNumber = bundle.getString("phoneNumber");
 
         setListeners();
+
 
     }
 
@@ -147,24 +148,23 @@ public class SmsCodeValidateFragment extends Fragment implements SmsReceiverBroa
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if(task.isSuccessful()) {
                                 FirebaseAuth mAuth = FirebaseAuth.getInstance();
-                                // I just wan't to check if the user is typed the right code.
+                                // I just want to check if the user is typed the right code.
                                 // without it will create another user, which I don't want.
-                                mAuth.getCurrentUser().delete();
+                                mAuth.getCurrentUser().delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if(task.isSuccessful()) {
+                                            Toast.makeText(getActivity(), "well done you verified your phone number", Toast.LENGTH_SHORT).show();
 
-                                Toast.makeText(getActivity(), "well done you verified your phone number", Toast.LENGTH_SHORT).show();
-//                                Intent toHome = new Intent(getActivity(), HomeActivity.class);
-//                                startActivity(toHome);
-//                                Intent intent = new Intent();
-//                                intent.putExtra("key", "result");
-//                                getActivity().setResult(Activity.RESULT_OK, intent);
+                                            Bundle bundle = new Bundle();
+                                            bundle.putString("phoneNumber", phoneNumber);
 
-                                Bundle bundle = new Bundle();
-                                bundle.putString("phoneNumber", phoneNumber);
+                                            navController.navigate(R.id.action_smsCodeValidateFragment_to_extraTeacherDataFragment, bundle);
 
+                                        }
+                                    }
+                                });
 
-                                navController.navigate(R.id.action_smsCodeValidateFragment_to_extraTeacherDataFragment, bundle);
-
-//                                getActivity().finish();
                             }
 
                             pb_buttonLoad.setVisibility(View.GONE);

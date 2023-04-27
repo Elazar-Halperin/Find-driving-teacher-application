@@ -34,22 +34,10 @@ import java.util.Map;
 import java.util.Random;
 
 public class TeacherSignActivity extends AppCompatActivity {
-    NavController navController;
-    static String sms_code = "";
-    static String phone_number = "";
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher_sign);
-
-
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-
-    }
 }

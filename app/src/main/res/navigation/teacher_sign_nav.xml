@@ -43,6 +43,6 @@
         <action
             android:id="@+id/action_extraTeacherDataFragment_to_finalSignUpTeacherFragment"
             app:destination="@id/finalSignUpTeacherFragment"
-            app:enterAnim="@android:anim/slide_out_right" />
+            app:enterAnim="@android:anim/slide_in_left" />
     </fragment>
 </navigation>
