@@ -8,13 +8,16 @@ import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.icu.util.VersionInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.elazarhalperin.fluentify.R;
@@ -25,6 +28,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -44,6 +48,8 @@ public class HomeActivity extends AppCompatActivity {
     DarkModeManager darkModeManager;
 
     SharedPreferences prefs;
+
+    int count;
 
 
     @Override
@@ -65,6 +71,8 @@ public class HomeActivity extends AppCompatActivity {
         userTypeHelper = new UserTypeHelper(getApplicationContext());
 
 
+        count = 0;
+
         bnv_nav = findViewById(R.id.bnv_homeNav);
 
         // get the navHost fragment and the navigation controller to use the navbar.
@@ -72,18 +80,33 @@ public class HomeActivity extends AppCompatActivity {
         navController = navHostFragment.getNavController();
 
         darkModeManager = new DarkModeManager(getApplicationContext());
-        if(darkModeManager.isDarkMode()) {
+        if (darkModeManager.isDarkMode()) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         } else {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
+
+        bnv_nav.setOnItemReselectedListener(new NavigationBarView.OnItemReselectedListener() {
+            @Override
+            public void onNavigationItemReselected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.learnFragment:
+                        count++;
+                        Toast.makeText(getApplicationContext(), count + "", Toast.LENGTH_SHORT).show();
+                        if(count >= 20) {
+                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://i.kym-cdn.com/entries/icons/original/000/036/244/kisscover.jpg")));
+                            count = 0;
+                        }
+                }
+            }
+        });
 
         getUserType();
 
     }
 
     private void getUserType() {
-        if(!userTypeHelper.getUserType().isEmpty()) return;
+        if (!userTypeHelper.getUserType().isEmpty()) return;
 
         Log.d("lcoh", userTypeHelper.getUserType());
 
@@ -97,7 +120,7 @@ public class HomeActivity extends AppCompatActivity {
                 .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if(task.getResult().getData() != null) {
+                        if (task.getResult().getData() != null) {
                             userTypeHelper.setUserType("teacher");
                         } else {
                             db.collection("students")

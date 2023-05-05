@@ -12,7 +12,7 @@ public class TeacherModel extends UserModel implements Serializable {
     String location;
     String info;
     String phoneNumber;
-    List<String> licences;
+    List<String> licenses;
     List<HashMap<String, Object>> reviews;
 
     public TeacherModel() {
@@ -26,7 +26,7 @@ public class TeacherModel extends UserModel implements Serializable {
         this.location = location;
         this.info = info;
         this.phoneNumber = phoneNumber;
-        this.licences = licences;
+        this.licenses = licences;
         reviews = new ArrayList<>();
     }
 
@@ -40,7 +40,7 @@ public class TeacherModel extends UserModel implements Serializable {
         this.location = (String) mapTeacher.get("location");
         this.info = (String) mapTeacher.get("info");
         this.phoneNumber = (String) mapTeacher.get("phoneNumber");
-        this.licences = (List<String>) mapTeacher.get("licences");
+        this.licenses = (List<String>) mapTeacher.get("licences");
         this.reviews = (List<HashMap<String, Object>>) mapTeacher.get("reviews");
     }
 
@@ -56,7 +56,7 @@ public class TeacherModel extends UserModel implements Serializable {
         user.put("location",location);
         user.put("info",info);
         user.put("phoneNumber",phoneNumber);
-        user.put("licences",licences);
+        user.put("licences", licenses);
         user.put("reviews", reviews);
         return user;
     }
@@ -69,7 +69,7 @@ public class TeacherModel extends UserModel implements Serializable {
                 ", location='" + location + '\'' +
                 ", info='" + info + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
-                ", licences=" + licences +
+                ", licences=" + licenses +
                 ", uid='" + uid + '\'' +
                 ", name='" + name + '\'' +
                 ", email='" + email + '\'' +
@@ -117,12 +117,12 @@ public class TeacherModel extends UserModel implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
-    public List<String> getLicences() {
-        return licences;
+    public List<String> getLicenses() {
+        return licenses;
     }
 
-    public void setLicences(List<String> licences) {
-        this.licences = licences;
+    public void setLicenses(List<String> licenses) {
+        this.licenses = licenses;
     }
 
     public List<HashMap<String, Object>> getReviews() {

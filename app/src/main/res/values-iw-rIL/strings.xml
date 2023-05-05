@@ -25,4 +25,25 @@
     <string name="do_you_want_to_be_a_teacher">הירשם בתור מורה</string>
     <string name="your_profile">הפרופיל שלך</string>
     <string name="user">משתמש</string>
+
+    <string-array name="licenses_he">
+        <item>רכב ידני</item>
+        <item>רכב אוטומטי</item>
+        <item>טרקטור</item>
+        <item>רכב ציבורי</item>
+        <item>אופנוע</item>
+        <item>משא כבד</item>
+        <item>משא קל</item>
+    </string-array>
+
+    <string-array name="licenses_en">
+        <item>Manual Car</item>
+        <item>Automatic Car</item>
+        <item>Tractor</item>
+        <item>Public Transport</item>
+        <item>Motorcycle</item>
+        <item>Heavy Truck</item>
+        <item>Light Truck</item>
+    </string-array>
+
 </resources>

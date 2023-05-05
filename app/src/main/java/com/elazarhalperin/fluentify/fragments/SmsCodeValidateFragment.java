@@ -57,7 +57,7 @@ public class SmsCodeValidateFragment extends Fragment implements SmsReceiverBroa
         broadcastReceiver.setCallback(this);
 
         IntentFilter filter = new IntentFilter(Telephony.Sms.Intents.SMS_RECEIVED_ACTION);
-//        getContext().registerReceiver(broadcastReceiver, filter, Manifest.permission.RECEIVE_SMS, null);
+        getContext().registerReceiver(broadcastReceiver, filter, Manifest.permission.RECEIVE_SMS, null);
     }
 
     @Override

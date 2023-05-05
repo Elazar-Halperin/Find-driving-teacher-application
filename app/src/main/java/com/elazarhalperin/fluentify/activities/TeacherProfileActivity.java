@@ -2,10 +2,8 @@ package com.elazarhalperin.fluentify.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager2.widget.ViewPager2;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -26,21 +24,16 @@ import com.elazarhalperin.fluentify.R;
 import com.elazarhalperin.fluentify.helpers.UserTypeHelper;
 import com.elazarhalperin.fluentify.helpers.adapters.ReviewsRVAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -84,7 +77,7 @@ public class TeacherProfileActivity extends AppCompatActivity {
 
         tv_teacherName = findViewById(R.id.tv_teacherName);
         tv_teachingLocations = findViewById(R.id.tv_teacherLocations);
-        tv_licenses = findViewById(R.id.tv_licenses);
+        tv_licenses = findViewById(R.id.tv_licenses2);
         tv_rating = findViewById(R.id.tv_ratring);
         tv_teacherInfo = findViewById(R.id.tv_teacherInfo);
         tv_lessonPrice = findViewById(R.id.tv_lessonPrice);
@@ -129,7 +122,11 @@ public class TeacherProfileActivity extends AppCompatActivity {
         tv_teacherInfo.setText(teacher.getInfo());
         tv_rating.setText(teacher.getRating() + "");
         tv_teachingLocations.setText(teacher.getLocation());
-        tv_licenses.setText(String.join(",", teacher.getLicences()));
+        try {
+            tv_licenses.setText(String.join(",", teacher.getLicenses()));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void setListeners() {
@@ -137,8 +134,8 @@ public class TeacherProfileActivity extends AppCompatActivity {
             finish();
         });
 
-        fab_sendAMessage.setOnClickListener(v-> {
-            if(isTeacher()) {
+        fab_sendAMessage.setOnClickListener(v -> {
+            if (isTeacher()) {
                 Toast.makeText(getApplicationContext(), "You can't send a message to a teacher!", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -150,7 +147,7 @@ public class TeacherProfileActivity extends AppCompatActivity {
         });
 
         fab_addReview.setOnClickListener(v -> {
-            if(isTeacher()) {
+            if (isTeacher()) {
                 Toast.makeText(getApplicationContext(), "You can't send a message to a teacher!", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -159,7 +156,7 @@ public class TeacherProfileActivity extends AppCompatActivity {
     }
 
     private boolean isTeacher() {
-        if(userTypeHelper.getUserType().equals(UserTypeHelper.TEACHER_TYPE)) return true;
+        if (userTypeHelper.getUserType().equals(UserTypeHelper.TEACHER_TYPE)) return true;
         return false;
     }
 
@@ -172,7 +169,7 @@ public class TeacherProfileActivity extends AppCompatActivity {
         FloatingActionButton fab_sendReview = dialog.findViewById(R.id.fab_sentReview);
 
 
-        if(isReviewExist()) return;
+        if (isReviewExist()) return;
 
         fab_sendReview.setOnClickListener(v2 -> {
             if (et_review.getText().toString() == null || et_review.getText().toString().isEmpty()) {

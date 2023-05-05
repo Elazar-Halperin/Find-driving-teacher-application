@@ -141,7 +141,7 @@
                         app:srcCompat="@drawable/inventory_24px" />
 
                     <TextView
-                        android:id="@+id/tv_licenses"
+                        android:id="@+id/tv_licenses2"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"

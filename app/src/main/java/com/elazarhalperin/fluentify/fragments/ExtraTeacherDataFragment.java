@@ -13,8 +13,6 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 
-import android.provider.MediaStore;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,11 +27,6 @@ import com.elazarhalperin.fluentify.R;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.chip.ChipGroup;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -45,8 +38,11 @@ public class ExtraTeacherDataFragment extends Fragment {
     AutoCompleteTextView et_teachingPlaces;
     ChipGroup cg_choose, cg_pickedLicenses;
     Button btn_next;
-    List<String> pickedLicenses;
+
+    List<String> pickedLicenses_en;
+    List<String> pickedLicenses_he;
     List<String> cities;
+    List<String> licensesEn;
 
     Uri selectedImage;
 
@@ -80,6 +76,8 @@ public class ExtraTeacherDataFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        String languageCode = getResources().getConfiguration().locale.getLanguage();
+
         cg_choose = view.findViewById(R.id.cg_choose);
         cg_pickedLicenses = view.findViewById(R.id.cg_pickedLicense);
         iv_profileImage = view.findViewById(R.id.iv_profileImage);
@@ -89,11 +87,10 @@ public class ExtraTeacherDataFragment extends Fragment {
         et_lessonPrice = view.findViewById(R.id.et_lessonPrice);
         btn_next = view.findViewById(R.id.btn_next);
 
-        pickedLicenses = new ArrayList<>();
+        pickedLicenses_en = new ArrayList<>();
+        pickedLicenses_he = new ArrayList<>();
 
         navController = Navigation.findNavController(view);
-
-        Bundle bundle = getArguments();
 
         cities = Arrays.asList(getResources().getStringArray(R.array.cities));
 
@@ -103,17 +100,8 @@ public class ExtraTeacherDataFragment extends Fragment {
 
 
 
-        List<String> licenses = new ArrayList<>();
-        licenses.add("A");
-        licenses.add("A1");
-        licenses.add("B");
-        licenses.add("C");
-        licenses.add("C1");
-        licenses.add("E");
-        licenses.add("D");
-        licenses.add("D1");
-        licenses.add("D2");
-        licenses.add("D3");
+        List<String> licenses = Arrays.asList(getResources().getStringArray(languageCode.equals("he") ? R.array.licenses_he : R.array.licenses_en));
+        licensesEn = Arrays.asList(getResources().getStringArray(languageCode.equals("he") ? R.array.licenses_he : R.array.licenses_en));
 
         for (String license : licenses)
             generateChip(license);
@@ -192,7 +180,7 @@ public class ExtraTeacherDataFragment extends Fragment {
         bundle.putDouble("lessonPrice", lessonPrice);
         bundle.putString("locations", locations);
         bundle.putString("phoneNumber", phoneNumber);
-        bundle.putStringArrayList("licenses", (ArrayList<String>) pickedLicenses);
+        bundle.putStringArrayList("licenses", (ArrayList<String>) pickedLicenses_en);
         bundle.putParcelable("selectedImage", selectedImage);
 
         return bundle;
@@ -213,7 +201,7 @@ public class ExtraTeacherDataFragment extends Fragment {
                 cg_choose.removeView(view);
                 chip.setCloseIconVisible(true);
                 cg_pickedLicenses.addView(view);
-                pickedLicenses.add(license);
+                pickedLicenses_en.add(license);
             } catch (Exception e) {
 
             }
@@ -224,7 +212,7 @@ public class ExtraTeacherDataFragment extends Fragment {
             cg_choose.addView(view);
             chip.setChecked(true);
             chip.requestFocus();
-            pickedLicenses.remove(license);
+            pickedLicenses_en.remove(license);
         });
 
         cg_choose.addView(chip);

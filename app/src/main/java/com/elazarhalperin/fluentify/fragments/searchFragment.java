@@ -39,6 +39,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 
 public class searchFragment extends Fragment {
@@ -58,6 +59,8 @@ public class searchFragment extends Fragment {
     TeacherSearchResullAdapter adapter;
 
     ShimmerFrameLayout shimmerFrameLayout;
+
+    String languageCode;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -92,7 +95,9 @@ public class searchFragment extends Fragment {
         rv_teachers.setLayoutManager(layoutManager);
         rv_teachers.setAdapter(adapter);
 
+        languageCode = getResources().getConfiguration().locale.getLanguage(); // get the current language code
 
+        Toast.makeText(getActivity(), languageCode, Toast.LENGTH_SHORT).show();
 
         setListeners();
 
@@ -115,13 +120,24 @@ public class searchFragment extends Fragment {
             // Iterating through the chips to see which one is triggered.
             String license = getChoosenChipString(cg_license);
 
-            if(!license.isEmpty()) {
-                query = query.whereArrayContains("licences", Arrays.asList(license));
+            if (!license.isEmpty()) {
+                List<String> licenses_en = Arrays.asList(getResources().getStringArray( R.array.licenses_en));
+                List<String> licenses_he = Arrays.asList(getResources().getStringArray(R.array.licenses_he));
+
+                int position = licenses_he.indexOf(license);
+                // changing the license to the english language in case of the language is hebrew.
+                if(position != - 1) {
+                    license = licenses_en.get(position);
+                }
+
+                Toast.makeText(getActivity(), license, Toast.LENGTH_SHORT).show();
+
+                query = query.whereArrayContains("licences", license);
             }
 
             String preference = getChoosenChipString(cg_preference);
 
-            if(!preference.isEmpty()) {
+            if (!preference.isEmpty()) {
                 Toast.makeText(getActivity(), preference, Toast.LENGTH_SHORT).show();
                 query.orderBy(preference, Query.Direction.ASCENDING);
             }
@@ -134,12 +150,13 @@ public class searchFragment extends Fragment {
                     .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if(task.isSuccessful()) {
+                            if (task.isSuccessful()) {
                                 teachers.clear();
-                                for(QueryDocumentSnapshot snapshot : task.getResult()) {
+                                for (QueryDocumentSnapshot snapshot : task.getResult()) {
                                     TeacherModel teacher = new TeacherModel(snapshot.getData());
 
                                     teachers.add(teacher);
+
                                 }
 
                                 adapter.notifyDataSetChanged();
@@ -148,7 +165,7 @@ public class searchFragment extends Fragment {
                                 shimmerFrameLayout.setVisibility(View.GONE);
                                 shimmerFrameLayout.stopShimmer();
 
-                                if(teachers.isEmpty())
+                                if (teachers.isEmpty())
                                     tv_text.setVisibility(View.VISIBLE);
 
                             } else {
@@ -163,7 +180,7 @@ public class searchFragment extends Fragment {
     }
 
     private String getChoosenChipString(ChipGroup chipGroup) {
-        if(chipGroup == null) return "";
+        if (chipGroup == null) return "";
 
         for (int i = 0; i < chipGroup.getChildCount(); i++) {
             Chip chip = (Chip) chipGroup.getChildAt(i);
@@ -185,8 +202,11 @@ public class searchFragment extends Fragment {
         cg_license = dialog.findViewById(R.id.cg_license);
         cg_preference = dialog.findViewById(R.id.cg_preference);
 
+        List<String> chosenLicenses = Arrays.asList(getResources().getStringArray(languageCode.equals(new Locale("en").getLanguage()) ? R.array.licenses_en : R.array.licenses_he));
+
         for (int i = 0; i < cg_license.getChildCount(); i++) {
             Chip chip = (Chip) cg_license.getChildAt(i);
+            chip.setText(chosenLicenses.get(i));
             chip.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -208,7 +228,7 @@ public class searchFragment extends Fragment {
         cities = Arrays.asList(getResources().getStringArray(R.array.cities));
 
         listCitiesAdapter = new ArrayAdapter<>(getActivity(),
-                R.layout.list_city_item_layout,new ArrayList<>(cities));
+                R.layout.list_city_item_layout, new ArrayList<>(cities));
         actv_cities.setAdapter(listCitiesAdapter);
     }
 }

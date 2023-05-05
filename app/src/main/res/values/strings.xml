@@ -111,4 +111,24 @@
         <item>אור עקיבא</item>
         <item>בית שאן</item>
     </string-array>
+
+    <string-array name="licenses_en">
+        <item>Manual Car</item>
+        <item>Automatic Car</item>
+        <item>Tractor</item>
+        <item>Public Transport</item>
+        <item>Motorcycle</item>
+        <item>Heavy Truck</item>
+        <item>Light Truck</item>
+    </string-array>
+
+    <string-array name="licenses_he">
+        <item>רכב ידני</item>
+        <item>רכב אוטומטי</item>
+        <item>טרקטור</item>
+        <item>רכב ציבורי</item>
+        <item>אופנוע</item>
+        <item>משא כבד</item>
+        <item>משא קל</item>
+    </string-array>
 </resources>

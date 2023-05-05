@@ -51,7 +51,7 @@ public class TeacherSearchResullAdapter extends RecyclerView.Adapter<TeacherSear
         holder.getTv_locations().setText(teacherModelList.get(position).getLocation());
         holder.getTv_lessonPrice().setText(teacherModelList.get(position).getLessonPrice() + " per lesson.");
         holder.getTv_rating().setText(String.valueOf(teacherModelList.get(position).getRating()));
-        holder.getTv_licenses().setText(teacherModelList.get(position).getLicences().toString());
+        holder.getTv_licenses().setText(teacherModelList.get(position).getLicenses().toString());
 
         holder.getShimmerFrameLayout().startShimmer();
 
