@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -139,7 +140,7 @@ public class searchFragment extends Fragment {
 
             if (!preference.isEmpty()) {
                 Toast.makeText(getActivity(), preference, Toast.LENGTH_SHORT).show();
-                query.orderBy(preference, Query.Direction.ASCENDING);
+                query = query.orderBy(preference, Query.Direction.DESCENDING);
             }
 
             rv_teachers.setVisibility(View.GONE);
@@ -165,11 +166,15 @@ public class searchFragment extends Fragment {
                                 shimmerFrameLayout.setVisibility(View.GONE);
                                 shimmerFrameLayout.stopShimmer();
 
-                                if (teachers.isEmpty())
-                                    tv_text.setVisibility(View.VISIBLE);
+                                if (teachers.isEmpty()) {
+                                }
 
                             } else {
                                 tv_text.setVisibility(View.VISIBLE);
+                                shimmerFrameLayout.stopShimmer();
+                                shimmerFrameLayout.setVisibility(View.GONE);
+                                Log.d("Firestore", "Error getting documents: ", task.getException());
+
                             }
                         }
                     });

@@ -8,222 +8,235 @@
     android:orientation="vertical"
     tools:context=".fragments.ExtraTeacherDataFragment">
 
-    <FrameLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="12dp">
-
-        <androidx.cardview.widget.CardView
-            android:layout_width="wrap_content"
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbarSize="0dp">
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cardBackgroundColor="@color/background_purple"
-            app:cardCornerRadius="1000dp">
-
-            <androidx.cardview.widget.CardView
+            android:orientation="vertical">
+            <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_margin="4dp"
-                app:cardBackgroundColor="@color/background_purple"
-                app:cardCornerRadius="1000dp"
-                app:cardElevation="0dp">
+                android:layout_gravity="center"
+                android:layout_margin="12dp">
 
-                <ImageView
-                    android:id="@+id/iv_profileImage"
-                    android:layout_width="@dimen/_100sdp"
-                    android:layout_height="@dimen/_100sdp"
-                    android:adjustViewBounds="true"
-                    android:scaleType="centerCrop"
-                    android:src="@drawable/proxy" />
-            </androidx.cardview.widget.CardView>
-        </androidx.cardview.widget.CardView>
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="@color/background_purple"
+                    app:cardCornerRadius="1000dp">
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:translationZ="2dp"
-            app:cardBackgroundColor="@color/background_white"
-            app:cardCornerRadius="1000dp"
-            app:cardElevation="0dp">
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="4dp"
+                        app:cardBackgroundColor="@color/background_purple"
+                        app:cardCornerRadius="1000dp"
+                        app:cardElevation="0dp">
 
-            <androidx.cardview.widget.CardView
-                android:layout_width="@dimen/_30sdp"
-                android:layout_height="@dimen/_30sdp"
+                        <ImageView
+                            android:id="@+id/iv_profileImage"
+                            android:layout_width="@dimen/_100sdp"
+                            android:layout_height="@dimen/_100sdp"
+                            android:adjustViewBounds="true"
+                            android:scaleType="centerCrop"
+                            android:src="@drawable/proxy" />
+                    </androidx.cardview.widget.CardView>
+                </androidx.cardview.widget.CardView>
+
+                <androidx.cardview.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:translationZ="2dp"
+                    app:cardBackgroundColor="@color/background_white"
+                    app:cardCornerRadius="1000dp"
+                    app:cardElevation="0dp">
+
+                    <androidx.cardview.widget.CardView
+                        android:layout_width="@dimen/_30sdp"
+                        android:layout_height="@dimen/_30sdp"
+                        android:layout_margin="2dp"
+                        android:elevation="0dp"
+                        app:cardBackgroundColor="@color/background_purple"
+                        app:cardCornerRadius="1000dp"
+                        app:cardElevation="0dp"
+                        app:cardMaxElevation="0dp">
+
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:adjustViewBounds="true"
+                            android:scaleType="centerCrop"
+                            android:scaleX="0.7"
+                            android:scaleY="0.7"
+                            android:src="@drawable/pencil_filled24px"
+                            app:tint="@color/white" />
+                    </androidx.cardview.widget.CardView>
+
+                </androidx.cardview.widget.CardView>
+            </FrameLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="?android:attr/listDivider"
+                android:backgroundTint="@color/black" />
+
+            <EditText
+                android:id="@+id/et_teacherName"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_40sdp"
+                android:layout_margin="8dp"
+                android:background="@null"
+                android:ems="10"
+                android:fontFamily="@font/feather_bold"
+                android:hint="@string/name_2"
+                android:inputType="textPersonName"
+                android:padding="8dp"
+                android:textColor="@color/black_text_color"
+                android:textSize="@dimen/_20ssp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="?android:attr/listDivider"
+                android:backgroundTint="@color/black" />
+
+            <EditText
+                android:id="@+id/et_extraInfo"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_100sdp"
+                android:layout_margin="8dp"
+                android:background="@null"
+                android:ems="4"
+                android:fontFamily="@font/feather_bold"
+                android:gravity="top"
+                android:hint="@string/give_some_information_about_you"
+                android:textColor="@color/black_text_color"
+                android:inputType="textPersonName|textMultiLine"
+                android:scrollbarThumbHorizontal="@null"
+                android:scrollHorizontally="false"
+                android:singleLine="false"
+                android:textSize="@dimen/_14ssp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="?android:attr/listDivider"
+                android:backgroundTint="@color/black" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_margin="2dp"
-                android:elevation="0dp"
-                app:cardBackgroundColor="@color/background_purple"
-                app:cardCornerRadius="1000dp"
-                app:cardElevation="0dp"
-                app:cardMaxElevation="0dp">
+                app:boxStrokeWidth="0dp"
+                app:boxStrokeWidthFocused="0dp"
+                android:textColorHint="@color/gray_text_color"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
 
-                <ImageView
+                <AutoCompleteTextView
+                    android:id="@+id/et_whereYouTeach"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:adjustViewBounds="true"
-                    android:scaleType="centerCrop"
-                    android:scaleX="0.7"
-                    android:scaleY="0.7"
-                    android:src="@drawable/pencil_filled24px"
-                    app:tint="@color/white" />
-            </androidx.cardview.widget.CardView>
+                    android:layout_height="wrap_content"
+                    android:hint="@string/pick_a_city"
+                    android:fontFamily="@font/feather_bold"
+                    android:inputType="none"
+                    android:focusable="false" />
+            </com.google.android.material.textfield.TextInputLayout>
 
-        </androidx.cardview.widget.CardView>
-    </FrameLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="?android:attr/listDivider"
-        android:backgroundTint="@color/black" />
-
-    <EditText
-        android:id="@+id/et_teacherName"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_40sdp"
-        android:layout_margin="8dp"
-        android:background="@null"
-        android:ems="10"
-        android:fontFamily="@font/feather_bold"
-        android:hint="@string/name_2"
-        android:inputType="textPersonName"
-        android:padding="8dp"
-        android:textColor="@color/black_text_color"
-        android:textSize="@dimen/_20ssp" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="?android:attr/listDivider"
-        android:backgroundTint="@color/black" />
-
-    <EditText
-        android:id="@+id/et_extraInfo"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_100sdp"
-        android:layout_margin="8dp"
-        android:background="@null"
-        android:ems="4"
-        android:fontFamily="@font/feather_bold"
-        android:gravity="top"
-        android:hint="Give some information about you:"
-        android:textColor="@color/black_text_color"
-        android:inputType="textPersonName|textMultiLine"
-        android:scrollbarThumbHorizontal="@null"
-        android:scrollHorizontally="false"
-        android:singleLine="false"
-        android:textSize="@dimen/_14ssp" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="?android:attr/listDivider"
-        android:backgroundTint="@color/black" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="2dp"
-        android:textColorHint="@color/gray_text_color"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.ExposedDropdownMenu">
-
-        <AutoCompleteTextView
-            android:id="@+id/et_whereYouTeach"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Pick a city"
-            android:fontFamily="@font/feather_bold"
-            android:inputType="none"
-            android:focusable="false" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-<!--    <EditText-->
-<!--        android:id="@+id/et_whereYouTeach"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="@dimen/_40sdp"-->
-<!--        android:layout_margin="8dp"-->
-<!--        android:background="@null"-->
-<!--        android:ems="2"-->
-<!--        android:fontFamily="@font/feather_bold"-->
-<!--        android:gravity="start"-->
-<!--        android:hint="Where do you give your lessons?"-->
-<!--        android:inputType="textPersonName|textMultiLine"-->
-<!--        android:scrollbarThumbHorizontal="@null"-->
-<!--        android:scrollHorizontally="false"-->
-<!--        android:singleLine="false"-->
-<!--        android:textSize="@dimen/_14ssp" />-->
+            <!--    <EditText-->
+            <!--        android:id="@+id/et_whereYouTeach"-->
+            <!--        android:layout_width="match_parent"-->
+            <!--        android:layout_height="@dimen/_40sdp"-->
+            <!--        android:layout_margin="8dp"-->
+            <!--        android:background="@null"-->
+            <!--        android:ems="2"-->
+            <!--        android:fontFamily="@font/feather_bold"-->
+            <!--        android:gravity="start"-->
+            <!--        android:hint="Where do you give your lessons?"-->
+            <!--        android:inputType="textPersonName|textMultiLine"-->
+            <!--        android:scrollbarThumbHorizontal="@null"-->
+            <!--        android:scrollHorizontally="false"-->
+            <!--        android:singleLine="false"-->
+            <!--        android:textSize="@dimen/_14ssp" />-->
 
 
 
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="?android:attr/listDivider"
-        android:backgroundTint="@color/black" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="?android:attr/listDivider"
+                android:backgroundTint="@color/black" />
 
-    <EditText
-        android:id="@+id/et_lessonPrice"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/_30sdp"
-        android:layout_margin="8dp"
-        android:background="@null"
-        android:ems="1"
-        android:textColor="@color/black_text_color"
-        android:fontFamily="@font/feather_bold"
-        android:gravity="center|start"
-        android:hint="How much do you take per lesson?"
-        android:inputType="numberDecimal"
-        android:scrollbarThumbHorizontal="@null"
-        android:scrollHorizontally="false"
-        android:singleLine="true"
-        android:textSize="@dimen/_14ssp" />
+            <EditText
+                android:id="@+id/et_lessonPrice"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_30sdp"
+                android:layout_margin="8dp"
+                android:background="@null"
+                android:ems="1"
+                android:textColor="@color/black_text_color"
+                android:fontFamily="@font/feather_bold"
+                android:gravity="center|start"
+                android:hint="@string/how_much_do_you_take_per_lesson"
+                android:inputType="numberDecimal"
+                android:scrollbarThumbHorizontal="@null"
+                android:scrollHorizontally="false"
+                android:singleLine="true"
+                android:textSize="@dimen/_14ssp" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="?android:attr/listDivider"
-        android:backgroundTint="@color/black" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:background="?android:attr/listDivider"
+                android:backgroundTint="@color/black" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
 
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/cg_pickedLicense"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="8dp" />
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/cg_pickedLicense"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="8dp"
-            android:fontFamily="@font/feather_bold"
-            android:gravity="center"
-            android:text="choose the licenses that you teach"
-            android:textColor="@color/black_text_color"
-            android:textSize="18sp" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="8dp"
+                    android:fontFamily="@font/feather_bold"
+                    android:gravity="center"
+                    android:text="@string/choose_the_licenses_that_you_teach"
+                    android:textColor="@color/black_text_color"
+                    android:textSize="18sp" />
 
-        <com.google.android.material.chip.ChipGroup
-            android:id="@+id/cg_choose"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="8dp" />
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/cg_choose"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="8dp" />
 
-    </LinearLayout>
+            </LinearLayout>
 
-    <Button
-        android:id="@+id/btn_next"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_margin="20dp"
-        android:background="@drawable/rouned_edittext"
-        android:clickable="true"
-        android:paddingHorizontal="50dp"
-        android:text="next"
-        app:backgroundTint="@color/background_purple" />
+            <Button
+                android:id="@+id/btn_next"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="20dp"
+                android:background="@drawable/rouned_edittext"
+                android:clickable="true"
+                android:paddingHorizontal="50dp"
+                android:text="@string/next"
+                app:backgroundTint="@color/background_purple" />
+
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

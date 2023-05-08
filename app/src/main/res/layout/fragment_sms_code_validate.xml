@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:fontFamily="@font/feather_bold"
             android:gravity="center"
-            android:text="Sms verification"
+            android:text="@string/sms_verification"
             android:textColor="@color/white"
             android:textSize="@dimen/_22ssp" />
 
@@ -39,7 +39,7 @@
             android:fontFamily="@font/feather_bold"
             android:gravity="center"
             android:padding="8dp"
-            android:text="PLease enter the code that we have sent you in SMS."
+            android:text="@string/please_enter_the_code_that_we_have_sent_you_in_sms"
             android:textColor="#E8F2F2F2"
             android:textSize="@dimen/_12ssp" />
 
@@ -173,7 +173,7 @@
             android:background="@drawable/rouned_edittext"
             android:clickable="true"
             android:paddingHorizontal="50dp"
-            android:text="Confirm"
+            android:text="@string/confirm"
             app:backgroundTint="@color/background_purple" />
         <ProgressBar
             android:id="@+id/pb_buttonLoad"

@@ -30,6 +30,7 @@ import com.google.android.material.chip.ChipGroup;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 public class ExtraTeacherDataFragment extends Fragment {
     private static final int GO_TO_GALLERY_CODE = 121;
@@ -43,6 +44,7 @@ public class ExtraTeacherDataFragment extends Fragment {
     List<String> pickedLicenses_he;
     List<String> cities;
     List<String> licensesEn;
+    List<String> licensesHe;
 
     Uri selectedImage;
 
@@ -100,8 +102,9 @@ public class ExtraTeacherDataFragment extends Fragment {
 
 
 
-        List<String> licenses = Arrays.asList(getResources().getStringArray(languageCode.equals("he") ? R.array.licenses_he : R.array.licenses_en));
-        licensesEn = Arrays.asList(getResources().getStringArray(languageCode.equals("he") ? R.array.licenses_he : R.array.licenses_en));
+        List<String> licenses = Arrays.asList(getResources().getStringArray(languageCode.equals(new Locale("he").getLanguage()) ? R.array.licenses_he : R.array.licenses_en));
+        licensesEn = Arrays.asList(getResources().getStringArray(R.array.licenses_en));
+        licensesHe = Arrays.asList(getResources().getStringArray(R.array.licenses_he));
 
         for (String license : licenses)
             generateChip(license);
@@ -201,7 +204,14 @@ public class ExtraTeacherDataFragment extends Fragment {
                 cg_choose.removeView(view);
                 chip.setCloseIconVisible(true);
                 cg_pickedLicenses.addView(view);
-                pickedLicenses_en.add(license);
+                // if the license is string is in hebrew then we convert it into english
+                int position = licensesHe.indexOf(license);
+                if(position >= 0) {
+                    pickedLicenses_en.add(licensesEn.get(position));
+                } else {
+                    // if its not in hebrew then we simply add it into the license picked
+                    pickedLicenses_en.add(license);
+                }
             } catch (Exception e) {
 
             }
@@ -212,7 +222,12 @@ public class ExtraTeacherDataFragment extends Fragment {
             cg_choose.addView(view);
             chip.setChecked(true);
             chip.requestFocus();
-            pickedLicenses_en.remove(license);
+            int position = licensesHe.indexOf(license);
+            if(position >= 0) {
+                pickedLicenses_en.remove(licensesEn.get(position));
+            } else {
+                pickedLicenses_en.remove(license);
+            }
         });
 
         cg_choose.addView(chip);

@@ -30,6 +30,14 @@
     <string name="language">Language</string>
     <string name="logout">Logout</string>
     <string name="new_password">New Password</string>
+    <string name="confirm">Confirm</string>
+    <string name="sms_verification">Sms verification</string>
+    <string name="please_enter_the_code_that_we_have_sent_you_in_sms">PLease enter the code that we have sent you in SMS.</string>
+    <string name="give_some_information_about_you">Give some information about you:</string>
+    <string name="pick_a_city">Pick a city</string>
+    <string name="how_much_do_you_take_per_lesson">How much do you take per lesson?</string>
+    <string name="choose_the_licenses_that_you_teach">choose the licenses that you teach</string>
+    <string name="next">next</string>
 
     <string-array name="cities">
         <item>ירושלים והסביבה</item>
