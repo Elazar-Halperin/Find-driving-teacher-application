@@ -41,6 +41,17 @@
             android:visibility="visible"
             motion:layout_constraintBottom_toBottomOf="parent"
             motion:layout_constraintEnd_toEndOf="parent"/>
+        <Constraint
+            android:id="@+id/fab_sendAMessage"
+            android:scaleX="1.1"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:scaleY="1.1"
+            android:translationZ="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            motion:layout_constraintBottom_toBottomOf="@+id/iv_teacherProfile"
+            android:layout_marginEnd="36dp"
+            android:visibility="visible" />
 
 
     </ConstraintSet>
@@ -92,7 +103,8 @@
             android:scaleX="0"
             android:scaleY="0"
             android:alpha="0"
-            motion:transitionEasing="cubic(1,0,1,0)" />
+            android:translationZ="10dp"
+            motion:transitionEasing="cubic(0,1,0,1)" />
 
     </ConstraintSet>
 </MotionScene>

@@ -5,12 +5,13 @@
     app:cardCornerRadius="12dp"
     android:layout_margin="4dp"
     android:id="@+id/cv_container"
-    android:background="@color/background_main"
+    android:background="@color/background_dark"
     android:layout_height="wrap_content">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@color/background_dark"
         android:orientation="vertical">
         <FrameLayout
             android:layout_width="170dp"
@@ -44,7 +45,7 @@
             android:gravity="center"
             android:maxLines="1"
             android:fontFamily="@font/feather_bold"
-            android:textColor="@color/black"
+            android:textColor="@color/black_text_color"
             android:transitionName="teacherName"
             android:textSize="@dimen/_14ssp"
             android:ellipsize="end"/>
@@ -68,7 +69,7 @@
                 android:text="Jerusalem, lood, hadera, hello"
                 android:fontFamily="@font/feather_bold"
                 android:gravity="center"
-                android:textColor="@color/black"
+                android:textColor="@color/black_text_color"
                 android:textSize="@dimen/_10ssp"
                 android:lines="2"
                 android:maxLines="2"

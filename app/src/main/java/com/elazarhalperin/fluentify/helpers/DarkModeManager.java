@@ -18,11 +18,20 @@ public class DarkModeManager {
         editor = sp.edit();
     }
 
+    /**
+     * @param isDarkMode boolean type
+     * sets the dark mode to the boolean that was typed
+     * if true then dark mode is on
+     * else dark mode is off.
+     */
     public void setDarkMode(boolean isDarkMode) {
         editor.putBoolean(DARK_MODE_BOOLEAN, isDarkMode);
         editor.commit();
     }
 
+    /**
+     * @return is dark mode is on.
+     */
     public boolean isDarkMode() {
         return sp.getBoolean(DARK_MODE_BOOLEAN, false);
     }

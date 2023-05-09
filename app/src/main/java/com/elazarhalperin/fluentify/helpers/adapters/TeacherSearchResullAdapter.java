@@ -49,7 +49,7 @@ public class TeacherSearchResullAdapter extends RecyclerView.Adapter<TeacherSear
     public void onBindViewHolder(@NonNull HorizontalViewHolder holder, int position) {
         holder.getTv_teacherName().setText(teacherModelList.get(position).getName());
         holder.getTv_locations().setText(teacherModelList.get(position).getLocation());
-        holder.getTv_lessonPrice().setText(teacherModelList.get(position).getLessonPrice() + " per lesson.");
+        holder.getTv_lessonPrice().setText(teacherModelList.get(position).getLessonPrice() + context.getString(R.string.per_lesson));
         holder.getTv_rating().setText(String.valueOf(teacherModelList.get(position).getRating()));
         holder.getTv_licenses().setText(teacherModelList.get(position).getLicenses().toString());
 

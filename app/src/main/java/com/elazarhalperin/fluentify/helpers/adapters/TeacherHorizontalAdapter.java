@@ -22,7 +22,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.elazarhalperin.fluentify.Models.TeacherModel;
 import com.elazarhalperin.fluentify.R;
 import com.elazarhalperin.fluentify.activities.TeacherProfileActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
@@ -48,41 +50,45 @@ public class TeacherHorizontalAdapter extends RecyclerView.Adapter<TeacherHorizo
 
     @Override
     public void onBindViewHolder(@NonNull HorizontalViewHolder holder, int position) {
+        // put all the text in the TextViews.
         holder.getTv_teacherName().setText(teacherModelList.get(position).getName());
         holder.getTv_locations().setText(teacherModelList.get(position).getLocation());
 
+        // get the reference of the storage where the profile image is stored.
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference("profile_pictures");
-        StorageReference profileImageRef = storageRef.child("profile_image" + teacherModelList.get(position).getUid()+".jpg");
+        StorageReference profileImageRef = storageRef.child("profile_image" + teacherModelList.get(position).getUid() + ".jpg");
 
         final Bitmap[] bmp = new Bitmap[1];
         final long ONE_MEGABYTE = 1024 * 1024;
 
+        // download the image from the firebase storage and put it in the bitmap.
         profileImageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(bytesPrm -> {
             bmp[0] = BitmapFactory.decodeByteArray(bytesPrm, 0, bytesPrm.length);
-            bmp[0] = Bitmap.createScaledBitmap(bmp[0], bmp[0].getWidth() /4, bmp[0].getHeight() / 4, true);
+            bmp[0] = Bitmap.createScaledBitmap(bmp[0], bmp[0].getWidth() / 5, bmp[0].getHeight() / 5, true);
 
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             bmp[0].compress(Bitmap.CompressFormat.PNG, 100, stream);
-
             holder.getIv_teacherProfile().setImageBitmap(bmp[0]);
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
-                 bmp[0] =  BitmapFactory.decodeResource(context.getResources(), R.drawable.person_draw);
-
-                holder.getIv_teacherProfile().setImageResource(R.drawable.person_draw);
+                bmp[0] = BitmapFactory.decodeResource(context.getResources(), R.drawable.person_draw);
+                holder.getIv_teacherProfile().setImageBitmap(bmp[0]);
             }
         });
 
-        holder.getCv_container().setOnClickListener( v-> {
+
+        holder.getCv_container().setOnClickListener(v -> {
             Intent intent = new Intent(context, TeacherProfileActivity.class);
 
-            ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context);
-            intent.putExtra("profile_image", bmp[0]);
+            try {
+                intent.putExtra("profile_image", bmp[0]);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             intent.putExtra("teacher", teacherModelList.get(position));
-
-            context.startActivity(intent, options.toBundle());
+            context.startActivity(intent);
         });
     }
 

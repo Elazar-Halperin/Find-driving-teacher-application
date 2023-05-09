@@ -38,6 +38,7 @@
     <string name="how_much_do_you_take_per_lesson">How much do you take per lesson?</string>
     <string name="choose_the_licenses_that_you_teach">choose the licenses that you teach</string>
     <string name="next">next</string>
+    <string name="per_lesson">" per lesson."</string>
 
     <string-array name="cities">
         <item>ירושלים והסביבה</item>

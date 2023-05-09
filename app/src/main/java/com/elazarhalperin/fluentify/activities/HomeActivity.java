@@ -7,33 +7,26 @@ import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 import androidx.navigation.ui.NavigationUI;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.icu.util.VersionInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.elazarhalperin.fluentify.R;
 import com.elazarhalperin.fluentify.helpers.DarkModeManager;
 import com.elazarhalperin.fluentify.helpers.UserTypeHelper;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreSettings;
-import com.google.firebase.firestore.Source;
 
 import java.util.Locale;
 
@@ -57,6 +50,7 @@ public class HomeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home);
 
+        // set the current language.
         prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
         String lang = prefs.getString("lang", getResources().getConfiguration().locale.getLanguage());
@@ -79,6 +73,7 @@ public class HomeActivity extends AppCompatActivity {
         NavHostFragment navHostFragment = (NavHostFragment) getSupportFragmentManager().findFragmentById(R.id.fcv_holder);
         navController = navHostFragment.getNavController();
 
+        // Set the dark mode.
         darkModeManager = new DarkModeManager(getApplicationContext());
         if (darkModeManager.isDarkMode()) {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
@@ -92,7 +87,6 @@ public class HomeActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.learnFragment:
                         count++;
-                        Toast.makeText(getApplicationContext(), count + "", Toast.LENGTH_SHORT).show();
                         if(count >= 20) {
                             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://i.kym-cdn.com/entries/icons/original/000/036/244/kisscover.jpg")));
                             count = 0;
@@ -101,18 +95,21 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-        getUserType();
+        setUserType();
 
     }
 
-    private void getUserType() {
+    /**
+     * the function will first check if the application have already user type.
+     * if it has then we will quit from the function.
+     * Otherwise we will go to the firebase with the current uid and will get the
+     * user type in case of we don't have usertype.
+     */
+    private void setUserType() {
         if (!userTypeHelper.getUserType().isEmpty()) return;
-
-        Log.d("lcoh", userTypeHelper.getUserType());
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         FirebaseAuth auth = FirebaseAuth.getInstance();
-
 
         db.collection("teachers")
                 .document(auth.getCurrentUser().getUid())

@@ -35,14 +35,17 @@ public class ReviewsRVAdapter extends RecyclerView.Adapter<ReviewsRVAdapter.Revi
 
     @Override
     public void onBindViewHolder(@NonNull ReviewHolder holder, int position) {
+        // Get views.
         final ImageView iv_reviewerProfile = holder.getIv_reviewerProfile();
         final RatingBar rb_teacherRate = holder.getRb_teacherRate();
         final TextView tv_reviewerName = holder.getTv_reviewerName();
         final TextView tv_review = holder.getTv_review();
         final TextView tv_reviewDate = holder.getTv_reviewDate();
 
+        // Get the review object.
         HashMap<String, Object> review = reviews.get(position);
 
+        // set text into the review layout..
         rb_teacherRate.setRating(((Double) review.get("rating")).floatValue());
         tv_review.setText(review.get("review").toString());
         tv_reviewDate.setText(review.get("reviewDate").toString());

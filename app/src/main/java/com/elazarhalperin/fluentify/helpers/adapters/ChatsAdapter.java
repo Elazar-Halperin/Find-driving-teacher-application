@@ -50,10 +50,14 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.Holder> {
 
     @Override
     public void onBindViewHolder(@NonNull Holder holder, int position) {
+        // get the views.
         final TextView tv_chatName = holder.getTv_chatName();
         final ImageView iv_chatProfile = holder.getIv_chatProfile();
         final LinearLayout ll_container = holder.getLl_container();
-        String messageTo = "";
+
+        // Check if the user is student or teacher so we can figure out weather
+        // you sending a message to a teacher or a student.
+        String messageTo;
         boolean isUserStudent = chats.get(position).getStudentUid().equals(uid);
         if(isUserStudent) {
             messageTo = chats.get(position).getTeacherUid();
@@ -61,11 +65,14 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.Holder> {
             messageTo = chats.get(position).getStudentUid();
         }
 
-        Log.d("Melech", "{ messageTo: " + messageTo +"\nmy uid: " + uid +"}");
-        String finalMessageTo = messageTo;
-
+        // Get the reference to the document where the user is stored.
+        // user can be stored in teachers collection and students.
+        // by using the '?' operator we can pu an if condition that will give where the other user is stored.
+        // if the current user is student then the other is teacher.
         DocumentReference ref = FirebaseFirestore.getInstance().collection(isUserStudent ? "teachers" : "students").document(messageTo);
 
+        // Get the user that have a chat with you
+        // so you can put his name into the chat layout textview.
         ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -73,16 +80,16 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.Holder> {
                     UserModel user = task.getResult().toObject(UserModel.class);
                     tv_chatName.setText(user.getName());
                 } else {
-
+                    tv_chatName.setText(messageTo);
                 }
             }
         });
 
-
+        // set click listener on the layout.
         ll_container.setOnClickListener(v-> {
             Intent i = new Intent(context, ChatActivity.class);
             i.putExtra("chatRoomId", chats.get(position).getId());
-            i.putExtra("messageTo", finalMessageTo);
+            i.putExtra("messageTo", messageTo);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // Add this line to set the flag
             context.startActivity(i);
         });

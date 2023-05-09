@@ -10,8 +10,10 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.View;
 import android.view.WindowManager;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.elazarhalperin.fluentify.Models.ChatModel;
@@ -45,6 +47,7 @@ import java.util.Map;
 public class ChatActivity extends AppCompatActivity {
     EditText et_message;
     FloatingActionButton fab_sendTheMessage, fab_goBack;
+    ProgressBar progressBar;
 
     RecyclerView rv_messages;
     MessagesAdapter adapter;
@@ -74,6 +77,7 @@ public class ChatActivity extends AppCompatActivity {
         fab_sendTheMessage = findViewById(R.id.fab_sendTheMessage);
         rv_messages = findViewById(R.id.rv_messages);
         fab_goBack = findViewById(R.id.fab_goBack);
+        progressBar = findViewById(R.id.progressBar);
 
         messages = new ArrayList<>();
 
@@ -82,12 +86,16 @@ public class ChatActivity extends AppCompatActivity {
         rv_messages.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         rv_messages.setAdapter(adapter);
 
+        rv_messages.setVisibility(View.GONE);
+
         userTypeHelper = new UserTypeHelper(getApplicationContext());
 
         userType = userTypeHelper.getUserType();
         messageTo = getIntent().getStringExtra("messageTo");
         shtok = userType.equals("student") ? firebaseUser.getUid() : messageTo;
         shtok2 = userType.equals("teacher") ? firebaseUser.getUid() : messageTo;
+
+        fab_sendTheMessage.setEnabled(false);
 
         Log.d("melech", shtok);
         Log.d("sohn", shtok2);
@@ -108,12 +116,18 @@ public class ChatActivity extends AppCompatActivity {
                                 messages = chatRoom.getMessages();
                                 // Show chat UI with messages
                                 adapter = new MessagesAdapter(getApplicationContext(), messages, firebaseUser.getUid());
+
+                                rv_messages.setVisibility(View.VISIBLE);
+                                progressBar.setVisibility(View.GONE);
+
                                 rv_messages.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                                 rv_messages.setAdapter(adapter);
                                 rv_messages.scrollToPosition(messages.size() - 1); // Scroll to the last message
+                                fab_sendTheMessage.setEnabled(true);
 
                                 addChatRoomSnapshotListener();
                             } else {
+                                fab_sendTheMessage.setEnabled(true);
                                 Log.d("fuck you", "we didnt find");
                             }
                         }

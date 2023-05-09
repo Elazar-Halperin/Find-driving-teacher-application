@@ -26,6 +26,7 @@
     <string name="your_profile">הפרופיל שלך</string>
     <string name="user">משתמש</string>
 
+
     <string-array name="licenses_he">
         <item>רכב ידני</item>
         <item>רכב אוטומטי</item>
@@ -45,5 +46,14 @@
         <item>Heavy Truck</item>
         <item>Light Truck</item>
     </string-array>
+    <string name="new_password">סיסמה חדשה</string>
+    <string name="per_lesson">" לשיעור"</string>
+    <string name="next">הבא</string>
+    <string name="how_much_do_you_take_per_lesson">כמה אתה גובה לשיעור</string>
+    <string name="pick_a_city">בחר עיר</string>
+    <string name="give_some_information_about_you">תן קצת מידע על עצמך ועל מה שאתה מלמד.</string>
+    <string name="sms_verification">אימות סמסי</string>
+    <string name="confirm">אישור</string>
+    <string name="choose_the_licenses_that_you_teach">בחר את הרישיונות שאתה מלמד.</string>
 
 </resources>

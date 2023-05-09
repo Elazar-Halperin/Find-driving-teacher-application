@@ -46,18 +46,20 @@ public class SectionRecyclerViewAdapter extends RecyclerView.Adapter<SectionRecy
     @Override
     public SectionRecyclerViewAdapter.MyHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.section_layout, parent, false);
-
         return new MyHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyHolder holder, int position) {
+        // Get all views.
         final TextView tv_filtered = holder.getTv_filtered();
         final Button btn_viewAll = holder.getBtn_viewAll();
         final RecyclerView rv_teachers = holder.getRv_teachers();
 
+        // Put the filter name.
         tv_filtered.setText(sectionList.get(position).getName());
 
+        // Initialize the RecyclerView.
         rv_teachers.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
 
         List<TeacherModel> teachersList = sectionList.get(position).getTeachers();

@@ -2,11 +2,13 @@ package com.elazarhalperin.fluentify.activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.motion.widget.MotionLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -48,6 +50,8 @@ public class TeacherProfileActivity extends AppCompatActivity {
 
     FloatingActionButton fab_close, fab_addReview, fab_sendAMessage;
 
+    MotionLayout motionLayout;
+
     TeacherModel teacher;
     Bitmap image;
 
@@ -61,6 +65,7 @@ public class TeacherProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_teacher_profile);
 
+        // for the animation.
         Fade fade = new Fade();
         View decor = getWindow().getDecorView();
         fade.excludeTarget(decor.findViewById(com.hbb20.R.id.action_bar_container), true);
@@ -88,29 +93,38 @@ public class TeacherProfileActivity extends AppCompatActivity {
 
         rv_reviews = findViewById(R.id.rv_reviews);
 
+        motionLayout = findViewById(R.id.motionLayout);
+
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
 
         tv_teachingLocations.setSelected(true);
 
+        // Get the image and teacher from the intent extras
         image = getIntent().getParcelableExtra("profile_image");
         teacher = (TeacherModel) getIntent().getSerializableExtra("teacher");
         reviews = teacher.getReviews();
-
-//        Toast.makeText(this, reviews.get(0).getClass().toString(), Toast.LENGTH_SHORT).show();
 
         adapter = new ReviewsRVAdapter(reviews, getApplicationContext());
 
         rv_reviews.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         rv_reviews.setAdapter(adapter);
 
-        if (image != null) {
+        // check if image is null
+        if(image == null || image.equals(BitmapFactory.decodeResource(getResources(), R.drawable.person_draw))) {
+            setImageFromStorage();
+        }
+        else {
             iv_teacherProfile.setImageBitmap(image);
         }
 
         fillAllTheFields();
 
         setListeners();
+    }
+
+    private void setImageFromStorage() {
+
     }
 
     private void fillAllTheFields() {
@@ -153,6 +167,35 @@ public class TeacherProfileActivity extends AppCompatActivity {
             }
             showDialog();
         });
+
+        // After the motionLayout animation is in end state setting the fAB to disabled.
+        motionLayout.setTransitionListener(new MotionLayout.TransitionListener() {
+            @Override
+            public void onTransitionStarted(MotionLayout motionLayout, int startId, int endId) {
+
+            }
+
+            @Override
+            public void onTransitionChange(MotionLayout motionLayout, int startId, int endId, float progress) {
+
+            }
+
+            @Override
+            public void onTransitionCompleted(MotionLayout motionLayout, int currentId) {
+                boolean isEnabled;
+                if(currentId == motionLayout.getEndState()) {
+                    isEnabled = false;
+                } else {
+                    isEnabled = true;
+                }
+                fab_sendAMessage.setEnabled(isEnabled);
+            }
+
+            @Override
+            public void onTransitionTrigger(MotionLayout motionLayout, int triggerId, boolean positive, float progress) {
+
+            }
+        });
     }
 
     private boolean isTeacher() {
@@ -187,7 +230,6 @@ public class TeacherProfileActivity extends AppCompatActivity {
             String dateString = currentDate.format(formatter);
 
 
-//                ReviewModel review = new ReviewModel(firebaseUser.getUid(), rating, textReview, dateString, "Anonymous");
             // making the review model to a map so it can be added into the firebase.
             HashMap<String, Object> hashMap = new HashMap<>();
             hashMap.put("rating", rating);

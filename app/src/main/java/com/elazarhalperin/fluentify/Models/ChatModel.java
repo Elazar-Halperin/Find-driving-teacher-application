@@ -11,15 +11,6 @@ public class ChatModel {
     String studentUid;
     List<Map<String, Object>> messages;
 
-    @Override
-    public String toString() {
-        return "ChatModel{" +
-                "teacherUid='" + teacherUid + '\'' +
-                ", studentUid='" + studentUid + '\'' +
-                ", messages=" + messages +
-                '}';
-    }
-
     public ChatModel() {
     }
 
@@ -60,5 +51,14 @@ public class ChatModel {
 
     public void setMessages(List<Map<String, Object>> messages) {
         this.messages = messages;
+    }
+
+    @Override
+    public String toString() {
+        return "ChatModel{" +
+                "teacherUid='" + teacherUid + '\'' +
+                ", studentUid='" + studentUid + '\'' +
+                ", messages=" + messages +
+                '}';
     }
 }
