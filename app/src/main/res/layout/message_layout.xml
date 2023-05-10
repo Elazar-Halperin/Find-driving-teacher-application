@@ -14,14 +14,6 @@
         android:gravity="center"
         android:background="@drawable/message_background">
 
-<!--        <ImageView-->
-<!--            android:id="@+id/imageView2"-->
-<!--            android:layout_width="250dp"-->
-<!--            android:layout_height="53dp"-->
-<!--            android:adjustViewBounds="false"-->
-<!--            android:scaleType="fitXY"-->
-<!--            app:srcCompat="@drawable/message_background" />-->
-
         <TextView
             android:id="@+id/tv_message"
             android:layout_width="wrap_content"

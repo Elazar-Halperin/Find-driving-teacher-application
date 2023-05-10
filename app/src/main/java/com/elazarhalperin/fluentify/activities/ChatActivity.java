@@ -11,9 +11,9 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.elazarhalperin.fluentify.Models.ChatModel;
@@ -25,7 +25,6 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -45,6 +44,7 @@ import java.util.Locale;
 import java.util.Map;
 
 public class ChatActivity extends AppCompatActivity {
+    TextView tv_chatName;
     EditText et_message;
     FloatingActionButton fab_sendTheMessage, fab_goBack;
     ProgressBar progressBar;
@@ -58,6 +58,7 @@ public class ChatActivity extends AppCompatActivity {
 
     String chatRoomId;
     String messageTo;
+    String chatName;
     private ListenerRegistration chatRoomListener;
 
     FirebaseUser firebaseUser;
@@ -68,16 +69,26 @@ public class ChatActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat);
 
-
+        userTypeHelper = new UserTypeHelper(getApplicationContext());
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         chatRoomId = getIntent().getStringExtra("chatRoomId");
+
+        userType = userTypeHelper.getUserType();
+        messageTo = getIntent().getStringExtra("messageTo");
+        shtok = userType.equals("student") ? firebaseUser.getUid() : messageTo;
+        shtok2 = userType.equals("teacher") ? firebaseUser.getUid() : messageTo;
+        chatName = getIntent().getStringExtra("chatName");
 
         et_message = findViewById(R.id.et_message);
         fab_sendTheMessage = findViewById(R.id.fab_sendTheMessage);
         rv_messages = findViewById(R.id.rv_messages);
         fab_goBack = findViewById(R.id.fab_goBack);
         progressBar = findViewById(R.id.progressBar);
+
+        tv_chatName = findViewById(R.id.tv_chatName);
+
+        tv_chatName.setText(chatName);
 
         messages = new ArrayList<>();
 
@@ -88,12 +99,6 @@ public class ChatActivity extends AppCompatActivity {
 
         rv_messages.setVisibility(View.GONE);
 
-        userTypeHelper = new UserTypeHelper(getApplicationContext());
-
-        userType = userTypeHelper.getUserType();
-        messageTo = getIntent().getStringExtra("messageTo");
-        shtok = userType.equals("student") ? firebaseUser.getUid() : messageTo;
-        shtok2 = userType.equals("teacher") ? firebaseUser.getUid() : messageTo;
 
         fab_sendTheMessage.setEnabled(false);
 

@@ -73,12 +73,15 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.Holder> {
 
         // Get the user that have a chat with you
         // so you can put his name into the chat layout textview.
+         String[] finalMessageTO = new String[1];
         ref.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if(task.isSuccessful()) {
                     UserModel user = task.getResult().toObject(UserModel.class);
                     tv_chatName.setText(user.getName());
+                    finalMessageTO[0] = user.getName();
+
                 } else {
                     tv_chatName.setText(messageTo);
                 }
@@ -89,7 +92,9 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.Holder> {
         ll_container.setOnClickListener(v-> {
             Intent i = new Intent(context, ChatActivity.class);
             i.putExtra("chatRoomId", chats.get(position).getId());
+            //the name of who gets the message.
             i.putExtra("messageTo", messageTo);
+            i.putExtra("chatName", finalMessageTO[0]);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK); // Add this line to set the flag
             context.startActivity(i);
         });

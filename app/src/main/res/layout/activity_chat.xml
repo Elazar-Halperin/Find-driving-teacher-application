@@ -55,7 +55,7 @@
             </androidx.cardview.widget.CardView>
 
             <TextView
-                android:id="@+id/tv_messagerName"
+                android:id="@+id/tv_chatName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -64,7 +64,7 @@
                 android:focusedByDefault="true"
                 android:ellipsize="marquee"
                 android:marqueeRepeatLimit="marquee_forever"
-                android:textColor="@color/black"
+                android:textColor="@color/black_text_color"
                 android:textSize="@dimen/_18ssp" />
         </LinearLayout>
     </androidx.cardview.widget.CardView>

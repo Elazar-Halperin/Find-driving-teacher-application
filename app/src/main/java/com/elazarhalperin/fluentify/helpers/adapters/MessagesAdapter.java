@@ -72,9 +72,9 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.Holder
             params.gravity = Gravity.END;
             tv_messageDate.setGravity(Gravity.END);
             // set the background into message background that have dark or white background.
-            ll_container.setBackground(context.getDrawable(R.drawable.message_background2));
+            ll_container.setBackground(context.getResources().getDrawable(R.drawable.message_background2));
             // color text into white or dark that will match the background.
-            tv_message.setTextColor(context.getColor(R.color.black_text_color));
+            tv_message.setTextColor(context.getResources().getColor(R.color.black_text_color));
         }
         // set the params.
         ll_container.setLayoutParams(params);
