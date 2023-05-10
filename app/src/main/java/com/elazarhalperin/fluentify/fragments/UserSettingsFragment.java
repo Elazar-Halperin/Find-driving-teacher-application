@@ -6,21 +6,16 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.res.Configuration;
-import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.core.os.ConfigurationCompat;
-import androidx.core.os.LocaleListCompat;
-import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 
-import android.os.LocaleList;
 import android.preference.PreferenceManager;
 import android.transition.AutoTransition;
 import android.transition.TransitionManager;
@@ -29,6 +24,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -36,21 +32,32 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.core.os.ConfigurationCompat;
 
-
+import com.elazarhalperin.fluentify.Models.StudentModel;
+import com.elazarhalperin.fluentify.Models.TeacherModel;
+import com.elazarhalperin.fluentify.Models.UserModel;
 import com.elazarhalperin.fluentify.R;
 import com.elazarhalperin.fluentify.activities.ChangePasswordActivity;
 import com.elazarhalperin.fluentify.activities.MainSignActivity;
 import com.elazarhalperin.fluentify.helpers.DarkModeManager;
 import com.elazarhalperin.fluentify.helpers.UserTypeHelper;
-import com.google.firebase.auth.EmailAuthProvider;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-
-import java.util.Locale;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 public class UserSettingsFragment extends Fragment {
-    TextView tv_editProfile, tv_changePassword, tv_language, tv_logOut, tv_appVersion;
+    TextView tv_editProfile, tv_changePassword, tv_language, tv_logOut, tv_appVersion, tv_userName, tv_signUpDate;
+
+    ImageView iv_profileImage;
+
     Switch switch_darkMode;
 
     RadioGroup rg_holder;
@@ -64,9 +71,9 @@ public class UserSettingsFragment extends Fragment {
     DarkModeManager darkModeManager;
 
     private SharedPreferences prefs;
-
     UserTypeHelper userTypeHelper;
 
+    FirebaseUser firebaseUser;
 
     boolean isPressed;
     boolean isVisible;
@@ -82,13 +89,19 @@ public class UserSettingsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
         switch_darkMode = view.findViewById(R.id.darkModeSwitch);
+
+        iv_profileImage = view.findViewById(R.id.iv_profileImage);
 
         tv_editProfile = view.findViewById(R.id.tv_editProfile);
         tv_changePassword = view.findViewById(R.id.tv_changePassword);
         tv_language = view.findViewById(R.id.tv_language);
         tv_logOut = view.findViewById(R.id.tv_logOut);
         tv_appVersion = view.findViewById(R.id.tv_appVersion);
+        tv_userName = view.findViewById(R.id.tv_userName);
+        tv_signUpDate = view.findViewById(R.id.tv_signUpDate);
 
         rg_holder = view.findViewById(R.id.rg_holder);
         rb_english = view.findViewById(R.id.rb_english);
@@ -120,6 +133,7 @@ public class UserSettingsFragment extends Fragment {
 
         signAppVersion();
         setCurrentMode();
+        getUsersDataFromFirebase();
 
         setListeners();
     }
@@ -276,6 +290,65 @@ public class UserSettingsFragment extends Fragment {
         getActivity().finish();
         Intent i = new Intent(getActivity(), MainSignActivity.class);
         startActivity(i);
+    }
+
+    private void getUsersDataFromFirebase() {
+        if(userTypeHelper.getUserType().isEmpty()) {
+            Toast.makeText(getActivity(), "Error occured, pls try again.", Toast.LENGTH_SHORT).show();
+        }
+        String collection = userTypeHelper.getUserType().equals(UserTypeHelper.TEACHER_TYPE) ? "teachers" : "students";
+        DocumentReference userRef = FirebaseFirestore.getInstance().collection(collection).document(firebaseUser.getUid());
+
+        userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()) {
+                    UserModel userModel = task.getResult().toObject(UserModel.class);
+                    assignDefaultUserFields(userModel);
+
+                    if(collection.equals("teachers")) {
+                        TeacherModel teacherModel = new TeacherModel(task.getResult().getData());
+                        Log.d("teacherModel", teacherModel.toString());
+                    } else {
+                        StudentModel studentModel = new StudentModel(task.getResult().getData());
+                        Log.d("studentModel", studentModel.toString());
+                    }
+                } else {
+
+                }
+            }
+        });
+    }
+
+    private void assignDefaultUserFields(UserModel userModel) {
+        String name = userModel.getName();
+        String date = userModel.getSignUpDate();
+
+        tv_userName.setText(name);
+        tv_signUpDate.setText(date);
+
+        assignUserProfile();
+    }
+
+    private void assignUserProfile() {
+        // get the reference of the storage where the profile image is stored.
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference profileImageRef = storage.getReference("profile_pictures").child("profile_image" + firebaseUser.getUid() + ".jpg");
+
+        long MEGABYTE = 1024 * 1024;
+
+        profileImageRef.getBytes(MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+            @Override
+            public void onSuccess(byte[] bytes) {
+                Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                iv_profileImage.setImageBitmap(bitmap);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+            }
+        });
     }
 
 

@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -150,6 +151,8 @@ public class HomeFragment extends Fragment {
                     categoryHadera.setTeachers(haderaTeachers);
                     categoryJerusalem.setTeachers(jerusalemTeachers);
 
+
+
                     categories.add(categoryPrice);
                     categories.add(categoryrating);
                     categories.add(categoryJerusalem);
@@ -183,7 +186,7 @@ public class HomeFragment extends Fragment {
         List<TeacherModel> teachers = new ArrayList<>();
         for (DocumentSnapshot documentSnapshot : querySnapshot.getDocuments()) {
             // Assuming your Teacher class has a constructor that takes a DocumentSnapshot
-            TeacherModel teacher = documentSnapshot.toObject(TeacherModel.class);
+            TeacherModel teacher = new TeacherModel(documentSnapshot.getData());
             teachers.add(teacher);
         }
         return teachers;

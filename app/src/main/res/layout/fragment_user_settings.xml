@@ -30,6 +30,7 @@
                 app:cardCornerRadius="1000dp">
 
                 <ImageView
+                    android:id="@+id/iv_profileImage"
                     android:layout_width="@dimen/_48sdp"
                     android:layout_height="@dimen/_48sdp"
                     android:adjustViewBounds="true"
@@ -46,6 +47,7 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/tv_userName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/feather_bold"
@@ -54,6 +56,7 @@
                 android:textSize="@dimen/_20ssp" />
 
             <TextView
+                android:id="@+id/tv_signUpDate"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="match the second"
@@ -62,6 +65,50 @@
         </LinearLayout>
 
 
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            style="@style/viewParent.headerText.settingsMiniTitle"
+            android:layout_gravity="center"
+            android:text="@string/finished_lessons"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="8dp"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:src="@drawable/teaching"/>
+
+            <TextView
+                android:id="@+id/tv_finishedLessons"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="8dp"
+                android:textColor="@color/black_text_color"
+                android:fontFamily="@font/feather_bold"
+                android:paddingHorizontal="2dp"
+                android:paddingVertical="4dp"
+                android:text="@string/edit_profile" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+                <!-- in home add 3 buttons |- 2 +|-->
+            </LinearLayout>
+
+        </LinearLayout>
     </LinearLayout>
 
     <TextView

@@ -55,5 +55,6 @@
     <string name="sms_verification">אימות סמסי</string>
     <string name="confirm">אישור</string>
     <string name="choose_the_licenses_that_you_teach">בחר את הרישיונות שאתה מלמד.</string>
+    <string name="finished_lessons">מספר שיעורים שעשית</string>
 
 </resources>

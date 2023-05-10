@@ -151,7 +151,7 @@
                         android:fontFamily="@font/feather_bold"
                         android:marqueeRepeatLimit="marquee_forever"
                         android:singleLine="true"
-                        android:text="Commercial car, auto, manual"
+                        android:text="Not found"
                         android:textSize="@dimen/_16ssp" />
                 </LinearLayout>
                 <LinearLayout

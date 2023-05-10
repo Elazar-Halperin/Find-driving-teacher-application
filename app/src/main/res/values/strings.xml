@@ -39,6 +39,7 @@
     <string name="choose_the_licenses_that_you_teach">choose the licenses that you teach</string>
     <string name="next">next</string>
     <string name="per_lesson">" per lesson."</string>
+    <string name="finished_lessons">Finished lessons</string>
 
     <string-array name="cities">
         <item>ירושלים והסביבה</item>

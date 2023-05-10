@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.transition.Fade;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -111,10 +112,9 @@ public class TeacherProfileActivity extends AppCompatActivity {
         rv_reviews.setAdapter(adapter);
 
         // check if image is null
-        if(image == null || image.equals(BitmapFactory.decodeResource(getResources(), R.drawable.person_draw))) {
+        if (image == null || image.equals(BitmapFactory.decodeResource(getResources(), R.drawable.person_draw))) {
             setImageFromStorage();
-        }
-        else {
+        } else {
             iv_teacherProfile.setImageBitmap(image);
         }
 
@@ -130,17 +130,13 @@ public class TeacherProfileActivity extends AppCompatActivity {
     private void fillAllTheFields() {
         if (teacher == null) return;
 
-//        tv_workArea.setText(teacher.getLocation());
         tv_teacherName.setText((teacher.getName()));
         tv_lessonPrice.setText(teacher.getLessonPrice() + " per lesson");
         tv_teacherInfo.setText(teacher.getInfo());
         tv_rating.setText(teacher.getRating() + "");
         tv_teachingLocations.setText(teacher.getLocation());
-        try {
-            tv_licenses.setText(String.join(",", teacher.getLicenses()));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+
+        tv_licenses.setText(String.join(",", teacher.getLicenses()));
     }
 
     private void setListeners() {
@@ -183,7 +179,7 @@ public class TeacherProfileActivity extends AppCompatActivity {
             @Override
             public void onTransitionCompleted(MotionLayout motionLayout, int currentId) {
                 boolean isEnabled;
-                if(currentId == motionLayout.getEndState()) {
+                if (currentId == motionLayout.getEndState()) {
                     isEnabled = false;
                 } else {
                     isEnabled = true;
