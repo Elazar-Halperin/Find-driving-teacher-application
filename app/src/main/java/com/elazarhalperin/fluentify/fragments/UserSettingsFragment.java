@@ -79,6 +79,8 @@ public class UserSettingsFragment extends Fragment {
     private SharedPreferences prefs;
     UserTypeHelper userTypeHelper;
 
+    Intent toEditProfileIntent;
+
     FirebaseUser firebaseUser;
 
     int finishedLessons;
@@ -126,6 +128,8 @@ public class UserSettingsFragment extends Fragment {
         linearLayout = view.findViewById(R.id.layout);
 
         auth = FirebaseAuth.getInstance();
+
+        toEditProfileIntent = new Intent(getActivity(), EditProfileActivity.class);
 
         darkModeManager = new DarkModeManager(getActivity());
         userTypeHelper = new UserTypeHelper(getActivity());
@@ -350,9 +354,11 @@ public class UserSettingsFragment extends Fragment {
                 if (task.isSuccessful()) {
                     UserModel userModel = task.getResult().toObject(UserModel.class);
                     assignDefaultUserFields(userModel);
+                    toEditProfileIntent.putExtra("userModel", userModel);
 
                     if (collection.equals("teachers")) {
                         TeacherModel teacherModel = new TeacherModel(task.getResult().getData());
+                        toEditProfileIntent.putExtra("teacherModel", teacherModel);
                         Log.d("teacherModel", teacherModel.toString());
 
                     } else {

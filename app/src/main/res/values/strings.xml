@@ -40,6 +40,8 @@
     <string name="next">next</string>
     <string name="per_lesson">" per lesson."</string>
     <string name="finished_lessons">Finished lessons</string>
+    <string name="change_profile">Change Profile</string>
+    <string name="lesson_price">Lesson Price</string>
 
     <string-array name="cities">
         <item>ירושלים והסביבה</item>
