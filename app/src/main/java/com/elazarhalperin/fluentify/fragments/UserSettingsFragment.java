@@ -23,6 +23,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -38,6 +39,7 @@ import com.elazarhalperin.fluentify.Models.TeacherModel;
 import com.elazarhalperin.fluentify.Models.UserModel;
 import com.elazarhalperin.fluentify.R;
 import com.elazarhalperin.fluentify.activities.ChangePasswordActivity;
+import com.elazarhalperin.fluentify.activities.EditProfileActivity;
 import com.elazarhalperin.fluentify.activities.MainSignActivity;
 import com.elazarhalperin.fluentify.helpers.DarkModeManager;
 import com.elazarhalperin.fluentify.helpers.UserTypeHelper;
@@ -54,13 +56,17 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 public class UserSettingsFragment extends Fragment {
-    TextView tv_editProfile, tv_changePassword, tv_language, tv_logOut, tv_appVersion, tv_userName, tv_signUpDate;
+    TextView tv_editProfile, tv_changePassword, tv_language, tv_logOut, tv_appVersion, tv_userName, tv_signUpDate, tv_finishedLessons;
+
+    Button btn_minus, btn_plus;
 
     ImageView iv_profileImage;
 
     Switch switch_darkMode;
 
     RadioGroup rg_holder;
+
+    LinearLayout ll_studentContainer, ll_progressBar;
 
     RadioButton rb_english, rb_hebrew;
 
@@ -74,6 +80,9 @@ public class UserSettingsFragment extends Fragment {
     UserTypeHelper userTypeHelper;
 
     FirebaseUser firebaseUser;
+
+    int finishedLessons;
+    int finalFinishedLessons;
 
     boolean isPressed;
     boolean isVisible;
@@ -102,6 +111,13 @@ public class UserSettingsFragment extends Fragment {
         tv_appVersion = view.findViewById(R.id.tv_appVersion);
         tv_userName = view.findViewById(R.id.tv_userName);
         tv_signUpDate = view.findViewById(R.id.tv_signUpDate);
+        tv_finishedLessons = view.findViewById(R.id.tv_finishedLessons);
+
+        ll_studentContainer = view.findViewById(R.id.ll_studentContainer);
+        ll_progressBar = view.findViewById(R.id.ll_progressBar);
+
+        btn_minus = view.findViewById(R.id.btn_minus);
+        btn_plus = view.findViewById(R.id.btn_plus);
 
         rg_holder = view.findViewById(R.id.rg_holder);
         rb_english = view.findViewById(R.id.rb_english);
@@ -113,6 +129,9 @@ public class UserSettingsFragment extends Fragment {
 
         darkModeManager = new DarkModeManager(getActivity());
         userTypeHelper = new UserTypeHelper(getActivity());
+
+        finishedLessons = 0;
+        finalFinishedLessons = 0;
 
         isPressed = false;
         isVisible = false;
@@ -126,10 +145,21 @@ public class UserSettingsFragment extends Fragment {
             rb_english.setChecked(true);
         } else {
             rb_hebrew.setChecked(true);
+            btn_minus.setRotationY(180f);
+            btn_plus.setRotation(180f);
+
         }
+        // content starts loading.
+        ll_progressBar.setVisibility(View.VISIBLE);
 
         // smothing the transition when expanding the layout
         linearLayout.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
+
+        if (!userTypeHelper.getUserType().equals(UserTypeHelper.STUDENT_TYPE)) {
+            ll_studentContainer.setVisibility(View.GONE);
+        } else {
+            ll_studentContainer.setVisibility(View.VISIBLE);
+        }
 
         signAppVersion();
         setCurrentMode();
@@ -211,6 +241,18 @@ public class UserSettingsFragment extends Fragment {
             }
         });
 
+        btn_plus.setOnClickListener(v -> {
+            finishedLessons++;
+            tv_finishedLessons.setText(finishedLessons + "");
+        });
+
+        btn_minus.setOnClickListener(v -> {
+            if (finishedLessons <= 0) return;
+
+            finishedLessons--;
+            tv_finishedLessons.setText(finishedLessons + "");
+        });
+
     }
 
     private void switchAppLanguage(String language) {
@@ -271,6 +313,9 @@ public class UserSettingsFragment extends Fragment {
     }
 
     private void editProfile() {
+        Intent i = new Intent(getActivity(), EditProfileActivity.class);
+
+        startActivity(i);
     }
 
     private void changePassword() {
@@ -293,7 +338,7 @@ public class UserSettingsFragment extends Fragment {
     }
 
     private void getUsersDataFromFirebase() {
-        if(userTypeHelper.getUserType().isEmpty()) {
+        if (userTypeHelper.getUserType().isEmpty()) {
             Toast.makeText(getActivity(), "Error occured, pls try again.", Toast.LENGTH_SHORT).show();
         }
         String collection = userTypeHelper.getUserType().equals(UserTypeHelper.TEACHER_TYPE) ? "teachers" : "students";
@@ -302,22 +347,31 @@ public class UserSettingsFragment extends Fragment {
         userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful()) {
+                if (task.isSuccessful()) {
                     UserModel userModel = task.getResult().toObject(UserModel.class);
                     assignDefaultUserFields(userModel);
 
-                    if(collection.equals("teachers")) {
+                    if (collection.equals("teachers")) {
                         TeacherModel teacherModel = new TeacherModel(task.getResult().getData());
                         Log.d("teacherModel", teacherModel.toString());
+
                     } else {
                         StudentModel studentModel = new StudentModel(task.getResult().getData());
                         Log.d("studentModel", studentModel.toString());
+                        getStudentData(studentModel);
+
                     }
                 } else {
 
                 }
             }
         });
+    }
+
+    private void getStudentData(StudentModel studentModel) {
+        finalFinishedLessons = finishedLessons = studentModel.getFinishedLessons();
+
+        tv_finishedLessons.setText(finishedLessons + "");
     }
 
     private void assignDefaultUserFields(UserModel userModel) {
@@ -346,10 +400,36 @@ public class UserSettingsFragment extends Fragment {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-
+                iv_profileImage.setImageDrawable(getActivity().getDrawable(R.drawable.proxy));
+            }
+        }).addOnCompleteListener(new OnCompleteListener<byte[]>() {
+            @Override
+            public void onComplete(@NonNull Task<byte[]> task) {
+                ll_progressBar.setVisibility(View.GONE);
             }
         });
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
 
+
+        // checks if the finished lessons has been changed,
+        // if it isn't then we will not update in firebase
+        if (finalFinishedLessons == finishedLessons) return;
+
+        DocumentReference studentRef = FirebaseFirestore.getInstance().collection("students")
+                .document(firebaseUser.getUid());
+
+        studentRef.update("finishedLessons", finishedLessons)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(!task.isSuccessful()) {
+                            Toast.makeText(getActivity(), "Error occurred, your finished lessons couldn't be saved.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
 }

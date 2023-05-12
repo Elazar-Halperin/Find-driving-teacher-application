@@ -128,11 +128,10 @@ public class ChatActivity extends AppCompatActivity {
                                 rv_messages.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                                 rv_messages.setAdapter(adapter);
                                 rv_messages.scrollToPosition(messages.size() - 1); // Scroll to the last message
-                                fab_sendTheMessage.setEnabled(true);
 
                                 addChatRoomSnapshotListener();
                             } else {
-                                fab_sendTheMessage.setEnabled(true);
+                                progressBar.setVisibility(View.GONE);
                                 Log.d("fuck you", "we didnt find");
                             }
                         }
