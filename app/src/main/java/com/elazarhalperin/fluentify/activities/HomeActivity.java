@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.elazarhalperin.fluentify.R;
 import com.elazarhalperin.fluentify.helpers.DarkModeManager;
@@ -96,6 +97,8 @@ public class HomeActivity extends AppCompatActivity {
         });
 
         setUserType();
+
+
 
     }
 

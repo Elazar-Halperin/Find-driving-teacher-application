@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Fluentify</string>
+    <string name="app_name">RoadMentor</string>
     <string name="sign_in">Sign In</string>
     <string name="email">Email</string>
     <string name="password">Password</string>
