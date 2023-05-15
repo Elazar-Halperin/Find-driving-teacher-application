@@ -140,6 +140,7 @@ public class UserSettingsFragment extends Fragment {
         isPressed = false;
         isVisible = false;
 
+
         prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
 
@@ -164,6 +165,7 @@ public class UserSettingsFragment extends Fragment {
         } else {
             ll_studentContainer.setVisibility(View.VISIBLE);
         }
+
 
         signAppVersion();
         setCurrentMode();
@@ -317,9 +319,8 @@ public class UserSettingsFragment extends Fragment {
     }
 
     private void editProfile() {
-        Intent i = new Intent(getActivity(), EditProfileActivity.class);
 
-        startActivity(i);
+        startActivity(toEditProfileIntent);
     }
 
     private void changePassword() {
@@ -353,8 +354,8 @@ public class UserSettingsFragment extends Fragment {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     UserModel userModel = task.getResult().toObject(UserModel.class);
-                    assignDefaultUserFields(userModel);
                     toEditProfileIntent.putExtra("userModel", userModel);
+                    assignDefaultUserFields(userModel);
 
                     if (collection.equals("teachers")) {
                         TeacherModel teacherModel = new TeacherModel(task.getResult().getData());
@@ -365,7 +366,6 @@ public class UserSettingsFragment extends Fragment {
                         StudentModel studentModel = new StudentModel(task.getResult().getData());
                         Log.d("studentModel", studentModel.toString());
                         getStudentData(studentModel);
-
                     }
                 } else {
 

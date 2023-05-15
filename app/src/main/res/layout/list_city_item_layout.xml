@@ -5,4 +5,4 @@
     android:text="Choice againg"
     android:padding="8dp"
     android:textSize="16sp"
-    android:textColor="@color/black"/>
+    android:textColor="@color/black_text_color"/>

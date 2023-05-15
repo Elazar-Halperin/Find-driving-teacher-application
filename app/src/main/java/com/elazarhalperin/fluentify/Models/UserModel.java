@@ -1,6 +1,8 @@
 package com.elazarhalperin.fluentify.Models;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 public class UserModel implements Serializable {
     protected String uid;
@@ -37,6 +39,20 @@ public class UserModel implements Serializable {
 
     public String getSignUpDate() {
         return signUpDate;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Map<String, Object> getMap() {
+        Map<String, Object> userModel = new HashMap<>();
+        userModel.put("uid", uid);
+        userModel.put("name", name);
+        userModel.put("email", email);
+        userModel.put("signUpDate", signUpDate);
+
+        return userModel;
     }
 
 }

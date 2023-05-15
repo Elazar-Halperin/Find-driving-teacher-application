@@ -10,8 +10,8 @@
     tools:context=".activities.MainSignActivity">
 
 
-
     <LinearLayout
+        android:id="@+id/linearLayout3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -32,9 +32,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:clickable="false"
                 android:text="@string/do_you_want_to_be_a_teacher"
                 android:textColor="@color/gray_text_color"
-                android:clickable="false"
                 android:textSize="12dp" />
 
             <Button
@@ -56,9 +56,9 @@
             android:backgroundTint="@color/background_purple"
             android:fontFamily="@font/feather_bold"
             android:paddingVertical="16dp"
-            android:textSize="@dimen/_14ssp"
             android:text="@string/sign_in"
             android:textColor="@color/white"
+            android:textSize="@dimen/_14ssp"
             app:cornerRadius="10dp" />
 
         <com.google.android.material.button.MaterialButton
@@ -68,13 +68,25 @@
             android:backgroundTint="@color/purple_500"
             android:fontFamily="@font/feather_bold"
             android:paddingVertical="16dp"
-            android:textSize="@dimen/_14ssp"
             android:text="@string/sign_up"
             android:textColor="@color/white"
+            android:textSize="@dimen/_14ssp"
             app:cornerRadius="10dp" />
 
 
     </LinearLayout>
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="@dimen/_120sdp"
+        android:layout_height="@dimen/_120sdp"
+        android:layout_marginTop="284dp"
+        android:adjustViewBounds="true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.537"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/my_app_icon" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

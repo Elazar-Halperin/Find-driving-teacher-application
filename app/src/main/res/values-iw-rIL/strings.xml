@@ -56,5 +56,9 @@
     <string name="confirm">אישור</string>
     <string name="choose_the_licenses_that_you_teach">בחר את הרישיונות שאתה מלמד.</string>
     <string name="finished_lessons">מספר שיעורים שעשית</string>
+    <string name="lesson_price">מחיר לשיעור</string>
+    <string name="save">שמירה</string>
+    <string name="please_enter_the_code_that_we_have_sent_you_in_sms">הכנס את הקוד שנשלח אליך בסמס בעת קבלה.</string>
+    <string name="lesson">שיעור</string>
 
 </resources>

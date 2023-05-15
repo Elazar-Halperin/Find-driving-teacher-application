@@ -79,7 +79,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_margin="8dp"
-                android:background="@drawable/rouned_edittext"
+                android:background="@drawable/squered_edittext"
                 android:elevation="4dp"
                 android:fontFamily="@font/feather_bold"
                 android:textColorHint="@color/gray_text_color"
@@ -108,7 +108,8 @@
             android:background="@drawable/rouned_edittext"
             android:clickable="true"
             android:paddingHorizontal="50dp"
-            android:text="get code"
+            android:text="@string/get_code"
+            android:textColor="@color/white"
             app:backgroundTint="@color/background_purple" />
 
         <ProgressBar

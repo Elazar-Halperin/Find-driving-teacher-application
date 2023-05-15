@@ -45,15 +45,7 @@
                 android:marqueeRepeatLimit="marquee_forever"
                 android:textColor="@color/black_text_color"
                 android:textSize="@dimen/_18ssp" />
-            <Button
-                android:id="@+id/btn_save"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="save"
-                android:layout_marginHorizontal="8dp"
-                android:backgroundTint="@color/background_dark"
-                android:textColor="@color/black_text_color"
-                android:drawableLeft="@drawable/ic_save24px"/>
+
             </LinearLayout>
     </LinearLayout>
 
@@ -151,6 +143,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:orientation="vertical">
 
                 <TextView
@@ -178,6 +171,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:orientation="vertical">
 
                 <TextView
@@ -197,8 +191,9 @@
                     android:paddingHorizontal="4dp"
                     android:paddingVertical="10dp"
                     android:textSize="@dimen/_14ssp"
+                    android:focusable="false"
                     android:singleLine="true"
-                    android:textColor="@color/black_text_color"
+                    android:textColor="@color/gray_text_color"
                     android:fontFamily="@font/feather_bold"
                     android:background="@drawable/squered_edittext"/>
             </LinearLayout>
@@ -211,6 +206,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
                     android:orientation="vertical">
 
                     <TextView
@@ -240,12 +236,13 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
                     android:orientation="vertical">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Info"
+                        android:text="@string/info"
                         android:fontFamily="@font/feather_bold"
                         android:textColor="@color/gray_text_color"
                         android:textSize="@dimen/_14ssp"/>
@@ -265,6 +262,16 @@
                         android:background="@drawable/squered_edittext"/>
                 </LinearLayout>
             </LinearLayout>
+
+            <Button
+                android:id="@+id/btn_save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/save"
+                android:layout_gravity="center"
+                android:layout_marginTop="16dp"
+                android:backgroundTint="@color/background_dark"
+                android:textColor="@color/black_text_color"/>
 
         </LinearLayout>
     </ScrollView>

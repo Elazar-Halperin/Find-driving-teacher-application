@@ -42,6 +42,11 @@
     <string name="finished_lessons">Finished lessons</string>
     <string name="change_profile">Change Profile</string>
     <string name="lesson_price">Lesson Price</string>
+    <string name="save">save</string>
+    <string name="info">Info</string>
+    <string name="get_code">get code</string>
+    <string name="type_here">Type here...</string>
+    <string name="personal_info">Personal Info</string>
 
     <string-array name="cities">
         <item>ירושלים והסביבה</item>

@@ -12,6 +12,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.elazarhalperin.fluentify.R;
 import com.google.firebase.auth.FirebaseAuth;
@@ -22,6 +23,8 @@ import com.google.firebase.firestore.FirebaseFirestoreSettings;
 public class MainSignActivity extends AppCompatActivity {
 
     Button btn_transferToSignUp, btn_transferTOSignIn, btn_toTeacherSign;
+
+    ImageView imageView;
 
     int REQUEST_SIGN = 1;
     FirebaseUser firebaseUser;
@@ -45,9 +48,13 @@ public class MainSignActivity extends AppCompatActivity {
         btn_transferToSignUp = findViewById(R.id.btn_transfterToSignUp);
         btn_toTeacherSign = findViewById(R.id.btn_goToTeacherSignUP);
 
+        imageView = findViewById(R.id.imageView);
+
+
         // set listener to views.
         setListeners();
         checkForSmsReceivePermissions();
+
     }
 
     void checkForSmsReceivePermissions(){

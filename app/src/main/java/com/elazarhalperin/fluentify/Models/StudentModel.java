@@ -28,6 +28,8 @@ public class StudentModel extends UserModel {
         this.finishedLessons = (int)( (long) mapTeacher.get("finishedLessons"));
     }
 
+
+
     @Override
     public String toString() {
         return "StudentModel{" +

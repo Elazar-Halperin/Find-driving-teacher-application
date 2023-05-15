@@ -90,7 +90,7 @@
             <TextView
                 style="@style/viewParent.headerText.settingsMiniTitle"
                 android:layout_gravity="center"
-                android:text="@string/finished_lessons"/>
+                android:text="@string/personal_info"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -115,7 +115,7 @@
                     android:fontFamily="@font/feather_bold"
                     android:paddingHorizontal="2dp"
                     android:paddingVertical="4dp"
-                    android:text="Finished Lessons" />
+                    android:text="@string/finished_lessons" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"

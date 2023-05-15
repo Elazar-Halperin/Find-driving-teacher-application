@@ -172,6 +172,7 @@
             android:layout_margin="20dp"
             android:background="@drawable/rouned_edittext"
             android:clickable="true"
+            android:textColor="@color/white"
             android:paddingHorizontal="50dp"
             android:text="@string/confirm"
             app:backgroundTint="@color/background_purple" />

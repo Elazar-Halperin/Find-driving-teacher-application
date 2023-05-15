@@ -60,7 +60,7 @@
                     android:id="@+id/actv_choices"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Pick a city"
+                    android:hint="@string/pick_a_city"
                     android:fontFamily="@font/feather_bold"
                     android:inputType="none"/>
             </com.google.android.material.textfield.TextInputLayout>
