@@ -1,15 +1,21 @@
 package com.elazarhalperin.fluentify.activities;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -53,6 +59,9 @@ public class EditProfileActivity extends AppCompatActivity {
     UserModel userModel;
     TeacherModel teacherModel;
 
+    private ActivityResultLauncher<Intent> galleryLauncher;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,6 +91,38 @@ public class EditProfileActivity extends AppCompatActivity {
         } else {
             ll_teacherContainer.setVisibility(View.VISIBLE);
         }
+
+        galleryLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(),
+                new ActivityResultCallback<ActivityResult>() {
+                    @Override
+                    public void onActivityResult(ActivityResult result) {
+                        if (result.getResultCode() == Activity.RESULT_OK) {
+                            Intent data = result.getData();
+                            if (data != null) {
+
+//                                if (data.getAction() != null && data.getAction().equals(MediaStore.ACTION_IMAGE_CAPTURE)) {
+//                                    Bundle extras = data.getExtras();
+//                                    if (extras != null && extras.containsKey("data")) {
+//                                        Bitmap imageBitmap = (Bitmap) extras.get("data");
+//                                        // Process the captured image
+//                                        iv_profileImage.setImageURI(selectedImageUri);
+//                                        updatedProfileImage = iv_profileImage.getDrawable();
+//                                        uriUpdatedProfileImage = selectedImageUri;
+//                                    }
+//                                }
+
+                                Toast.makeText(getApplicationContext(), "your are in the activity for restult", Toast.LENGTH_SHORT).show();
+
+                                Uri selectedImageUri = data.getData();
+                                if (selectedImageUri == null) {
+                                    Bundle extras = data.getExtras();
+
+                                }
+
+                            }
+                        }
+                    }
+                });
 
         putFields();
         putImageProfile();
@@ -124,10 +165,22 @@ public class EditProfileActivity extends AppCompatActivity {
     }
 
     private void openGallery() {
-        Intent intentImage = new Intent();
+//        Intent intentImage = new Intent();
+//        intentImage.setType("image/*");
+//        intentImage.setAction(Intent.ACTION_GET_CONTENT);
+//        startActivityForResult(intentImage, GO_TO_GALLERY_CODE);
+
+        Intent intentImage = new Intent(Intent.ACTION_GET_CONTENT);
         intentImage.setType("image/*");
-        intentImage.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(intentImage, GO_TO_GALLERY_CODE);
+        intentImage.putExtra(MediaStore.EXTRA_SIZE_LIMIT, 1024 * 1024); // Limit image resolution to 1MB
+
+        Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intentCamera.putExtra(MediaStore.EXTRA_SIZE_LIMIT, 1024 * 1024);
+
+        Intent chooserIntent = Intent.createChooser(intentImage, "Select Image");
+        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{intentCamera});
+
+        galleryLauncher.launch((chooserIntent));
     }
 
     private void saveUserDetails() {
@@ -139,7 +192,7 @@ public class EditProfileActivity extends AppCompatActivity {
             return;
         }
 
-        if(name.equals(userModel.getName()) && teacherModel == null) {
+        if (name.equals(userModel.getName()) && teacherModel == null) {
             return;
         }
 
@@ -160,7 +213,7 @@ public class EditProfileActivity extends AppCompatActivity {
             return;
         }
 
-        if(lessonPrice.isEmpty()) {
+        if (lessonPrice.isEmpty()) {
             et_lessonPrice.setError("field is empty");
             et_info.requestFocus();
             return;
@@ -175,24 +228,25 @@ public class EditProfileActivity extends AppCompatActivity {
 
         DocumentReference teacherRef = FirebaseFirestore.getInstance().collection("teachers").document(firebaseUser.getUid());
 
-        if(lessonPrice.equals(teacherModel.getLessonPrice()) && info.equals(teacherModel.getInfo()) ) return;
+        if (lessonPrice.equals(teacherModel.getLessonPrice()) && info.equals(teacherModel.getInfo()))
+            return;
 
         teacherModel.setInfo(info);
         teacherModel.setLessonPrice(Double.parseDouble(lessonPrice));
 
 
         teacherRef.update(teacherModel.getMap()).addOnCompleteListener(new OnCompleteListener() {
-                    @Override
-                    public void onComplete(@NonNull Task task) {
-                        if(task.isSuccessful()) {
-                            Toast.makeText(getApplicationContext(), "updated successfully", Toast.LENGTH_SHORT).show();
-                            btn_save.setEnabled(true);
-                            finish();
-                        } else {
-                            btn_save.setEnabled(false);
-                        }
-                    }
-                });
+            @Override
+            public void onComplete(@NonNull Task task) {
+                if (task.isSuccessful()) {
+                    Toast.makeText(getApplicationContext(), "updated successfully", Toast.LENGTH_SHORT).show();
+                    btn_save.setEnabled(true);
+                    finish();
+                } else {
+                    btn_save.setEnabled(false);
+                }
+            }
+        });
     }
 
     private void updateUserInFirebase(String name) {
@@ -205,7 +259,7 @@ public class EditProfileActivity extends AppCompatActivity {
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
-                        if(teacherModel == null) {
+                        if (teacherModel == null) {
                             Toast.makeText(getApplicationContext(), "updated successfully", Toast.LENGTH_SHORT).show();
                             btn_save.setEnabled(false);
                             finish();

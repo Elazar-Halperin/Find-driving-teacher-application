@@ -13,6 +13,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.elazarhalperin.fluentify.Models.ChatModel;
@@ -64,6 +66,14 @@ public class ChatsAdapter extends RecyclerView.Adapter<ChatsAdapter.Holder> {
         } else {
             messageTo = chats.get(position).getStudentUid();
         }
+//        int textColor;
+//        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+//            textColor = holder.itemView.getContext().getColor(R.color.white);
+//            ll_container.setBackgroundColor(ContextCompat.getColor(holder.itemView.getContext(), R.color.background_dark));
+//        } else {
+//            textColor = holder.itemView.getContext().getColor(R.color.black_text_color);
+//        }
+//        tv_chatName.setTextColor(textColor);
 
         // Get the reference to the document where the user is stored.
         // user can be stored in teachers collection and students.

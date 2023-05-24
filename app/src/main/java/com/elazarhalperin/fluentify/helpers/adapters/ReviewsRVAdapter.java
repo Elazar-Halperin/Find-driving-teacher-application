@@ -10,6 +10,7 @@ import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.elazarhalperin.fluentify.R;
@@ -50,6 +51,14 @@ public class ReviewsRVAdapter extends RecyclerView.Adapter<ReviewsRVAdapter.Revi
         tv_review.setText(review.get("review").toString());
         tv_reviewDate.setText(review.get("reviewDate").toString());
         tv_reviewerName.setText(review.get("reviewerName").toString());;
+
+        int textColor;
+        if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
+            textColor = holder.itemView.getContext().getColor(R.color.white);
+        } else {
+            textColor = holder.itemView.getContext().getColor(R.color.black_text_color);
+        }
+        tv_reviewerName.setTextColor(textColor);
 
     }
 

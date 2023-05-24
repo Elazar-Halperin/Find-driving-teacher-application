@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.icu.util.RangeValueIterator;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.elazarhalperin.fluentify.MainActivity;
@@ -54,13 +55,13 @@ public class ChatListActivity extends AppCompatActivity {
         userTypeHelper = new UserTypeHelper(getApplicationContext());
         userType = userTypeHelper.getUserType();
 
-
         setContentView(R.layout.activity_chat_list);
+
         String whichUid = userType.equals("teacher") ? "teacherUid" : "studentUid";
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         chatsQuery = db.collection("chatRooms")
-                .whereEqualTo(whichUid, firebaseUser.getUid());
+                .whereEqualTo(whichUid, firebaseUser.getUid()).orderBy("timestamp", Query.Direction.DESCENDING);
 
         chats = new ArrayList<>();
 
@@ -69,17 +70,16 @@ public class ChatListActivity extends AppCompatActivity {
         adapter = new ChatsAdapter(getApplicationContext(), chats, firebaseUser.getUid());
         rv_chats.setAdapter(adapter);
 
+
         fab_goBack = findViewById(R.id.fab_goBack);
 
-        fab_goBack.setOnClickListener(v-> {
+        fab_goBack.setOnClickListener(v -> {
             finish();
         });
         addChatRoomSnapshotListener();
     }
 
     private void addChatRoomSnapshotListener() {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-
         chatRoomsListener = chatsQuery.addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override
             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -89,21 +89,59 @@ public class ChatListActivity extends AppCompatActivity {
                     return;
                 }
                 for (DocumentChange change : value.getDocumentChanges()) {
-                    if (change.getType() == DocumentChange.Type.ADDED) {
-                        ChatModel chatModel = change.getDocument().toObject(ChatModel.class);
-                        chatModel.setId(change.getDocument().getId());
-                        chats.add(chatModel);
-                        adapter.notifyDataSetChanged();
+                    switch (change.getType()) {
+                        case ADDED:
+                            ChatModel chatModel = change.getDocument().toObject(ChatModel.class);
+                            chatModel.setId(change.getDocument().getId());
+                            chats.add(chatModel);
+                            Toast.makeText(getApplicationContext(), "added ", Toast.LENGTH_SHORT).show();
+
+                            adapter.notifyDataSetChanged();
+                            break;
+                        case MODIFIED:
+                            Toast.makeText(getApplicationContext(), "modifeid", Toast.LENGTH_SHORT).show();
+                            // Handle modified document
+                            ChatModel modifiedChat = change.getDocument().toObject(ChatModel.class);
+                            modifiedChat.setId(change.getDocument().getId());
+                            // Find the position of the modified chat in the list
+                            int modifiedIndex = findChatIndexById(modifiedChat.getId());
+                            Toast.makeText(getApplicationContext(), "modified ", Toast.LENGTH_SHORT).show();
+
+                            if (modifiedIndex != -1) {
+                                // Replace the existing chat with the modified chat
+                                chats.remove(modifiedIndex);
+                                chats.add(0, modifiedChat);
+                                adapter.notifyDataSetChanged();
+                            }
+                            break;
+                        case REMOVED:
+                            ChatModel removedChat = change.getDocument().toObject(ChatModel.class);
+                            boolean remove = chats.remove(removedChat);
+                            Toast.makeText(getApplicationContext(), "is removed " + remove, Toast.LENGTH_SHORT).show();
+                            adapter.notifyDataSetChanged();
                     }
+
                 }
             }
         });
+
     }
 
+    // Helper method to find the index of a chat in the list based on its ID
+    private int findChatIndexById(String chatId) {
+        for (int i = 0; i < chats.size(); i++) {
+            ChatModel chat = chats.get(i);
+            if (chat.getId().equals(chatId)) {
+                return i;
+            }
+        }
+        return -1; // Chat not found
+    }
     @Override
-    protected void onPause() {
-        super.onPause();
+    protected void onDestroy() {
+        super.onDestroy();
         // Remove the snapshot listener to avoid memory leaks
+        Toast.makeText(getApplicationContext(), "listener removed", Toast.LENGTH_SHORT).show();
         if (chatRoomsListener != null) {
             chatRoomsListener.remove();
         }

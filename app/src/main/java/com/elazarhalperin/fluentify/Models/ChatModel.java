@@ -2,6 +2,8 @@ package com.elazarhalperin.fluentify.Models;
 
 import androidx.annotation.Nullable;
 
+import com.google.firebase.Timestamp;
+
 import java.util.List;
 import java.util.Map;
 
@@ -9,6 +11,7 @@ public class ChatModel {
     String id;
     String teacherUid;
     String studentUid;
+    Timestamp timestamp;
     List<Map<String, Object>> messages;
 
     public ChatModel() {
@@ -18,7 +21,16 @@ public class ChatModel {
         this.teacherUid = teacherUid;
         this.studentUid = studentUid;
         this.messages = messages;
+        timestamp = Timestamp.now();
         id = "";
+    }
+
+    public Timestamp getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Timestamp timestamp) {
+        this.timestamp = timestamp;
     }
 
     public String getTeacherUid() {
