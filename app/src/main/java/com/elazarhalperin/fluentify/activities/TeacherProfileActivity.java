@@ -37,6 +37,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 
@@ -68,8 +69,6 @@ public class TeacherProfileActivity extends AppCompatActivity {
 
         // for the animation.
         Fade fade = new Fade();
-        View decor = getWindow().getDecorView();
-        fade.excludeTarget(decor.findViewById(com.hbb20.R.id.action_bar_container), true);
         fade.excludeTarget(android.R.id.statusBarBackground, true);
         fade.excludeTarget(android.R.id.navigationBarBackground, true);
 
@@ -131,10 +130,14 @@ public class TeacherProfileActivity extends AppCompatActivity {
         if (teacher == null) return;
 
         tv_teacherName.setText((teacher.getName()));
-        tv_lessonPrice.setText(teacher.getLessonPrice() + " per lesson");
+        tv_lessonPrice.setText(teacher.getLessonPrice() + getString(R.string.per_lesson));
         tv_teacherInfo.setText(teacher.getInfo());
         tv_rating.setText(teacher.getRating() + "");
         tv_teachingLocations.setText(teacher.getLocation());
+
+        List<String> licenses_en = Arrays.asList(getResources().getStringArray( R.array.licenses_en));
+        List<String> licenses_he = Arrays.asList(getResources().getStringArray(R.array.licenses_he));
+
 
         tv_licenses.setText(String.join(",", teacher.getLicenses()));
     }

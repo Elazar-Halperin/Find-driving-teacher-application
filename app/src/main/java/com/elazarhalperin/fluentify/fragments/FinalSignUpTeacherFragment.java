@@ -120,6 +120,7 @@ public class FinalSignUpTeacherFragment extends Fragment {
                         Locale locale = new Locale("en", "US");
                         DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.DEFAULT, locale);
                         String date = dateFormat.format(new Date());
+
                         TeacherModel user = new TeacherModel(uid, name, email, date, lessonPrice, locations, info, phoneNumber, licenses);
                         Map<String, Object> teacher = user.getMap();
                         db.collection("teachers")

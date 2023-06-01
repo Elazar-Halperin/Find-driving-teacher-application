@@ -38,6 +38,10 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+
 public class EditProfileActivity extends AppCompatActivity {
     private static final int GO_TO_GALLERY_CODE = 121;
 
@@ -96,28 +100,45 @@ public class EditProfileActivity extends AppCompatActivity {
                 new ActivityResultCallback<ActivityResult>() {
                     @Override
                     public void onActivityResult(ActivityResult result) {
+                        Toast.makeText(getApplicationContext(), "you are in on result", Toast.LENGTH_SHORT).show();
                         if (result.getResultCode() == Activity.RESULT_OK) {
+                            Toast.makeText(getApplicationContext(), "is result ok", Toast.LENGTH_SHORT).show();
                             Intent data = result.getData();
+                            // this checks weather the image is from the camera and not taken from the gallery.
                             if (data != null) {
+                                Toast.makeText(getApplicationContext(), "you in the if data != null", Toast.LENGTH_SHORT).show();
 
-//                                if (data.getAction() != null && data.getAction().equals(MediaStore.ACTION_IMAGE_CAPTURE)) {
-//                                    Bundle extras = data.getExtras();
-//                                    if (extras != null && extras.containsKey("data")) {
-//                                        Bitmap imageBitmap = (Bitmap) extras.get("data");
-//                                        // Process the captured image
-//                                        iv_profileImage.setImageURI(selectedImageUri);
-//                                        updatedProfileImage = iv_profileImage.getDrawable();
-//                                        uriUpdatedProfileImage = selectedImageUri;
-//                                    }
-//                                }
+                                Bundle extras = data.getExtras();
+                                if (extras != null && extras.containsKey("data")) {
+                                    Toast.makeText(getApplicationContext(), "you took a picture", Toast.LENGTH_SHORT).show();
+                                    Bitmap imageBitmap = (Bitmap) extras.get("data");
+                                    // Process the captured image
+                                    iv_profileImage.setImageBitmap(imageBitmap);
+                                    updatedProfileImage = iv_profileImage.getDrawable();
+                                    // setting it into file so we can turn it into uri and add it into firebase storage.
+                                    File tempFile = new File(getApplicationContext().getCacheDir(), "image.png");
+                                    try {
+                                        FileOutputStream outputStream = new FileOutputStream(tempFile);
+                                        imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream);
+                                        outputStream.close();
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
 
-                                Toast.makeText(getApplicationContext(), "your are in the activity for restult", Toast.LENGTH_SHORT).show();
+                                    // Obtain the URI of the temporary file
+                                    Uri uri = Uri.fromFile(tempFile);
+                                    uriUpdatedProfileImage = uri;
+                                    return;
 
-                                Uri selectedImageUri = data.getData();
-                                if (selectedImageUri == null) {
-                                    Bundle extras = data.getExtras();
 
                                 }
+
+                                // if we got here that means that the image was taken from gallery.
+                                Uri selectedImageUri = data.getData();
+                                iv_profileImage.setImageURI(selectedImageUri);
+                                updatedProfileImage = iv_profileImage.getDrawable();
+                                uriUpdatedProfileImage = selectedImageUri;
+
 
                             }
                         }
@@ -129,6 +150,10 @@ public class EditProfileActivity extends AppCompatActivity {
         setListeners();
     }
 
+    /**
+     * The function put texts into the EditTexts
+     * in case it's a teacher it will add an eddition to that.
+     */
     private void putFields() {
         et_name.setText(userModel.getName());
         et_email.setText(userModel.getEmail());
@@ -139,6 +164,12 @@ public class EditProfileActivity extends AppCompatActivity {
         et_lessonPrice.setText(teacherModel.getLessonPrice() + "");
     }
 
+
+
+    /**
+     *  Downloading the image from firebase
+     *  and displaying it in the image view
+     */
     private void putImageProfile() {
         long MEGABYTE = 1024 * 1024;
         storageReference.getBytes(MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
@@ -160,11 +191,16 @@ public class EditProfileActivity extends AppCompatActivity {
         });
 
         iv_profileImage.setOnClickListener(v -> {
-            openGallery();
+            openTakeImageIntent();
         });
     }
 
-    private void openGallery() {
+    /**
+     * the function will open an intent with 2 choices
+     * first is to take the image from the gallery
+     * second is to take picture from the camera.
+     */
+    private void openTakeImageIntent() {
 //        Intent intentImage = new Intent();
 //        intentImage.setType("image/*");
 //        intentImage.setAction(Intent.ACTION_GET_CONTENT);

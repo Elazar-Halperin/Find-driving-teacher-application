@@ -38,7 +38,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/iv_teacherProfile"
         app:srcCompat="@drawable/close_icon24px"
-        app:tint="@color/black" />
+        app:tint="@color/black_text_color" />
 
     <ImageView
         android:id="@+id/iv_teacherProfile"
@@ -231,7 +231,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="@font/feather_bold"
-                        android:text="About the Teacher:"
+                        android:text="@string/about_the_teacher"
                         android:textColor="@color/black_text_color"
                         android:textSize="@dimen/_20ssp"
                         android:layout_marginBottom="8dp"
@@ -263,7 +263,7 @@
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
                     android:fontFamily="@font/feather_bold"
-                    android:text="Reviews:"
+                    android:text="@string/reviews"
                     android:textColor="@color/black_text_color"
                     android:textSize="@dimen/_24ssp"
                     android:textStyle="bold" />

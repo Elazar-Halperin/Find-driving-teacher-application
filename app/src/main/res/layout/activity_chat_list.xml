@@ -46,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:fontFamily="@font/feather_bold"
-                android:text="Chats"
+                android:text="@string/chats"
                 android:layout_marginHorizontal="4dp"
                 android:focusedByDefault="true"
                 android:ellipsize="marquee"

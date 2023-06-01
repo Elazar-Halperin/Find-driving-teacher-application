@@ -25,6 +25,7 @@
     <string name="do_you_want_to_be_a_teacher">הירשם בתור מורה</string>
     <string name="your_profile">הפרופיל שלך</string>
     <string name="user">משתמש</string>
+    <string name="chats">צ\'אטים</string>
 
 
     <string-array name="licenses_he">
@@ -60,5 +61,13 @@
     <string name="save">שמירה</string>
     <string name="please_enter_the_code_that_we_have_sent_you_in_sms">הכנס את הקוד שנשלח אליך בסמס בעת קבלה.</string>
     <string name="lesson">שיעור</string>
+    <string name="get_code">קבל קוד</string>
+    <string name="couldn_t_find_a_teacher">לא נמצאו מוריםץ</string>
+    <string name="personal_info">מידע אישי</string>
+    <string name="type_here">הודעה</string>
+    <string name="info">מידע</string>
+    <string name="change_profile">שנה תמונה</string>
+    <string name="about_the_teacher">על המורה:</string>
+    <string name="reviews">ביקורות:</string>
 
 </resources>

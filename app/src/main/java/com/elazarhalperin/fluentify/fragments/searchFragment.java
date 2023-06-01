@@ -155,9 +155,11 @@ public class searchFragment extends Fragment {
                                 teachers.clear();
                                 for (QueryDocumentSnapshot snapshot : task.getResult()) {
                                     TeacherModel teacher = new TeacherModel(snapshot.getData());
-
                                     teachers.add(teacher);
 
+                                }
+                                if(teachers.isEmpty()) {
+                                    tv_text.setVisibility(View.VISIBLE);
                                 }
 
                                 adapter.notifyDataSetChanged();

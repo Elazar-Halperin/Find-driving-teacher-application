@@ -12,7 +12,7 @@
         android:id="@+id/tv_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Couldn't find a teacher."
+        android:text="@string/couldn_t_find_a_teacher"
         android:fontFamily="@font/feather_bold"
         android:textSize="@dimen/_20ssp"
         android:visibility="gone"

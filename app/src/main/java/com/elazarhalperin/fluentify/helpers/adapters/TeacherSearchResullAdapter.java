@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.provider.ContactsContract;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,7 +28,10 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
 import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 public class TeacherSearchResullAdapter extends RecyclerView.Adapter<TeacherSearchResullAdapter.HorizontalViewHolder> {
     Context context;
@@ -51,9 +56,35 @@ public class TeacherSearchResullAdapter extends RecyclerView.Adapter<TeacherSear
         holder.getTv_locations().setText(teacherModelList.get(position).getLocation());
         holder.getTv_lessonPrice().setText(teacherModelList.get(position).getLessonPrice() + context.getString(R.string.per_lesson));
         holder.getTv_rating().setText(String.valueOf(teacherModelList.get(position).getRating()));
-        holder.getTv_licenses().setText(teacherModelList.get(position).getLicenses().toString());
 
         holder.getShimmerFrameLayout().startShimmer();
+
+        TeacherModel teacherModel = teacherModelList.get(position);
+
+        String languageCode = context.getResources().getConfiguration().locale.getLanguage(); // get the current language code
+
+        if(languageCode.equals(new Locale("he").getLanguage())) {
+            List<String> teacherModelLicenses = teacherModel.getLicenses();
+            List<String> licenses_en = Arrays.asList(context.getResources().getStringArray(R.array.licenses_en));
+            List<String> licenses_he = Arrays.asList(context.getResources().getStringArray(R.array.licenses_he));
+
+            List<String> result = new ArrayList<>();
+            for(String license : teacherModelLicenses) {
+                int index = licenses_en.indexOf(license);
+                if(index < 0) continue;
+
+                result.add(licenses_he.get(index));
+            }
+            Log.d("loch", "you are in hebrew language\nthis is your result " + result   );
+
+            teacherModel.setLicenses(result);
+            holder.getTv_licenses().setText(String.join(",", result));
+
+        } else {
+            holder.getTv_licenses().setText(String.join(",",teacherModelList.get(position).getLicenses().toString()));
+
+        }
+
 
         // Get the image storage location.
         FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -91,7 +122,7 @@ public class TeacherSearchResullAdapter extends RecyclerView.Adapter<TeacherSear
 
             ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context);
             intent.putExtra("profile_image", bmp[0]);
-            intent.putExtra("teacher", teacherModelList.get(position));
+            intent.putExtra("teacher", teacherModel);
 
             context.startActivity(intent, options.toBundle());
         });

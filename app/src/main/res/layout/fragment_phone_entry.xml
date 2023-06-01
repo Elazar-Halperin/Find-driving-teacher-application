@@ -60,18 +60,6 @@
             android:orientation="horizontal"
             android:paddingVertical="10dp">
 
-            <com.hbb20.CountryCodePicker
-                android:id="@+id/countryCodeHolder"
-                android:layout_width="wrap_content"
-                android:gravity="center"
-                android:layout_height="50dp"
-                android:background="@drawable/rouned_edittext"
-                android:elevation="2dp"
-                android:padding="5dp"
-                app:ccpDialog_cornerRadius="20dp"
-                app:ccp_autoDetectCountry="true"
-                app:ccp_showNameCode="false"
-                app:ccp_textSize="@dimen/_14ssp" />
 
 
             <EditText

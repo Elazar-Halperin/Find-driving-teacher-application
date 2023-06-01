@@ -130,6 +130,7 @@
                         android:layout_height="wrap_content"
                         android:minHeight="0dp"
                         android:minWidth="0dp"
+                        android:textColor="@color/white"
                         app:backgroundTint="@color/background_purple"
                         android:background="@drawable/button_background_left"
                         android:fontFamily="@font/feather_bold"
@@ -154,6 +155,7 @@
                         android:minHeight="0dp"
                         android:minWidth="0dp"
                         android:rotationY="180"
+                        android:textColor="@color/white"
                         android:fontFamily="@font/feather_bold"
                         app:backgroundTint="@color/background_purple"
                         android:text="+"/>
