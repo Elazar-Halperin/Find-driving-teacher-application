@@ -19,7 +19,9 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.DateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Map;
 
 public class SignUpActivity extends AppCompatActivity {
@@ -52,6 +54,8 @@ public class SignUpActivity extends AppCompatActivity {
         auth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
 
+        // Create an instance of the helper class
+
         userTypeHelper = new UserTypeHelper(getApplicationContext());
 
         setListeners();
@@ -64,80 +68,122 @@ public class SignUpActivity extends AppCompatActivity {
         });
 
         btn_transferToSignIn.setOnClickListener( v-> {
+            // Transfer to the sign-in activity
             Intent toSignIn = new Intent(getApplicationContext(), SignInActivity.class);
             finish();
             startActivity(toSignIn);
         });
     }
 
+    // Method to sign up a user
     private void signUpUser() {
+        // Get user input values
         String email = et_email.getText().toString().trim();
         String name = et_name.getText().toString().trim();
         String password = et_password.getText().toString().trim();
         String confirmPassword = et_confirmPassword.getText().toString().trim();
 
-        if(!isValid(email, name, password, confirmPassword)) return;
+        // Validate input values
+        if (!isValid(email, name, password, confirmPassword)) return;
 
+        // Show progress bar
         ll_showProgressBar.setVisibility(View.VISIBLE);
 
+        // Create user in Firebase Authentication
         auth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
-            if(task.isSuccessful()) {
-                String uid = auth.getCurrentUser().getUid();
-                StudentModel studentModel = new StudentModel(uid,name, email, "Januar 1", 0);
-                db.collection("students")
-                        .document(uid)
-                        .set(studentModel)
-                        .addOnCompleteListener(data -> {
-                            if(data.isSuccessful()) {
-                                Intent toHome = new Intent(getApplicationContext(), HomeActivity.class);
-                                startActivity(toHome);
-                                Intent intent = new Intent();
-                                intent.putExtra("key", "result");
-                                userTypeHelper.setUserType(UserTypeHelper.STUDENT_TYPE);
-                                setResult(Activity.RESULT_OK, intent);
-                                finish();
-                            } else {
-                                auth.signOut();
-                                Toast.makeText(getApplicationContext(), "Error accured while sigin up, Pls try again", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-            } else {
-                Toast.makeText(getApplicationContext(), "Error accured while sigin up, Pls try again", Toast.LENGTH_SHORT).show();
-            }
+                    if (task.isSuccessful()) {
+                        // Get the unique user ID
+                        String uid = auth.getCurrentUser().getUid();
 
-            ll_showProgressBar.setVisibility(View.GONE);
-        });
+                        Locale locale = new Locale("en", "US");
+                        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.DEFAULT, locale);
+                        String date = dateFormat.format(new Date());
+
+                         Locale he_locale = new Locale("he", "IL");
+                         dateFormat = DateFormat.getDateInstance(DateFormat.DEFAULT, he_locale);
+                        String he_date = dateFormat.format(new Date());
 
 
+                        // Create a student model with user details
+                        StudentModel studentModel = new StudentModel(uid, name, email, date, he_date, 0);
+
+                        // Save student model to Firestore database
+                        db.collection("students")
+                                .document(uid)
+                                .set(studentModel)
+                                .addOnCompleteListener(data -> {
+                                    if (data.isSuccessful()) {
+                                        // Transfer to the home activity
+                                        // and finish all activities.
+                                        Intent toHome = new Intent(getApplicationContext(), HomeActivity.class);
+                                        startActivity(toHome);
+
+                                        // Set result and user type in the helper class
+                                        Intent intent = new Intent();
+                                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        intent.putExtra("key", "result");
+                                        userTypeHelper.setUserType(UserTypeHelper.STUDENT_TYPE);
+                                        setResult(Activity.RESULT_OK, intent);
+
+                                        // Finish the sign-up activity
+                                        finish();
+                                    } else {
+                                        // Sign out user and show error message
+                                        auth.signOut();
+                                        Toast.makeText(getApplicationContext(), "An error occurred while signing up. Please try again.", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                    } else {
+                        // Show error message
+                        Toast.makeText(getApplicationContext(), "An error occurred while signing up. Please try again.", Toast.LENGTH_SHORT).show();
+                    }
+
+                    // Hide progress bar
+                    ll_showProgressBar.setVisibility(View.GONE);
+                });
     }
 
+
+    /**
+     * Validates the email, name, password, and confirm password fields for user sign-up.
+     *
+     * @param email           The email to validate.
+     * @param name            The name to validate.
+     * @param password        The password to validate.
+     * @param confirmPassword The confirm password to validate.
+     * @return {@code true} if the fields are valid, {@code false} otherwise.
+     */
     private boolean isValid(String email, String name, String password, String confirmPassword) {
-        if(!UserSignValidity.isEmailPatternValid(email)) {
+        // Validate email pattern
+        if (!UserSignValidity.isEmailPatternValid(email)) {
             et_email.requestFocus();
-            et_email.setError("Please provide valid email!");
+            et_email.setError("Please provide a valid email!");
             return false;
         }
 
-        if(name == null || name.isEmpty()) {
+        // Validate name
+        if (name == null || name.isEmpty()) {
             et_name.requestFocus();
             et_name.setError("Please provide your name!");
             return false;
         }
 
-        if(!UserSignValidity.isPasswordValid(password)) {
+        // Validate password length
+        if (!UserSignValidity.isPasswordValid(password)) {
             et_password.requestFocus();
             et_password.setError("Please provide at least 8 characters!");
             return false;
         }
-        if(!confirmPassword.equals(password)) {
+
+        // Validate password and confirm password match
+        if (!confirmPassword.equals(password)) {
             et_confirmPassword.requestFocus();
-            et_confirmPassword.setError("Incorrect! Please type your password!");
+            et_confirmPassword.setError("Incorrect! Please type your password again!");
             return false;
         }
 
         return true;
     }
-
 
 }

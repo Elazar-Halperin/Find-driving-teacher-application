@@ -47,9 +47,15 @@ public class HomeFragment extends Fragment {
     List<CategoryModel> categories;
     private static final String ARG_CATEGORIES = "categories";
 
+    /**
+     * save the categories
+     * so we don't have to load the again
+     * load only once when entering the application.
+     */
     public static HomeFragment newInstance(ArrayList<CategoryModel> categories) {
         HomeFragment fragment = new HomeFragment();
         Bundle args = new Bundle();
+        // put the categories.
         args.putSerializable(ARG_CATEGORIES, categories);
         fragment.setArguments(args);
         return fragment;
@@ -58,6 +64,8 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // check if the categories is saved
+        // means it's not first enter and the user has already load the teachers.
         if (getArguments() != null) {
             Toast.makeText(getActivity(), "feels good ", Toast.LENGTH_SHORT).show();
             categories = (List<CategoryModel>) getArguments().getSerializable(ARG_CATEGORIES);
@@ -88,8 +96,6 @@ public class HomeFragment extends Fragment {
             // to start the skeletion effect
             shimmer.startShimmer();
 
-
-
         } else {
             shimmer.stopShimmer();
             shimmer.setVisibility(View.GONE);
@@ -109,6 +115,10 @@ public class HomeFragment extends Fragment {
         }
     }
 
+    /**
+     * getting all the teachers
+     * that will be displayed in the home framgnet.
+     */
     private void getAllTeachersByCategories() {
         // getting al the queries by categories and prefernces ( this is just a demo for me)
         Query price = teacherRef.whereLessThanOrEqualTo("lessonPrice", 140.00).limit(10);
@@ -146,21 +156,20 @@ public class HomeFragment extends Fragment {
                     List<TeacherModel> jerusalemTeachers = extractTeachers(querySnapshots.get(2));
                     List<TeacherModel> haderaTeachers = extractTeachers(querySnapshots.get(3));
 
+                    // add the teachers into the categories.
                     categoryPrice.setTeachers(priceTeachers);
                     categoryrating.setTeachers(ratingTeachers);
                     categoryHadera.setTeachers(haderaTeachers);
                     categoryJerusalem.setTeachers(jerusalemTeachers);
-
-
 
                     categories.add(categoryPrice);
                     categories.add(categoryrating);
                     categories.add(categoryJerusalem);
                     categories.add(categoryHadera);
 
-
                     adapter.notifyDataSetChanged();
 
+                    // after added stop loading.
                     shimmer.stopShimmer();
                     shimmer.setVisibility(View.GONE);
                     rv_sections.setVisibility(View.VISIBLE);
@@ -182,14 +191,20 @@ public class HomeFragment extends Fragment {
 
     }
 
+    /**
+     * Extracts a list of TeacherModel objects from a QuerySnapshot.
+     *
+     * @param querySnapshot The QuerySnapshot containing the teacher documents.
+     * @return The list of TeacherModel objects extracted from the QuerySnapshot.
+     */
     private List<TeacherModel> extractTeachers(QuerySnapshot querySnapshot) {
-        List<TeacherModel> teachers = new ArrayList<>();
+        List<TeacherModel> teachers = new ArrayList<>(); // Create an empty list to store the extracted teachers
         for (DocumentSnapshot documentSnapshot : querySnapshot.getDocuments()) {
-            // Assuming your Teacher class has a constructor that takes a DocumentSnapshot
-            TeacherModel teacher = new TeacherModel(documentSnapshot.getData());
-            teachers.add(teacher);
+            // it will go to the map constructor and will build a teacherModel.
+            TeacherModel teacher = new TeacherModel(documentSnapshot.getData()); // Create a TeacherModel object from the document data
+            teachers.add(teacher); // Add the teacher to the list
         }
-        return teachers;
+        return teachers; // Return the list of extracted teachers
     }
 
 

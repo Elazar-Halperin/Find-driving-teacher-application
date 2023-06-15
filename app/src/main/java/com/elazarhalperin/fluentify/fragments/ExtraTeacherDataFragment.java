@@ -60,6 +60,7 @@ public class ExtraTeacherDataFragment extends Fragment {
 
         Bundle bundle = getArguments();
         if(bundle != null) {
+            // get the phone number
             phoneNumber = bundle.getString("phoneNumber");
         } else {
             Toast.makeText(getActivity(), "wtf is going on", Toast.LENGTH_SHORT).show();
@@ -94,6 +95,7 @@ public class ExtraTeacherDataFragment extends Fragment {
 
         navController = Navigation.findNavController(view);
 
+        // get the cities and move it into arrayAdapter.
         cities = Arrays.asList(getResources().getStringArray(R.array.cities));
 
         listCitiesAdapter = new ArrayAdapter<>(getActivity(),
@@ -102,6 +104,7 @@ public class ExtraTeacherDataFragment extends Fragment {
 
 
 
+        // get the list of hebrew and english.
         List<String> licenses = Arrays.asList(getResources().getStringArray(languageCode.equals(new Locale("he").getLanguage()) ? R.array.licenses_he : R.array.licenses_en));
         licensesEn = Arrays.asList(getResources().getStringArray(R.array.licenses_en));
         licensesHe = Arrays.asList(getResources().getStringArray(R.array.licenses_he));
@@ -126,13 +129,18 @@ public class ExtraTeacherDataFragment extends Fragment {
 
     }
 
+    /**
+     * Navigates to the next fragment after validating the input fields.
+     * If any of the fields is empty or invalid, an error message is displayed.
+     */
     private void goToNextFragment() {
+        // Retrieve input field values
         String name = et_name.getText().toString().trim();
         String info = et_extraInfo.getText().toString().trim();
-        String price = et_lessonPrice.getText().toString().trim(); // later we will turn it into double.
+        String price = et_lessonPrice.getText().toString().trim();
         String locations = et_teachingPlaces.getText().toString().trim();
 
-        // checking if any of the fields is empty.
+        // Validate input fields
         if (name == null || name.isEmpty()) {
             et_name.requestFocus();
             et_name.setError("Please fill the field!");
@@ -154,7 +162,8 @@ public class ExtraTeacherDataFragment extends Fragment {
             return;
         }
 
-        if(selectedImage == null) {
+        // Validate profile image
+        if (selectedImage == null) {
             Toast.makeText(getActivity(), "Profile image is required", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -162,20 +171,26 @@ public class ExtraTeacherDataFragment extends Fragment {
         try {
             double d = Double.parseDouble(price);
         } catch (Exception e) {
-            Toast.makeText(getActivity(), "only numeric is possible.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Only numeric values are allowed for the price.", Toast.LENGTH_SHORT).show();
             return;
         }
 
         Bundle bundle = getBundleFromFields(name, info, price, locations);
 
         navController.navigate(R.id.action_extraTeacherDataFragment_to_finalSignUpTeacherFragment, bundle);
-
     }
 
+    /**
+     * Creates a bundle containing the input field values.
+     *
+     * @param name      The name value.
+     * @param info      The info value.
+     * @param price     The price value.
+     * @param locations The locations value.
+     * @return The bundle containing the field values.
+     */
     private Bundle getBundleFromFields(String name, String info, String price, String locations) {
-
         Bundle bundle = new Bundle();
-        // turning the price into double.
         double lessonPrice = Double.parseDouble(price);
 
         bundle.putString("name", name);
@@ -189,41 +204,56 @@ public class ExtraTeacherDataFragment extends Fragment {
         return bundle;
     }
 
+    /**
+     * Generates a chip with the provided license and adds it to the layout.
+     *
+     * @param license The license text.
+     */
     @SuppressLint("UseCompatLoadingForDrawables")
     private void generateChip(String license) {
         Chip chip = new Chip(getActivity());
+        // set the chip text.
         chip.setText(license);
+        // set the icon
         chip.setChipIcon(
                 getResources().getDrawable(R.drawable.ic_launcher_foreground, getActivity().getTheme())
         );
         chip.setChipIconVisible(false);
         chip.setClickable(true);
-        // chip.setCheckable(true);
+        // set on click listener to the chip
         chip.setOnClickListener(view -> {
             try {
+                // when chip is choosed
+                // remove it from this chipGroup and transfer to other
                 cg_choose.removeView(view);
                 chip.setCloseIconVisible(true);
                 cg_pickedLicenses.addView(view);
-                // if the license is string is in hebrew then we convert it into english
+
+                // change the language of license if the app is in heb
                 int position = licensesHe.indexOf(license);
-                if(position >= 0) {
+                if (position >= 0) {
                     pickedLicenses_en.add(licensesEn.get(position));
                 } else {
-                    // if its not in hebrew then we simply add it into the license picked
                     pickedLicenses_en.add(license);
                 }
             } catch (Exception e) {
-
+                // Handle any exceptions
             }
         });
         chip.setOnCloseIconClickListener(view -> {
+            // when chip is choosed
+            // remove it from this chipGroup and transfer to other
             cg_pickedLicenses.removeView(view);
             chip.setCloseIconVisible(false);
+            // transfer to other
             cg_choose.addView(view);
             chip.setChecked(true);
             chip.requestFocus();
+
+            // change the language of license if the app is in heb
+
             int position = licensesHe.indexOf(license);
-            if(position >= 0) {
+            if (position >= 0) {
                 pickedLicenses_en.remove(licensesEn.get(position));
             } else {
                 pickedLicenses_en.remove(license);

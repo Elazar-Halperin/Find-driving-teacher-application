@@ -83,6 +83,8 @@ public class UserSettingsFragment extends Fragment {
 
     FirebaseUser firebaseUser;
 
+    String lang;
+
     int finishedLessons;
     int finalFinishedLessons;
 
@@ -100,6 +102,7 @@ public class UserSettingsFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        // assing all the deafult values.
         firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
 
         switch_darkMode = view.findViewById(R.id.darkModeSwitch);
@@ -144,7 +147,8 @@ public class UserSettingsFragment extends Fragment {
         prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
 
 
-        String lang = prefs.getString("lang", getActivity().getResources().getConfiguration().locale.getLanguage());
+        // get the language code. ("en"), ("he").
+        lang = prefs.getString("lang", getActivity().getResources().getConfiguration().locale.getLanguage());
 
         if (lang.equals("en")) {
             rb_english.setChecked(true);
@@ -248,13 +252,16 @@ public class UserSettingsFragment extends Fragment {
         });
 
         btn_plus.setOnClickListener(v -> {
+            // add the lessons and update it.
             finishedLessons++;
             tv_finishedLessons.setText(finishedLessons + "");
         });
 
         btn_minus.setOnClickListener(v -> {
+            // if is less then 0 then do nothing
             if (finishedLessons <= 0) return;
 
+            // decrease the finishedLessons.
             finishedLessons--;
             tv_finishedLessons.setText(finishedLessons + "");
         });
@@ -275,6 +282,7 @@ public class UserSettingsFragment extends Fragment {
     }
 
     private void setDarkMode(boolean isDarkMode) {
+        // set the dark mode in the shared preferences
         darkModeManager.setDarkMode(isDarkMode);
         switch_darkMode.setChecked(isDarkMode);
         if (isDarkMode) {
@@ -284,33 +292,49 @@ public class UserSettingsFragment extends Fragment {
         }
     }
 
+    /**
+     * Changes the language by animating the language selection UI and updating the language state.
+     * This method is triggered when the language button is pressed.
+     */
     private void changeLanguage() {
         animateDrawable();
         expandRadioGroupAnimation();
-
         isPressed = !isPressed;
     }
 
+    /**
+     * Animates the expansion or collapse of the radio group that holds the language options.
+     */
     private void expandRadioGroupAnimation() {
         int visibility = !isPressed ? View.VISIBLE : View.GONE;
 
+        // Apply transition animation to the linear layout containing the radio group
         TransitionManager.beginDelayedTransition(linearLayout, new AutoTransition());
         rg_holder.setVisibility(visibility);
     }
 
+    /**
+     * Animates the drawable associated with the language button.
+     * The animation progresses from 0 to the MAX_LEVEL value defined as 10000.
+     * If the drawable is null, a toast message is displayed.
+     */
     private void animateDrawable() {
         int MAX_LEVEL = 10000;
 
+        // Get the compound drawables of the language TextView
         Drawable[] myTextViewCompoundDrawables = tv_language.getCompoundDrawables();
-        Drawable drawable = myTextViewCompoundDrawables[2]; // assuming the desired drawable is the last one
+        Drawable drawable = myTextViewCompoundDrawables[2]; // Assuming the desired drawable is the last one
 
+        // Check if the drawable is null
         if (drawable == null) {
-            Toast.makeText(getActivity(), "its null", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Drawable is null", Toast.LENGTH_SHORT).show();
             return;
         }
 
+        // Create an ObjectAnimator to animate the level property of the drawable
         ObjectAnimator anim = ObjectAnimator.ofInt(drawable, "level", 0, MAX_LEVEL);
 
+        // Start or reverse the animation based on the pressed state
         if (!isPressed) {
             anim.start();
         } else {
@@ -319,7 +343,7 @@ public class UserSettingsFragment extends Fragment {
     }
 
     private void editProfile() {
-
+        // go to the edit activity
         startActivity(toEditProfileIntent);
     }
 
@@ -334,62 +358,92 @@ public class UserSettingsFragment extends Fragment {
      * where the user can sign or create a user.
      */
     private void logOut() {
+        // sign out the user from his account
         auth.signOut();
+        // removes the type of user to empty string
+        // because he isn't sign in anymore
         userTypeHelper.removeUserType();
 
+        // go back to the MainSignActivity
+        //
         getActivity().finish();
         Intent i = new Intent(getActivity(), MainSignActivity.class);
         startActivity(i);
     }
 
+
+    /**
+     * Retrieves user data from Firebase based on the user type.
+     * If the user type is not available, displays an error message.
+     */
     private void getUsersDataFromFirebase() {
+        // Check if the user type is available
         if (userTypeHelper.getUserType().isEmpty()) {
-            Toast.makeText(getActivity(), "Error occured, pls try again.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "Error occurred, please try again.", Toast.LENGTH_SHORT).show();
+            return;
         }
+
+        // Determine the collection based on the user type
         String collection = userTypeHelper.getUserType().equals(UserTypeHelper.TEACHER_TYPE) ? "teachers" : "students";
         DocumentReference userRef = FirebaseFirestore.getInstance().collection(collection).document(firebaseUser.getUid());
 
+        // Retrieve the user data from Firebase
         userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
+                    // Retrieve the UserModel from the document snapshot
                     UserModel userModel = task.getResult().toObject(UserModel.class);
                     toEditProfileIntent.putExtra("userModel", userModel);
                     assignDefaultUserFields(userModel);
 
+                    // Check the collection to determine the user model type
                     if (collection.equals("teachers")) {
+                        // Retrieve the TeacherModel from the document snapshot
                         TeacherModel teacherModel = new TeacherModel(task.getResult().getData());
                         toEditProfileIntent.putExtra("teacherModel", teacherModel);
                         Log.d("teacherModel", teacherModel.toString());
-
                     } else {
+                        // Retrieve the StudentModel from the document snapshot
                         StudentModel studentModel = new StudentModel(task.getResult().getData());
                         Log.d("studentModel", studentModel.toString());
                         getStudentData(studentModel);
                     }
                 } else {
-
+                    // Handle the error case
                 }
             }
         });
     }
 
+    // get the data from the student collection
+    // if the user is a student.
     private void getStudentData(StudentModel studentModel) {
         finalFinishedLessons = finishedLessons = studentModel.getFinishedLessons();
 
         tv_finishedLessons.setText(finishedLessons + "");
     }
 
+    /**
+     * values that a teacher and a student have in common
+     * @param userModel the model with the name and everyting.
+     */
     private void assignDefaultUserFields(UserModel userModel) {
         String name = userModel.getName();
-        String date = userModel.getSignUpDate();
+        String date = lang.equals("en") ? userModel.getSignUpDate() : userModel.getSignUpDate_he() ;
 
+        // sign the name and the date
         tv_userName.setText(name);
         tv_signUpDate.setText(date);
 
+        // add the profile picture of the user.
         assignUserProfile();
     }
 
+    /**
+     * add the profile picture of the user
+     * to the imageView to display it
+     */
     private void assignUserProfile() {
         // get the reference of the storage where the profile image is stored.
         FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -397,15 +451,18 @@ public class UserSettingsFragment extends Fragment {
 
         long MEGABYTE = 1024 * 1024;
 
+        // download the image from firebase storage.
         profileImageRef.getBytes(MEGABYTE).addOnSuccessListener(new OnSuccessListener<byte[]>() {
             @Override
             public void onSuccess(byte[] bytes) {
                 Bitmap bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
+                // sign the bitmap into the user imageview.
                 iv_profileImage.setImageBitmap(bitmap);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
+                // in case of failure put the default image.
                 iv_profileImage.setImageDrawable(getActivity().getDrawable(R.drawable.proxy));
             }
         }).addOnCompleteListener(new OnCompleteListener<byte[]>() {
@@ -428,6 +485,7 @@ public class UserSettingsFragment extends Fragment {
         DocumentReference studentRef = FirebaseFirestore.getInstance().collection("students")
                 .document(firebaseUser.getUid());
 
+        // update the lessons that the user has finished in the firebase.
         studentRef.update("finishedLessons", finishedLessons)
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override

@@ -7,20 +7,20 @@ import java.util.List;
 import java.util.Map;
 
 public class TeacherModel extends UserModel implements Serializable {
-    double lessonPrice;
-    double rating;
-    String location;
-    String info;
-    String phoneNumber;
-    List<String> licenses;
-    List<HashMap<String, Object>> reviews;
+    double lessonPrice; // price per lesson
+    double rating; // rating of the teacher
+    String location; // location where he teaches.
+    String info; // info about him
+    String phoneNumber; // his phone number
+    List<String> licenses; // the licenses that he teaches.
+    List<HashMap<String, Object>> reviews; // his reviews about htm
 
     public TeacherModel() {
     }
 
 
-    public TeacherModel(String uid, String name, String email, String signUpDate, double lessonPrice,  String location, String info, String phoneNumber, List<String> licences) {
-        super(uid, name, email, signUpDate);
+    public TeacherModel(String uid, String name, String email, String signUpDate, String signUpDate_he, double lessonPrice,  String location, String info, String phoneNumber, List<String> licences) {
+        super(uid, name, email, signUpDate, signUpDate_he);
         this.lessonPrice = lessonPrice;
         this.rating = 0.0d;
         this.location = location;
@@ -30,11 +30,15 @@ public class TeacherModel extends UserModel implements Serializable {
         reviews = new ArrayList<>();
     }
 
+    // have a constructor of map object
+    // because firebase retrieves map objects
+    // we turn the map object into teacher object.
     public TeacherModel(Map<String, Object> mapTeacher) {
         super.uid = (String) mapTeacher.get("uid");
         super.name = (String) mapTeacher.get("name");
         super.email = (String) mapTeacher.get("email");
         super.signUpDate = (String) mapTeacher.get("signUpDate");
+        super.signUpDate_he = (String) mapTeacher.get("signUpDate_he");
         this.lessonPrice = (double) mapTeacher.get("lessonPrice");
         this.rating = (double) mapTeacher.get("rating");
         this.location = (String) mapTeacher.get("location");
@@ -44,6 +48,9 @@ public class TeacherModel extends UserModel implements Serializable {
         this.reviews = (List<HashMap<String, Object>>) mapTeacher.get("reviews");
     }
 
+    /*
+    get the user as map so we can modify it better in the firebase.
+     */
     public Map getMap()
     {
         Map<String, Object> user = new HashMap<>();
@@ -51,6 +58,7 @@ public class TeacherModel extends UserModel implements Serializable {
         user.put("name",name);
         user.put("email",email);
         user.put("signUpDate",signUpDate);
+        user.put("signUpDate_he",signUpDate);
         user.put("lessonPrice",lessonPrice);
         user.put("rating",rating);
         user.put("location",location);

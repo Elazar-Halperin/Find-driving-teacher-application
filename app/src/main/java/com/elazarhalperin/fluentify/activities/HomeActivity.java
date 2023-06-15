@@ -43,7 +43,6 @@ public class HomeActivity extends AppCompatActivity {
 
     SharedPreferences prefs;
 
-    int count;
 
 
     @Override
@@ -65,9 +64,6 @@ public class HomeActivity extends AppCompatActivity {
 
         userTypeHelper = new UserTypeHelper(getApplicationContext());
 
-
-        count = 0;
-
         bnv_nav = findViewById(R.id.bnv_homeNav);
 
         // get the navHost fragment and the navigation controller to use the navbar.
@@ -82,19 +78,6 @@ public class HomeActivity extends AppCompatActivity {
             AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         }
 
-        bnv_nav.setOnItemReselectedListener(new NavigationBarView.OnItemReselectedListener() {
-            @Override
-            public void onNavigationItemReselected(@NonNull MenuItem item) {
-                switch (item.getItemId()) {
-                    case R.id.learnFragment:
-                        count++;
-                        if(count >= 20) {
-                            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://i.kym-cdn.com/entries/icons/original/000/036/244/kisscover.jpg")));
-                            count = 0;
-                        }
-                }
-            }
-        });
 
         setUserType();
 
@@ -121,6 +104,7 @@ public class HomeActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                         if (task.getResult().getData() != null) {
+                            // if gets here means you are a teacher.
                             userTypeHelper.setUserType("teacher");
                         } else {
                             db.collection("students")
@@ -128,6 +112,7 @@ public class HomeActivity extends AppCompatActivity {
                                     .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                         @Override
                                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                            // if gets here mean you are a student.
                                             userTypeHelper.setUserType("student");
                                         }
                                     });

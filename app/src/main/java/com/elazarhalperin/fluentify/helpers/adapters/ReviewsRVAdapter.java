@@ -52,6 +52,8 @@ public class ReviewsRVAdapter extends RecyclerView.Adapter<ReviewsRVAdapter.Revi
         tv_reviewDate.setText(review.get("reviewDate").toString());
         tv_reviewerName.setText(review.get("reviewerName").toString());;
 
+        // set the text color depending on the mode of the ui.
+        // white if dark mode.
         int textColor;
         if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
             textColor = holder.itemView.getContext().getColor(R.color.white);

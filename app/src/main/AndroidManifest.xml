@@ -73,13 +73,6 @@
                 android:value="" />
         </activity>
         <activity
-            android:name=".activities.SettingsActivity"
-            android:exported="false">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
             android:name=".activities.HomeActivity"
             android:exported="false">
             <meta-data
@@ -113,13 +106,6 @@
             android:exported="false"
             android:parentActivityName=".activities.MainSignActivity"
             android:windowSoftInputMode="adjustResize">
-            <meta-data
-                android:name="android.app.lib_name"
-                android:value="" />
-        </activity>
-        <activity
-            android:name=".MainActivity"
-            android:exported="false">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />

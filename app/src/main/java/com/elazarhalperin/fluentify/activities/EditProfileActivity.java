@@ -201,81 +201,95 @@ public class EditProfileActivity extends AppCompatActivity {
      * second is to take picture from the camera.
      */
     private void openTakeImageIntent() {
-//        Intent intentImage = new Intent();
-//        intentImage.setType("image/*");
-//        intentImage.setAction(Intent.ACTION_GET_CONTENT);
-//        startActivityForResult(intentImage, GO_TO_GALLERY_CODE);
 
         Intent intentImage = new Intent(Intent.ACTION_GET_CONTENT);
         intentImage.setType("image/*");
         intentImage.putExtra(MediaStore.EXTRA_SIZE_LIMIT, 1024 * 1024); // Limit image resolution to 1MB
 
         Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        intentCamera.putExtra(MediaStore.EXTRA_SIZE_LIMIT, 1024 * 1024);
+        intentCamera.putExtra(MediaStore.EXTRA_SIZE_LIMIT, 1024 * 1024); // Limit image size
 
+        // intent that you can choose between camera and gallery/
         Intent chooserIntent = Intent.createChooser(intentImage, "Select Image");
         chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, new Intent[]{intentCamera});
 
         galleryLauncher.launch((chooserIntent));
     }
 
+    /**
+     * Saves the user details to Firebase Firestore.
+     * If the user is a teacher, it also updates the teacher details.
+     */
     private void saveUserDetails() {
         String name = et_name.getText().toString().trim();
 
         btn_save.setEnabled(false);
 
+        // Validate user fields
         if (!isUserFieldsValid(name)) {
             return;
         }
 
+        // Check if the name is the same as the current user's name and there is no teacherModel
         if (name.equals(userModel.getName()) && teacherModel == null) {
             return;
         }
 
+        // Update the user details in Firebase Firestore
         updateUserInFirebase(name);
 
+        // Check if the user is a teacher
+        if (teacherModel == null) {
+            return;
+        }
 
-        if (teacherModel == null) return;
-        // that means that the user is actually a teacher so we will update the teacher.
-
+        // Disable the save button
         btn_save.setEnabled(false);
 
+        // Get the info and lesson price from the EditText fields
         String info = et_info.getText().toString().trim();
         String lessonPrice = et_lessonPrice.getText().toString().trim();
 
+        // Validate the info field
         if (info.isEmpty()) {
-            et_info.setError("field is empty");
+            et_info.setError("Field is empty");
             et_info.requestFocus();
             return;
         }
 
+        // Validate the lesson price field
         if (lessonPrice.isEmpty()) {
-            et_lessonPrice.setError("field is empty");
+            et_lessonPrice.setError("Field is empty");
             et_info.requestFocus();
             return;
         }
 
+        // Validate that the lesson price is numeric
         try {
             double d = Double.parseDouble(lessonPrice);
         } catch (Exception e) {
-            Toast.makeText(getApplicationContext(), "only numeric is possible.", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Only numeric values are allowed.", Toast.LENGTH_SHORT).show();
             return;
         }
 
+        // Get the teacher document reference
         DocumentReference teacherRef = FirebaseFirestore.getInstance().collection("teachers").document(firebaseUser.getUid());
 
-        if (lessonPrice.equals(teacherModel.getLessonPrice()) && info.equals(teacherModel.getInfo()))
+        // Check if the info and lesson price are the same as the current teacher's info and lesson price
+        if (lessonPrice.equals(teacherModel.getLessonPrice()) && info.equals(teacherModel.getInfo())) {
             return;
+        }
 
+        // Update the teacher model with the new info and lesson price
         teacherModel.setInfo(info);
         teacherModel.setLessonPrice(Double.parseDouble(lessonPrice));
 
-
-        teacherRef.update(teacherModel.getMap()).addOnCompleteListener(new OnCompleteListener() {
+        // Update the teacher document in Firebase Firestore
+        teacherRef.update(teacherModel.getMap()).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
-            public void onComplete(@NonNull Task task) {
+            public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {
-                    Toast.makeText(getApplicationContext(), "updated successfully", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Updated successfully", Toast.LENGTH_SHORT).show();
                     btn_save.setEnabled(true);
                     finish();
                 } else {
@@ -285,31 +299,43 @@ public class EditProfileActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * Updates the user details in Firebase Firestore.
+     * If the user is a teacher, it updates the teacher details; otherwise, it updates the student details.
+     *
+     * @param name The updated name of the user.
+     */
     private void updateUserInFirebase(String name) {
         userModel.setName(name);
 
+        // Determine the collection based on whether the user is a teacher or a student
         String collection = teacherModel == null ? "students" : "teachers";
         DocumentReference studentRef = FirebaseFirestore.getInstance().collection(collection).document(firebaseUser.getUid());
 
+        // Update the user document in Firebase Firestore
         studentRef.update(userModel.getMap())
                 .addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (teacherModel == null) {
-                            Toast.makeText(getApplicationContext(), "updated successfully", Toast.LENGTH_SHORT).show();
+                            // Display a success message and disable the save button
+                            Toast.makeText(getApplicationContext(), "Updated successfully", Toast.LENGTH_SHORT).show();
                             btn_save.setEnabled(false);
                             finish();
                         }
                     }
                 });
 
+        // Check if the profile image URI has been updated
         if (uriUpdatedProfileImage != null) {
             updateProfileImageInFirebase();
         }
-
-
     }
 
+    /**
+     * Updates the profile image in Firebase Storage.
+     * The profile image file is uploaded to the storage reference.
+     */
     private void updateProfileImageInFirebase() {
         storageReference.putFile(uriUpdatedProfileImage)
                 .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
@@ -324,7 +350,13 @@ public class EditProfileActivity extends AppCompatActivity {
                 });
     }
 
-
+    /**
+     * Validates the user fields.
+     * Checks if the name field is empty.
+     *
+     * @param name The name to validate.
+     * @return {@code true} if the fields are valid, {@code false} otherwise.
+     */
     private boolean isUserFieldsValid(String name) {
         if (name.isEmpty()) {
             et_name.setError("Please fill the empty field!");
@@ -334,14 +366,23 @@ public class EditProfileActivity extends AppCompatActivity {
         return true;
     }
 
-
+    /**
+     * Handles the result of the activity launched for result.
+     * It is called when returning from the gallery after selecting an image.
+     *
+     * @param requestCode The request code of the original request.
+     * @param resultCode  The result code returned by the activity.
+     * @param data        The intent data containing the result.
+     */
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (requestCode == GO_TO_GALLERY_CODE && resultCode == RESULT_OK && data != null) {
+            // update the image view.
             iv_profileImage.setImageURI(data.getData());
             updatedProfileImage = iv_profileImage.getDrawable();
+            // save the uri of the image to upload it to firebase.
             uriUpdatedProfileImage = data.getData();
         }
     }

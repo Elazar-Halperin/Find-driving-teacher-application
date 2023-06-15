@@ -96,95 +96,114 @@ public class searchFragment extends Fragment {
         rv_teachers.setLayoutManager(layoutManager);
         rv_teachers.setAdapter(adapter);
 
+        // get the language code
+        // so we can modify lists to be hebrew if necessary
         languageCode = getResources().getConfiguration().locale.getLanguage(); // get the current language code
-
-        Toast.makeText(getActivity(), languageCode, Toast.LENGTH_SHORT).show();
 
         setListeners();
 
     }
 
+    /**
+     * Sets the click listeners for the filter and search FAB buttons.
+     */
     private void setListeners() {
+        // Set click listener for filter FAB button
         fab_filter.setOnClickListener(v -> {
             showDialog();
         });
+
+        // Set click listener for search FAB button
         fab_search.setOnClickListener(v -> {
+            // Check if a city is selected
             if (actv_cities.getText() == null || actv_cities.getText().toString().isEmpty()) {
                 Snackbar.make(getView(), "Please pick a city.", Snackbar.LENGTH_SHORT).show();
                 return;
             }
 
+            // Hide the "no results" text view
             tv_text.setVisibility(View.GONE);
 
+            // Create a query for the "teachers" collection
             Query query = db.collection("teachers");
+
+            // Filter by selected city
             query = query.whereEqualTo("location", actv_cities.getText().toString());
-            // Iterating through the chips to see which one is triggered.
+
+            // Get the selected license from the chip group
             String license = getChoosenChipString(cg_license);
 
             if (!license.isEmpty()) {
-                List<String> licenses_en = Arrays.asList(getResources().getStringArray( R.array.licenses_en));
+                // Convert the license values from Hebrew to English if necessary
+                List<String> licenses_en = Arrays.asList(getResources().getStringArray(R.array.licenses_en));
                 List<String> licenses_he = Arrays.asList(getResources().getStringArray(R.array.licenses_he));
 
                 int position = licenses_he.indexOf(license);
-                // changing the license to the english language in case of the language is hebrew.
-                if(position != - 1) {
+                if (position != -1) {
                     license = licenses_en.get(position);
                 }
 
                 Toast.makeText(getActivity(), license, Toast.LENGTH_SHORT).show();
 
+                // Add license filter to the query
                 query = query.whereArrayContains("licences", license);
             }
 
+            // Get the selected preference from the chip group
             String preference = getChoosenChipString(cg_preference);
 
             if (!preference.isEmpty()) {
-                Toast.makeText(getActivity(), preference, Toast.LENGTH_SHORT).show();
+                // Add preference sorting to the query
                 query = query.orderBy(preference, Query.Direction.DESCENDING);
             }
 
+            // Hide the recycler view and show shimmer loading animation
             rv_teachers.setVisibility(View.GONE);
             shimmerFrameLayout.setVisibility(View.VISIBLE);
             shimmerFrameLayout.startShimmer();
 
-            query.get()
-                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                        @Override
-                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                            if (task.isSuccessful()) {
-                                teachers.clear();
-                                for (QueryDocumentSnapshot snapshot : task.getResult()) {
-                                    TeacherModel teacher = new TeacherModel(snapshot.getData());
-                                    teachers.add(teacher);
-
-                                }
-                                if(teachers.isEmpty()) {
-                                    tv_text.setVisibility(View.VISIBLE);
-                                }
-
-                                adapter.notifyDataSetChanged();
-
-                                rv_teachers.setVisibility(View.VISIBLE);
-                                shimmerFrameLayout.setVisibility(View.GONE);
-                                shimmerFrameLayout.stopShimmer();
-
-                                if (teachers.isEmpty()) {
-                                }
-
-                            } else {
-                                tv_text.setVisibility(View.VISIBLE);
-                                shimmerFrameLayout.stopShimmer();
-                                shimmerFrameLayout.setVisibility(View.GONE);
-                                Log.d("Firestore", "Error getting documents: ", task.getException());
-
-                            }
+            // Execute the query to fetch teachers
+            query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        teachers.clear();
+                        for (QueryDocumentSnapshot snapshot : task.getResult()) {
+                            // Create TeacherModel objects from query results
+                            TeacherModel teacher = new TeacherModel(snapshot.getData());
+                            teachers.add(teacher);
                         }
-                    });
+                        if (teachers.isEmpty()) {
+                            tv_text.setVisibility(View.VISIBLE);
+                        }
+
+                        // Notify the adapter of data changes
+                        adapter.notifyDataSetChanged();
+
+                        // Show the recycler view and hide shimmer loading animation
+                        rv_teachers.setVisibility(View.VISIBLE);
+                        shimmerFrameLayout.setVisibility(View.GONE);
+                        shimmerFrameLayout.stopShimmer();
+
+                        // Check if teachers list is empty
+                        if (teachers.isEmpty()) {
+                            // Handle empty list case
+                        }
+
+                    } else {
+                        // Show error message and log exception
+                        tv_text.setVisibility(View.VISIBLE);
+                        shimmerFrameLayout.stopShimmer();
+                        shimmerFrameLayout.setVisibility(View.GONE);
+
+                    }
+                }
+            });
 
         });
-
-
     }
+
+
 
     private String getChoosenChipString(ChipGroup chipGroup) {
         if (chipGroup == null) return "";
@@ -200,25 +219,31 @@ public class searchFragment extends Fragment {
         return "";
     }
 
+    /**
+     * Shows the filter dialog as a bottom sheet.
+     */
     void showDialog() {
+        // Check if the dialog is null and create a new instance if needed
         if (dialog == null) {
             dialog = new BottomSheetDialog(getActivity(), R.style.DialogStyle);
             dialog.setContentView(R.layout.filter_layout);
         }
 
+        // Find the license and preference chip groups in the dialog layout
         cg_license = dialog.findViewById(R.id.cg_license);
         cg_preference = dialog.findViewById(R.id.cg_preference);
 
+        // Get the list of chosen licenses based on the language code
         List<String> chosenLicenses = Arrays.asList(getResources().getStringArray(languageCode.equals(new Locale("en").getLanguage()) ? R.array.licenses_en : R.array.licenses_he));
 
+        // Iterate through the chips in the license chip group
         for (int i = 0; i < cg_license.getChildCount(); i++) {
             Chip chip = (Chip) cg_license.getChildAt(i);
             chip.setText(chosenLicenses.get(i));
             chip.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // check whether the chips is filtered by user
-                    // or not and give the suitable Toast message
+                    // Check whether the chip is filtered by the user or not and give the suitable Toast message
                     if (chip.isChecked()) {
                         chip.setBackgroundColor(ContextCompat.getColor(getActivity(), R.color.background_main));
                     }
@@ -226,6 +251,7 @@ public class searchFragment extends Fragment {
             });
         }
 
+        // Show the dialog
         dialog.show();
     }
 
@@ -234,6 +260,7 @@ public class searchFragment extends Fragment {
         super.onResume();
         cities = Arrays.asList(getResources().getStringArray(R.array.cities));
 
+        // add the list of cities into the array adapter.
         listCitiesAdapter = new ArrayAdapter<>(getActivity(),
                 R.layout.list_city_item_layout, new ArrayList<>(cities));
         actv_cities.setAdapter(listCitiesAdapter);

@@ -56,7 +56,7 @@ public class SectionRecyclerViewAdapter extends RecyclerView.Adapter<SectionRecy
         final Button btn_viewAll = holder.getBtn_viewAll();
         final RecyclerView rv_teachers = holder.getRv_teachers();
 
-        // Put the filter name.
+        // Put the category name.
         tv_filtered.setText(sectionList.get(position).getName());
 
         // Initialize the RecyclerView.

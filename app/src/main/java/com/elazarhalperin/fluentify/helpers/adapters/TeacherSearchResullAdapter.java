@@ -52,55 +52,58 @@ public class TeacherSearchResullAdapter extends RecyclerView.Adapter<TeacherSear
 
     @Override
     public void onBindViewHolder(@NonNull HorizontalViewHolder holder, int position) {
+        // Set the teacher's name, location, lesson price, and rating in the corresponding views
         holder.getTv_teacherName().setText(teacherModelList.get(position).getName());
         holder.getTv_locations().setText(teacherModelList.get(position).getLocation());
         holder.getTv_lessonPrice().setText(teacherModelList.get(position).getLessonPrice() + context.getString(R.string.per_lesson));
         holder.getTv_rating().setText(String.valueOf(teacherModelList.get(position).getRating()));
 
+        // Start the shimmer animation
         holder.getShimmerFrameLayout().startShimmer();
 
+        // Get the teacher model at the current position
         TeacherModel teacherModel = teacherModelList.get(position);
 
-        String languageCode = context.getResources().getConfiguration().locale.getLanguage(); // get the current language code
+        // Get the current language code
+        String languageCode = context.getResources().getConfiguration().locale.getLanguage();
 
-        if(languageCode.equals(new Locale("he").getLanguage())) {
+        // Update licenses display based on the language
+        if (languageCode.equals(new Locale("he").getLanguage())) {
             List<String> teacherModelLicenses = teacherModel.getLicenses();
             List<String> licenses_en = Arrays.asList(context.getResources().getStringArray(R.array.licenses_en));
             List<String> licenses_he = Arrays.asList(context.getResources().getStringArray(R.array.licenses_he));
 
             List<String> result = new ArrayList<>();
-            for(String license : teacherModelLicenses) {
+            for (String license : teacherModelLicenses) {
                 int index = licenses_en.indexOf(license);
-                if(index < 0) continue;
-
+                if (index < 0) continue;
                 result.add(licenses_he.get(index));
             }
-            Log.d("loch", "you are in hebrew language\nthis is your result " + result   );
+            Log.d("loch", "you are in hebrew language\nthis is your result " + result);
 
             teacherModel.setLicenses(result);
             holder.getTv_licenses().setText(String.join(",", result));
-
         } else {
-            holder.getTv_licenses().setText(String.join(",",teacherModelList.get(position).getLicenses().toString()));
-
+            holder.getTv_licenses().setText(String.join(",", teacherModelList.get(position).getLicenses().toString()));
         }
 
-
-        // Get the image storage location.
+        // Get the image storage location
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference("profile_pictures");
-        StorageReference profileImageRef = storageRef.child("profile_image" + teacherModelList.get(position).getUid()+".jpg");
+        StorageReference profileImageRef = storageRef.child("profile_image" + teacherModelList.get(position).getUid() + ".jpg");
 
         final Bitmap[] bmp = new Bitmap[1];
         final long ONE_MEGABYTE = 1024 * 1024;
-        // downloading the images from the storage.
+
+        // Download the images from the storage
         profileImageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(bytesPrm -> {
             bmp[0] = BitmapFactory.decodeByteArray(bytesPrm, 0, bytesPrm.length);
-            bmp[0] = Bitmap.createScaledBitmap(bmp[0], bmp[0].getWidth() /4, bmp[0].getHeight() / 4, true);
+            bmp[0] = Bitmap.createScaledBitmap(bmp[0], bmp[0].getWidth() / 4, bmp[0].getHeight() / 4, true);
 
             ByteArrayOutputStream stream = new ByteArrayOutputStream();
             bmp[0].compress(Bitmap.CompressFormat.PNG, 100, stream);
 
+            // Stop shimmer animation and display the teacher profile image
             holder.getShimmerFrameLayout().stopShimmer();
             holder.getShimmerFrameLayout().setVisibility(View.GONE);
             holder.getIv_teacherProfile().setVisibility(View.VISIBLE);
@@ -108,22 +111,25 @@ public class TeacherSearchResullAdapter extends RecyclerView.Adapter<TeacherSear
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
-                 bmp[0] =  BitmapFactory.decodeResource(context.getResources(), R.drawable.person_draw);
+                // If image download fails, display a default profile image
+                bmp[0] = BitmapFactory.decodeResource(context.getResources(), R.drawable.person_draw);
                 holder.getShimmerFrameLayout().stopShimmer();
                 holder.getShimmerFrameLayout().setVisibility(View.GONE);
                 holder.getIv_teacherProfile().setVisibility(View.VISIBLE);
-
                 holder.getIv_teacherProfile().setImageResource(R.drawable.person_draw);
             }
         });
 
-        holder.getCv_container().setOnClickListener( v-> {
+        // Set click listener for the container view
+        holder.getCv_container().setOnClickListener(v -> {
             Intent intent = new Intent(context, TeacherProfileActivity.class);
 
+            // Prepare activity options for smooth transitions
             ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) context);
             intent.putExtra("profile_image", bmp[0]);
             intent.putExtra("teacher", teacherModel);
 
+            // Start the TeacherProfileActivity with the prepared options
             context.startActivity(intent, options.toBundle());
         });
     }
@@ -160,35 +166,27 @@ public class TeacherSearchResullAdapter extends RecyclerView.Adapter<TeacherSear
         public ShimmerFrameLayout getShimmerFrameLayout() {
             return shimmerFrameLayout;
         }
-
         public LinearLayout getLl_container() {
             return ll_container;
         }
-
         public ImageView getIv_teacherProfile() {
             return iv_teacherProfile;
         }
-
         public TextView getTv_teacherName() {
             return tv_teacherName;
         }
-
         public TextView getTv_locations() {
             return tv_locations;
         }
-
         public TextView getTv_lessonPrice() {
             return tv_lessonPrice;
         }
-
         public TextView getTv_licenses() {
             return tv_licenses;
         }
-
         public TextView getTv_rating() {
             return tv_rating;
         }
-
         public CardView getCv_container() {
             return cv_container;
         }

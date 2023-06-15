@@ -11,8 +11,8 @@ public class ChatModel {
     String id;
     String teacherUid;
     String studentUid;
-    Timestamp timestamp;
-    List<Map<String, Object>> messages;
+    Timestamp timestamp; // last message time send
+    List<Map<String, Object>> messages; // the messages between the teacher and the student
 
     public ChatModel() {
     }

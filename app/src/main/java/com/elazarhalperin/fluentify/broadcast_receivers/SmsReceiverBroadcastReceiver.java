@@ -25,6 +25,7 @@ public class SmsReceiverBroadcastReceiver extends BroadcastReceiver {
             for (SmsMessage message : messages) {
                 smsBody.append(message.getMessageBody());
             }
+            // get the sms that the firebase sended
             String sms = smsBody.toString();
 
             // Extract verification code from SMS
@@ -37,6 +38,7 @@ public class SmsReceiverBroadcastReceiver extends BroadcastReceiver {
                 // such as updating UI, triggering a notification, etc.
             }
             if (callback != null) {
+                // here we send the code to the fragment.
                 callback.onVerificationCodeReceived(verificationCode);
             }
 
@@ -56,11 +58,14 @@ public class SmsReceiverBroadcastReceiver extends BroadcastReceiver {
     }
 
     // Set callback for communication with fragment
+    // when we will set it
     public void setCallback(SmsVerificationCallback callback) {
         this.callback = callback;
     }
 
     // Callback interface
+    // so when the sms is received to the Broadcast Receiver
+    // we can send it to the fragment.
     public interface SmsVerificationCallback {
         void onVerificationCodeReceived(String verificationCode);
     }

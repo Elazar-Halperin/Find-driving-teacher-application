@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.List;
 
 public class CategoryModel implements Serializable {
-    String name;
-    List<TeacherModel> teachers;
+    String name; // the name of this category.
+    List<TeacherModel> teachers; // the teachers of this category
 
     public CategoryModel(String name, List<TeacherModel> teachers) {
         this.name = name;

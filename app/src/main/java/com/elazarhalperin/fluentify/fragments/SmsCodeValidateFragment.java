@@ -54,6 +54,7 @@ public class SmsCodeValidateFragment extends Fragment implements SmsReceiverBroa
         // Initialize and register your BroadcastReceiver
         broadcastReceiver = new SmsReceiverBroadcastReceiver();
 
+        // Initialize the callback so we can get the code from the sms.
         broadcastReceiver.setCallback(this);
 
         IntentFilter filter = new IntentFilter(Telephony.Sms.Intents.SMS_RECEIVED_ACTION);
@@ -87,6 +88,9 @@ public class SmsCodeValidateFragment extends Fragment implements SmsReceiverBroa
     }
 
     private void setListeners() {
+        // assign to each editext that holds one number of the code
+        // a listener that will detect if the user have typed
+        // if he has than he will move to the next .
         for(int position = 0; position < ll_etHolder.getChildCount(); position++) {
             EditText editText = (EditText) ll_etHolder.getChildAt(position);
             int finalPosition = position;
@@ -124,6 +128,8 @@ public class SmsCodeValidateFragment extends Fragment implements SmsReceiverBroa
             });
         }
 
+        // clicked confirm
+        // starts to check if the code is correct.
         btn_confirmSms.setOnClickListener(v-> {
             btn_confirmSms.setEnabled(false);
             pb_buttonLoad.setVisibility(View.VISIBLE);
@@ -159,22 +165,26 @@ public class SmsCodeValidateFragment extends Fragment implements SmsReceiverBroa
                                             Bundle bundle = new Bundle();
                                             bundle.putString("phoneNumber", phoneNumber);
 
+                                            // move to the next fragment after all is right
                                             navController.navigate(R.id.action_smsCodeValidateFragment_to_extraTeacherDataFragment, bundle);
 
                                         }
+
+                                        // return to normal
+                                        pb_buttonLoad.setVisibility(View.GONE);
+                                        btn_confirmSms.setEnabled(true);
                                     }
                                 });
 
                             }
-
-                            pb_buttonLoad.setVisibility(View.GONE);
-                            btn_confirmSms.setEnabled(true);
 
                         }
                     });
         }
     }
 
+    // gets all the code from the 6 editTexts
+    // so we can verificate if the code is the right.
     private String getTypedSmsCodeFromUser() {
         StringBuilder smsCode = new StringBuilder("");
         for(int i = 0; i < ll_etHolder.getChildCount(); i++) {
@@ -189,6 +199,14 @@ public class SmsCodeValidateFragment extends Fragment implements SmsReceiverBroa
         return smsCode.toString();
     }
 
+    /**
+     * this function will trigger when sms code is sent
+     * and the broadcast receiver is triggered
+     * then we will get to this function.
+     * This function will automatically verificate the sms code that was sent
+     * the user won't have to add the code by himself.
+     * @param verificationCode the sms code that was sent to us via firebase
+     */
     @Override
     public void onVerificationCodeReceived(String verificationCode) {
         for(int i = 0; i < ll_etHolder.getChildCount(); i++) {
@@ -222,6 +240,7 @@ public class SmsCodeValidateFragment extends Fragment implements SmsReceiverBroa
                                 bundle.putString("phoneNumber", phoneNumber);
 
 
+                                // move to the next fragment.
                                 navController.navigate(R.id.action_smsCodeValidateFragment_to_extraTeacherDataFragment, bundle);
 
 //                                getActivity().finish();

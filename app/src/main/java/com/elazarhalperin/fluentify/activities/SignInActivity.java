@@ -74,9 +74,12 @@ public class SignInActivity extends AppCompatActivity {
         auth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(task -> {
                     if(task.isSuccessful()) {
+                        // Signed in successfully
+                        // move to the homeActivity and finish all activities that open.
                         Intent toHome = new Intent(getApplicationContext(), HomeActivity.class);
                         startActivity(toHome);
                         Intent intent = new Intent();
+                        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         intent.putExtra("key", "result");
                         setResult(Activity.RESULT_OK, intent);
                         finish();
@@ -87,21 +90,28 @@ public class SignInActivity extends AppCompatActivity {
                 });
     }
 
+    /**
+     * Validates the email and password for user sign-in or sign-up.
+     *
+     * @param email    The email to validate.
+     * @param password The password to validate.
+     * @return {@code true} if the email and password are valid, {@code false} otherwise.
+     */
     private boolean isValid(String email, String password) {
-        if(!UserSignValidity.isEmailPatternValid(email)) {
+        // Validate email pattern
+        if (!UserSignValidity.isEmailPatternValid(email)) {
             et_email.requestFocus();
-            et_email.setError("Please provide valid email!");
+            et_email.setError("Please provide a valid email!");
             return false;
         }
 
-        if(!UserSignValidity.isPasswordValid(password)) {
+        // Validate password length
+        if (!UserSignValidity.isPasswordValid(password)) {
             et_password.requestFocus();
             et_password.setError("Please provide at least 8 characters!");
             return false;
         }
 
         return true;
-
-
     }
 }

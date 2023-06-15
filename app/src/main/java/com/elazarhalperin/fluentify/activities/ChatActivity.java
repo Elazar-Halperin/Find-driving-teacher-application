@@ -105,7 +105,11 @@ public class ChatActivity extends AppCompatActivity {
 
         Log.d("melech", shtok);
         Log.d("sohn", shtok2);
+
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        // here we will check weather there are already a chat with each other
+        // if they do then it will load the converstaion.
         db.collection("chatRooms").whereEqualTo("studentUid", shtok)
                 .whereEqualTo("teacherUid", shtok2)
                 .get()
@@ -173,6 +177,10 @@ public class ChatActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * This function will add the time of the message and check if its the first message that has been sent
+     * with each other.
+     */
     private void sendMessage() {
         String text = et_message.getText().toString().trim();
         et_message.setText("");
@@ -199,55 +207,88 @@ public class ChatActivity extends AppCompatActivity {
 
     }
 
+    /**
+     * Sends a message to the server and updates the chat room in Firestore.
+     *
+     * @param message The message to be sent.
+     */
     private void sendMessageIntoServer(Map<String, Object> message) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        // Add the message to the messages list
         messages.add(message);
 
-
+        // Notify the adapter that the data has changed
         adapter.notifyDataSetChanged();
-        rv_messages.scrollToPosition(messages.size() - 1); // Scroll to the last message
 
+        // Scroll to the last message in the RecyclerView
+        rv_messages.scrollToPosition(messages.size() - 1);
+
+        // Update the "messages" field in the chat room document in Firestore
         db.collection("chatRooms").document(chatRoomId)
                 .update("messages", messages)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void unused) {
+                        // Update the "timestamp" field to the current timestamp
                         db.collection("chatRooms").document(chatRoomId)
                                 .update("timestamp", Timestamp.now());
+
+                        // Notify the adapter that the data has changed
                         adapter.notifyDataSetChanged();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
+                        // Remove the last message from the list if the update fails
                         messages.remove(messages.size() - 1);
+
+                        // Notify the adapter that the data has changed
                         adapter.notifyDataSetChanged();
-                        Toast.makeText(getApplicationContext(), "Error while trying sending your message! Pls try again.", Toast.LENGTH_SHORT).show();
+
+                        // Display an error message to the user
+                        Toast.makeText(getApplicationContext(), "Error while trying to send your message! Please try again.", Toast.LENGTH_SHORT).show();
                     }
                 });
-
     }
 
+
+
+    /**
+     * Creates a new chat room and sends a message.
+     *
+     * @param message The message to be sent.
+     */
     private void makeANewChatAndSend(Map<String, Object> message) {
         FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+        // Add the message to the messages list
         messages.add(message);
         adapter.notifyDataSetChanged();
 
+        // Create a new ChatModel with the chat room details and messages
         ChatModel chat = new ChatModel(shtok2, shtok, messages);
 
+        // Add the chat room to the "chatRooms" collection in Firestore
         db.collection("chatRooms").add(chat)
                 .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                     @Override
                     public void onComplete(@NonNull Task<DocumentReference> task) {
                         if (task.isSuccessful()) {
+                            // Retrieve the ID of the newly created chat room
                             chatRoomId = task.getResult().getId();
+                            // Start listening for changes in the chat room
                             addChatRoomSnapshotListener();
                         }
                     }
                 });
-
     }
 
+    /**
+     * Adds a snapshot listener to the chat room document in Firestore.
+     * Updates the UI with new messages when the document changes.
+     */
     private void addChatRoomSnapshotListener() {
         if (chatRoomId == null) return;
 

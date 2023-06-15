@@ -9,15 +9,21 @@ public class UserModel implements Serializable {
     protected String name;
     protected String email;
     protected String signUpDate;
+    protected String signUpDate_he;
 
     public UserModel() {
     }
 
-    public UserModel(String uid, String name, String email, String signUpDate) {
+    public UserModel(String uid, String name, String email, String signUpDate, String signUpDate_he) {
         this.uid = uid;
         this.name = name;
         this.email = email;
         this.signUpDate = signUpDate;
+        this.signUpDate_he = signUpDate_he;
+    }
+
+    public String getSignUpDate_he() {
+        return signUpDate_he;
     }
 
     public String getUid() {
@@ -45,12 +51,15 @@ public class UserModel implements Serializable {
         this.email = email;
     }
 
+    // get the user as map
+    // so we can update it better in the firebase
     public Map<String, Object> getMap() {
         Map<String, Object> userModel = new HashMap<>();
         userModel.put("uid", uid);
         userModel.put("name", name);
         userModel.put("email", email);
         userModel.put("signUpDate", signUpDate);
+        userModel.put("signUpDate_he",signUpDate);
 
         return userModel;
     }

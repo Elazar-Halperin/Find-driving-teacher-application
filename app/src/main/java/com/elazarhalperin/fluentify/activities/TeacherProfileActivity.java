@@ -27,6 +27,7 @@ import com.elazarhalperin.fluentify.R;
 import com.elazarhalperin.fluentify.helpers.UserTypeHelper;
 import com.elazarhalperin.fluentify.helpers.adapters.ReviewsRVAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -34,7 +35,10 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
+import java.io.ByteArrayOutputStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
@@ -122,10 +126,41 @@ public class TeacherProfileActivity extends AppCompatActivity {
         setListeners();
     }
 
+    /**
+     * in case the we couldn't pass the image it will download it
+     * from the firebase storage to display it on the imageview.
+     */
     private void setImageFromStorage() {
+        // Get the image storage location.
+        FirebaseStorage storage = FirebaseStorage.getInstance();
+        StorageReference storageRef = storage.getReference("profile_pictures");
+        StorageReference profileImageRef = storageRef.child("profile_image" + teacher.getUid() +".jpg");
 
+        final Bitmap[] bmp = new Bitmap[1];
+        final long ONE_MEGABYTE = 1024 * 1024;
+        // downloading the images from the storage.
+        profileImageRef.getBytes(ONE_MEGABYTE).addOnSuccessListener(bytesPrm -> {
+            bmp[0] = BitmapFactory.decodeByteArray(bytesPrm, 0, bytesPrm.length);
+            bmp[0] = Bitmap.createScaledBitmap(bmp[0], bmp[0].getWidth(), bmp[0].getHeight(), true);
+
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            bmp[0].compress(Bitmap.CompressFormat.PNG, 100, stream);
+
+            iv_teacherProfile.setImageBitmap(bmp[0]);
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                bmp[0] =  BitmapFactory.decodeResource(getApplicationContext().getResources(), R.drawable.person_draw);
+                iv_teacherProfile.setImageBitmap(bmp[0]);
+            }
+        });
     }
 
+    /**
+     * function to fill all the textviews
+     * on the activity, it will sign it form the teacher
+     * that we send to this activity.
+     */
     private void fillAllTheFields() {
         if (teacher == null) return;
 
@@ -134,10 +169,6 @@ public class TeacherProfileActivity extends AppCompatActivity {
         tv_teacherInfo.setText(teacher.getInfo());
         tv_rating.setText(teacher.getRating() + "");
         tv_teachingLocations.setText(teacher.getLocation());
-
-        List<String> licenses_en = Arrays.asList(getResources().getStringArray( R.array.licenses_en));
-        List<String> licenses_he = Arrays.asList(getResources().getStringArray(R.array.licenses_he));
-
 
         tv_licenses.setText(String.join(",", teacher.getLicenses()));
     }
@@ -160,10 +191,12 @@ public class TeacherProfileActivity extends AppCompatActivity {
         });
 
         fab_addReview.setOnClickListener(v -> {
+            // teacher can't send reviews to other teachers.
             if (isTeacher()) {
                 Toast.makeText(getApplicationContext(), "You can't send a message to a teacher!", Toast.LENGTH_SHORT).show();
                 return;
             }
+            // if it's a student then show the dialog to add a review.
             showDialog();
         });
 
@@ -181,6 +214,7 @@ public class TeacherProfileActivity extends AppCompatActivity {
 
             @Override
             public void onTransitionCompleted(MotionLayout motionLayout, int currentId) {
+                // to enable or disable the button when transition of motion layout is ended.
                 boolean isEnabled;
                 if (currentId == motionLayout.getEndState()) {
                     isEnabled = false;
@@ -197,11 +231,18 @@ public class TeacherProfileActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * check if the the user is a teacher
+     * @return true if it's a teacher, false if it's student.
+     */
     private boolean isTeacher() {
         if (userTypeHelper.getUserType().equals(UserTypeHelper.TEACHER_TYPE)) return true;
         return false;
     }
 
+    /**
+     * show dialog to add a reveiew.
+     */
     void showDialog() {
         BottomSheetDialog dialog = new BottomSheetDialog(TeacherProfileActivity.this, R.style.DialogStyle);
         dialog.setContentView(R.layout.create_review_layout);
@@ -241,6 +282,7 @@ public class TeacherProfileActivity extends AppCompatActivity {
 
             DocumentReference db = FirebaseFirestore.getInstance().collection("teachers").document(teacher.getUid());
 
+            // add the review to the list of reviews in the firestore.
             db.update("reviews", reviews).addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
@@ -290,6 +332,10 @@ public class TeacherProfileActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    /**
+     * checks weather the student has already made a review about this teacher
+     * @return true if he made a review already false if he is not.
+     */
     private boolean isReviewExist() {
         for (HashMap map : reviews) {
             if (map.containsValue(firebaseUser.getUid())) {
